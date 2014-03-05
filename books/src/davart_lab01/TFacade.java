@@ -23,7 +23,11 @@ public class TFacade implements Serializable {
     public synchronized void setmTitle_books(ArrayList<TTitle_book> title_books){};
 
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
-        return null;
+        int idx;
+        if((idx = mTitle_books.indexOf(title_book))!=-1) {
+        	return mTitle_books.get(idx);
+        }
+    	return null;
     }
 
     public synchronized TTitle_book add_title_book(String[] data) {

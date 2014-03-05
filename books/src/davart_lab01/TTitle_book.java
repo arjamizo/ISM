@@ -32,7 +32,10 @@ public class TTitle_book implements Serializable {
     }
 
     public boolean equals(Object obj) {
-        return true;
+        TTitle_book title_book = (TTitle_book) obj;
+        return getISBN().equals(title_book.getISBN()) 
+        		&& 
+        		getAuthor().equals(title_book.getAuthor());
     }
 
     public void add_book(String[] data) {
@@ -85,4 +88,10 @@ public class TTitle_book implements Serializable {
     public void setmBooks(ArrayList<TBook> mBooks) {
         this.mBooks = mBooks;
     }
+
+	@Override
+	public String toString() {
+		return String.format("\nTitle: %s Author: %s ISBN: %s Publisher: %s", 
+				getTitle(), getAuthor(), getISBN(), getPublisher());
+	}
 }
