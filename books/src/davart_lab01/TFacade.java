@@ -17,7 +17,7 @@ public class TFacade implements Serializable {
     }
 
     public synchronized ArrayList<TTitle_book> getmTitle_books() {
-        return null;
+        return mTitle_books;
     }
 
     public synchronized void setmTitle_books(ArrayList<TTitle_book> title_books){};
@@ -27,7 +27,13 @@ public class TFacade implements Serializable {
     }
 
     public synchronized TTitle_book add_title_book(String[] data) {
-        return null;
+    	TFactory factory = new TFactory();
+    	TTitle_book title_book = factory.create_title_book(data);
+    	if(search_title_book(title_book)==null)
+		{
+    		mTitle_books.add(title_book);
+		}
+        return title_book;
     }
 
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
