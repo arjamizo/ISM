@@ -51,7 +51,11 @@ public class TBook implements Serializable {
     }
 
     public boolean equals(Object obj) {
-        return true;
+    	//we assume that this is called only with TBook object, 
+    	//therefore no instance of is needed
+    	TBook book=(TBook)obj;
+    	
+        return getNumber()==book.getNumber();
     }
     
     public boolean period_pass(Date date) {

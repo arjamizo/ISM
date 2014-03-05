@@ -48,6 +48,12 @@ public class TTitle_book implements Serializable {
     }
 
     public TBook search_book(TBook book) {
+    	int idx=0;
+    	if((idx = mBooks.indexOf(book))!=-1)
+    	{
+    		return mBooks.get(mBooks.indexOf(book));
+    	}
+    	
         return null;
     }
 
