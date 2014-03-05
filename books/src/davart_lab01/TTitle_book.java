@@ -39,6 +39,12 @@ public class TTitle_book implements Serializable {
     }
 
     public void add_book(String[] data) {
+    	TFactory factory = new TFactory();
+    	TBook newbook = factory.create_book(data);
+    	if(search_book(newbook)==null) {
+    		mBooks.add(newbook); // we store all books having the same title
+    		newbook.setmTitle_book(this); // and we store the title of each book in itself
+    	}
     }
 
     public TBook search_book(TBook book) {
