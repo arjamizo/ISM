@@ -33,9 +33,12 @@ public class TTitle_book implements Serializable {
 
     public boolean equals(Object obj) {
         TTitle_book title_book = (TTitle_book) obj;
+        if(getISBN()==null) {
+        	throw new RuntimeException("book is not valid in book "+toString());
+        }
         return getISBN().equals(title_book.getISBN()) 
         		&& 
-        		getAuthor().equals(title_book.getAuthor());
+        		(getAuthor()==null || getAuthor().equals(title_book.getAuthor()));
     }
 
     public void add_book(String[] data) {
