@@ -10,7 +10,7 @@ package davart_lab01;
  */
 import java.io.Serializable;
 import java.util.ArrayList;
-
+import java.util.Iterator;
 public class TFacade implements Serializable {
     private ArrayList<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
 
@@ -70,13 +70,23 @@ public class TFacade implements Serializable {
     }
 
     public synchronized ArrayList<String> gettitle_books() {
-        return null;
+        ArrayList<String> title_books = new ArrayList<String>();
+        Iterator<TTitle_book> iterator = mTitle_books.iterator();
+        do {
+            title_books.add(iterator.next().toString());
+        } while (iterator.hasNext()); 
+        return title_books;
     }
 
     public synchronized void Print_books() {
     }
 
     public synchronized void Print_title_books() {
+        System.out.print("\nTitles of books");
+        ArrayList<String> help_list = gettitle_books();
+        for (int i = 0; i < help_list.size(); i++) {
+            System.out.print(help_list.get(i));
+        }
     }
 
     public static void main(String t[]) {
@@ -100,7 +110,8 @@ public class TFacade implements Serializable {
         ap.add_title_book(t6);
         String lan = ap.getmTitle_books().toString();
         System.out.println(lan);
-//            if(2>-1*-1) return;
+        
+        //second iteration testing starts here
         System.out.println("printing titiles");
         String d1[] = { "0", "ISBN1" };
         String d2[] = { "0", "ISBN2" };
@@ -147,6 +158,16 @@ public class TFacade implements Serializable {
         if (pom != null) {
             System.out.print(pom.getmBooks().toString());
         }
+        System.out.println();
+
+        //fourth iteration starts here
+        ap.Print_title_books();
+        ap.Print_books();
+        if(2==1+1) throw new RuntimeException("only up to here implementation is done");
+        System.out.print("\nSearching of a title");
+        System.out.print(ap.Search_title_book(t5).toString());
+        System.out.print("\nSearching of an accessible book of a select title");
+        System.out.print(ap. Search_accessible_book(d4, "2").toString());
         System.out.println();
     }
 }
