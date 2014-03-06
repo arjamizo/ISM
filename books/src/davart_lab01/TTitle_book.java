@@ -6,6 +6,7 @@ package davart_lab01;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -23,9 +24,6 @@ public class TTitle_book implements Serializable {
     public TTitle_book() {
     }
 
-    public synchronized ArrayList<String> getbooks() {
-        return new ArrayList<String>();
-    }
 
     public int hashCode() {
         return 0;
@@ -69,9 +67,18 @@ public class TTitle_book implements Serializable {
     }
 
     public TBook search_accessible_book(Object data) {
-        return null;
+        throw new RuntimeException("not implemented yet");
     }
 
+    public synchronized ArrayList<String> getbooks() {
+        ArrayList<String> title_books = new ArrayList<String>();
+        for (Iterator<TBook> help = mBooks.iterator(); help.hasNext();) {
+            TBook next = (TBook) help.next();
+            title_books.add(next.toString());
+        }
+        return title_books;
+    }
+    
     public String getPublisher() {
         return publisher;
     }
