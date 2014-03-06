@@ -68,7 +68,7 @@ public class TFactory {
     	}
     	else if(Integer.parseInt(data[0])==1)
     	{
-    		tbook = new TBook();
+    		tbook = new TBook_period();
     		tbook.setNumber(Integer.parseInt(data[1]));
     		int howManySecAgo = Integer.parseInt(data[2]);
     		tbook.startPeriod(new Date(new Date().getTime()+howManySecAgo*1000));

@@ -24,7 +24,7 @@ class TTitle_book_on_tape extends TTitle_book implements Serializable {
     
     @Override
     public String toString() {
-        return "ONTAPE "+super.toString() + " Actor: "+getActor();
+        return super.toString() + " Actor: "+getActor();
     }
 
     @Override
