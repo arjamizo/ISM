@@ -10,6 +10,7 @@ package davart_lab01;
  */
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 public class TFacade implements Serializable {
     private ArrayList<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
 
@@ -64,7 +65,12 @@ public class TFacade implements Serializable {
     }
 
     public synchronized ArrayList<String> gettitle_books() {
-        return null;
+        ArrayList<String> title_books = new ArrayList<String>();
+        Iterator<TTitle_book> iterator = mTitle_books.iterator();
+        do {
+            title_books.add(iterator.next().toString());
+        } while (iterator.hasNext()); 
+        return title_books;
     }
 
     public synchronized void Print_books() {
