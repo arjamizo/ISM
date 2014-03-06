@@ -53,7 +53,20 @@ public class TFactory {
     	}
     }
 
-    public TBook create_book(String[] data) {
+    @SuppressWarnings("deprecation")
+	public TBook create_book(String[] data) 
+    {    	
+    	if(Integer.parseInt(data[0])==0)
+    	{
+    		TBook tbook = new TBook();
+    		tbook.setNumber(Integer.parseInt(data[1]));
+    	}
+    	else if(Integer.parseInt(data[0])==1)
+    	{
+    		TBook tbook = new TBook();
+    		tbook.setNumber(Integer.parseInt(data[1]));
+    		tbook.startPeriod(Date)data[2]);
+    	}
         return null;
     }
 }
