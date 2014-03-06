@@ -79,6 +79,13 @@ public class TFacade implements Serializable {
     }
 
     public synchronized void Print_books() {
+        System.out.print("\nBooks");
+        for (int i = 0; i < mTitle_books.size(); i++) {
+            ArrayList<String> help_list = mTitle_books.get(i).getbooks();
+            for (int j = 0; j < help_list.size(); j++) {
+                System.out.print(help_list.get(j).toString());
+            }
+        }
     }
 
     public synchronized void Print_title_books() {
@@ -163,11 +170,12 @@ public class TFacade implements Serializable {
         //fourth iteration starts here
         ap.Print_title_books();
         ap.Print_books();
-        if(2==1+1) throw new RuntimeException("only up to here implementation is done");
-        System.out.print("\nSearching of a title");
-        System.out.print(ap.Search_title_book(t5).toString());
-        System.out.print("\nSearching of an accessible book of a select title");
-        System.out.print(ap. Search_accessible_book(d4, "2").toString());
-        System.out.println();
+        System.err.println("\nOnly up to here it is possible to do tasks without having done third iteration.");
+//        if(2==1+1) throw new RuntimeException("only up to here implementation is done");
+//        System.out.print("\nSearching of a title");
+//        System.out.print(ap.Search_title_book(t5).toString());
+//        System.out.print("\nSearching of an accessible book of a select title");
+//        System.out.print(ap. Search_accessible_book(d4, "2").toString());
+//        System.out.println();
     }
 }
