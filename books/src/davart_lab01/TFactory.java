@@ -55,8 +55,8 @@ public class TFactory {
 
     @SuppressWarnings("deprecation")
 	public TBook create_book(String[] data) 
-    {    	
-        TBook tbook=null;
+    {
+    	TBook tbook = null;
     	if(Integer.parseInt(data[0])==0)
     	{
     		tbook = new TBook();
