@@ -111,7 +111,6 @@ public class TFacade implements Serializable {
         String tr2[] = { "0", "2" };
         String tr3[] = { "1", "3", "3" };
         String tr4[] = { "1", "2", "-1" };
-        System.out.println("first");
         TTitle_book pom = ap.add_book(d1, tr1);
         if (pom != null) {
             System.out.print(pom.getmBooks().toString());

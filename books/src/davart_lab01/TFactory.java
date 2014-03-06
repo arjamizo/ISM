@@ -17,7 +17,11 @@ public class TFactory {
 
     static public Date mdays(String data) {
         int howManyDaysAgo = Integer.parseInt(data);
-        return new Date(new Date().getTime()+howManyDaysAgo*day);
+        
+        long initialDate;
+        initialDate=new Date().getTime();
+//        initialDate=Date.parse("Wed Feb 13 18:51:45 CET 2011");
+        return new Date(initialDate+howManyDaysAgo*day);
     }
 
     public TTitle_book create_title_book(String[] data) 
