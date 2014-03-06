@@ -16,7 +16,8 @@ public class TFactory {
     static final long day = 24 * 60 * 60 * 1000;
 
     static public Date mdays(String data) {
-        return null;
+        int howManyDaysAgo = Integer.parseInt(data);
+        return new Date(new Date().getTime()+howManyDaysAgo*day);
     }
 
     public TTitle_book create_title_book(String[] data) 
@@ -70,8 +71,7 @@ public class TFactory {
     	{
     		tbook = new TBook_period();
     		tbook.setNumber(Integer.parseInt(data[1]));
-    		int howManySecAgo = Integer.parseInt(data[2]);
-    		tbook.startPeriod(new Date(new Date().getTime()+howManySecAgo*1000));
+    		tbook.startPeriod(mdays(data[2]));
     	}
         return tbook;
     }
