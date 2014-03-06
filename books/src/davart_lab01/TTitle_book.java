@@ -32,29 +32,37 @@ public class TTitle_book implements Serializable {
     }
 
     public boolean equals(Object obj) {
+        if(!this.getClass().equals(obj.getClass())) return false;
         TTitle_book title_book = (TTitle_book) obj;
         if(getISBN()==null) {
         	throw new RuntimeException("book is not valid in book "+toString());
         }
-        return getISBN().equals(title_book.getISBN()) 
-        		&& 
-        		(getAuthor()==null || getAuthor().equals(title_book.getAuthor()));
+        if(getISBN().equals(title_book.getISBN())) {
+//            if(get().equals(title_book.getAuthor())) {
+//                System.out.println("comparing "+this+" to "+title_book+" ret true");
+                return true;
+//            }
+        }
+        return false;
     }
 
     public void add_book(String[] data) {
     	TFactory factory = new TFactory();
     	TBook newbook = factory.create_book(data);
+    	assert newbook!=null;
     	if(search_book(newbook)==null) {
     		mBooks.add(newbook); // we store all books having the same title
     		newbook.setmTitle_book(this); // and we store the title of each book in itself
+    	} else {
+    	    System.out.print("");
     	}
     }
 
     public TBook search_book(TBook book) {
-    	int idx=0;
+    	int idx;
     	if((idx = mBooks.indexOf(book))!=-1)
     	{
-    		return mBooks.get(mBooks.indexOf(book));
+    		return mBooks.get(idx);
     	}
     	
         return null;

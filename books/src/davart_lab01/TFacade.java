@@ -27,6 +27,7 @@ public class TFacade implements Serializable {
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
         int idx;
         if ((idx = mTitle_books.indexOf(title_book)) != -1) {
+//            System.out.println("found this book "+mTitle_books.get(idx)+" on index="+idx);
             return mTitle_books.get(idx);
         }
         return null;
@@ -36,11 +37,14 @@ public class TFacade implements Serializable {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
         if (search_title_book(title_book) == null) {
+//            System.out.println(">ADDING title "+title_book);
             mTitle_books.add(title_book);
         }
         return title_book;
     }
-
+    /*
+     * If book containing ISBN given in first argument does not exist, then add full info provided in second parameter. 
+     */
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
         TFactory factory = new TFactory();
         TTitle_book help1 = factory.create_title_book(data1);
@@ -87,16 +91,25 @@ public class TFacade implements Serializable {
         String t6[] = { "3", "Author4", "Title4", "ISBN4", "Publisher4",
                 "Actor4" };
         ap.add_title_book(t1);
+        System.out.println("---next");
         ap.add_title_book(t2);
+        System.out.println("---next");
         ap.add_title_book(t2);
+        System.out.println("---next");
         ap.add_title_book(t3);
+        System.out.println("---next");
         ap.add_title_book(t4);
+        System.out.println("---next");
         ap.add_title_book(t5);
+        System.out.println("---next");
         ap.add_title_book(t5);
+        System.out.println("---next");
         ap.add_title_book(t6);
+        System.out.println("---next");
         String lan = ap.getmTitle_books().toString();
         System.out.println(lan);
-
+            if(2>-1*-1) return;
+        System.out.println("printing titiles");
         String d1[] = { "0", "ISBN1" };
         String d2[] = { "0", "ISBN2" };
         String d3[] = { "0", "ISBN5" };
@@ -106,30 +119,37 @@ public class TFacade implements Serializable {
         String tr2[] = { "0", "2" };
         String tr3[] = { "1", "3", "3" };
         String tr4[] = { "1", "2", "-1" };
+        System.out.println("first");
         TTitle_book pom = ap.add_book(d1, tr1);
         if (pom != null) {
             System.out.print(pom.getmBooks().toString());
         }
+        System.out.println("second");
         pom = ap.add_book(d2, tr1);
         if (pom != null) {
             System.out.print(pom.getmBooks().toString());
         }
+        System.out.println("third");
         pom = ap.add_book(d2, tr1);
         if (pom != null) {
             System.out.print(pom.getmBooks().toString());
         }
+        System.out.println("fourth");
         pom = ap.add_book(d2, tr2);
         if (pom != null) {
             System.out.print(pom.getmBooks().toString());
         }
+        System.out.println("fifth");
         pom = ap.add_book(d3, tr2);
         if (pom != null) {
             System.out.print(pom.getmBooks().toString());
         }
+        System.out.println("sixth");
         pom = ap.add_book(d4, tr3);
         if (pom != null) {
             System.out.print(pom.getmBooks().toString());
         }
+        System.out.println("sevents");
         pom = ap.add_book(d4, tr3);
         if (pom != null) {
             System.out.print(pom.getmBooks().toString());

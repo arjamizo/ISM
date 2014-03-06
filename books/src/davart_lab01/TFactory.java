@@ -27,6 +27,7 @@ public class TFactory {
 	    	case 0:	
 	    		title_book = new TTitle_book();
 	    		title_book.setISBN(data[1]);
+//	    		System.out.println("created "+title_book+" for searching purposes.");
 	    		return title_book;
 	    	case 1:
 	    		title_book = new TTitle_book();
@@ -34,11 +35,13 @@ public class TFactory {
 	    		title_book.setTitle(data[2]);
 	    		title_book.setISBN(data[3]);
 	    		title_book.setPublisher(data[4]);
+//	    		System.out.println("created "+title_book+" for insertion purposes.");
 	    		return title_book;
 	    	case 2:
 	    		TTitle_book_on_tape title_book1 = new TTitle_book_on_tape();
 	    		title_book1.setISBN(data[1]);
 	    		title_book1.setActor(data[2]);
+//	    		System.out.println("created "+title_book1+" for searching purposes.");
 	    		return title_book1;
 	    	case 3:
 	    		TTitle_book_on_tape title_book2 = new TTitle_book_on_tape();
@@ -47,6 +50,7 @@ public class TFactory {
 	    		title_book2.setISBN(data[3]);
 	    		title_book2.setPublisher(data[4]);
 	    		title_book2.setActor(data[5]);
+//	    		System.out.println("created "+title_book2+" for insertion purposes.");
 	    		return title_book2;
 			default:
 				throw new RuntimeException("unknown method for creating title book");

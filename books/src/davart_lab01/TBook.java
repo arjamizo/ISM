@@ -22,32 +22,37 @@ public class TBook implements Serializable {
     }
 
     public TTitle_book getmTitle_book() {
-        return null;
+        return mTitle_book;
     }
 
     public void setmTitle_book(TTitle_book title_book) {
+        mTitle_book = title_book;
     }
 
     public Date getPeriod() {
+//        throw new RuntimeException("not implemented");
         return null;
     }
 
     public void setPeriod(Date period) {
+//        throw new RuntimeException("not implemented");
     }
 
     public int getNumber() {
-        return 0;
+        return number;
     }
 
     public void setNumber(int val) {
+        number=val;
     }
 
     public int hashCode() {
-        return 0;
+        throw new RuntimeException("not implemented");
     }
 
+    @Override
     public String toString() {
-        return null;
+        return mTitle_book.toString() + " Number: " + getNumber();
     }
 
     public boolean equals(Object obj) {
@@ -63,7 +68,7 @@ public class TBook implements Serializable {
     }
     
     public void startPeriod(Date date) {
-        
+//        throw new RuntimeException("not implemented");
     }
 
 }

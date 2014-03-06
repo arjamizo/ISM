@@ -8,7 +8,7 @@ public class TBook_period extends TBook implements Serializable {
 	private Date period;
 	public Date getPeriod () { return null; }
 	public void setPeriod (Date date) { }
-	public String toString () { return null; }
+	public String toString () { return "ERROR"; }
 	public boolean period_pass(Object data)
 	{ return true; }
 	public void startPeriod(Date data)
