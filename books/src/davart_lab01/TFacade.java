@@ -11,8 +11,10 @@ package davart_lab01;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Vector;
 public class TFacade implements Serializable {
     private ArrayList<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
+    private Vector<Client> clients = new Vector<Client>();
 
     public TFacade() {
     }
@@ -96,6 +98,50 @@ public class TFacade implements Serializable {
         }
     }
 
+    
+    ///////////////////////////////////////////////////////////////////////
+    
+    //						NEWS FOR LAB 2
+    
+    public synchronized Client search_client(String login)
+    {
+    	for(int i=0;i<clients.size();i++)
+    	{
+    		if(clients.elementAt(i).getLogin().equals(login)) return clients.elementAt(i);
+    	}
+    	return null;
+    }
+    
+    
+    public synchronized void add_client(String name)
+    {
+    	
+    }
+    
+    
+    public synchronized void delete_client(String login)
+    {
+    	for(int i=0;i<clients.size();i++)
+    	{
+    		if(clients.elementAt(i).getLogin().equals(login)) clients.remove(i);
+    	}
+    }
+    
+    
+    public synchronized void borrow_book(String login, TBook_period period)
+    {
+    	
+    }
+    
+    public synchronized void search_accesible_book()
+    {
+    	
+    }
+    
+    ///////////////////////////////////////////////////////
+    
+    
+    
     public static void main(String t[]) {
         TFacade ap = new TFacade();
         String t1[] = { "1", "Author1", "Title1", "ISBN1", "Publisher1" };
@@ -119,7 +165,7 @@ public class TFacade implements Serializable {
         System.out.println(lan);
         
         //second iteration testing starts here
-        System.out.println("printing titiles");
+        System.out.println("printing titles");
         String d1[] = { "0", "ISBN1" };
         String d2[] = { "0", "ISBN2" };
         String d3[] = { "0", "ISBN5" };
