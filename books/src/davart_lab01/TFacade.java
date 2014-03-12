@@ -14,7 +14,9 @@ import java.util.Iterator;
 import java.util.Vector;
 public class TFacade implements Serializable {
     private ArrayList<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
+    //////////////to store a set of clients//////////////////////////
     private Vector<Client> clients = new Vector<Client>();
+    private Vector<TBook_borrowed> books_b = new Vector<TBook_borrowed>(); 
 
     public TFacade() {
     }
@@ -115,7 +117,8 @@ public class TFacade implements Serializable {
     
     public synchronized void add_client(String name)
     {
-    	
+    	Client client = new Client(name);
+    	clients.add(client);
     }
     
     
@@ -128,12 +131,16 @@ public class TFacade implements Serializable {
     }
     
     
-    public synchronized void borrow_book(String login, TBook_period period)
+    public synchronized void borrow_book(Client client, TBook_period period, TTitle_book book)
     {
-    	
+    	//borrow
+//    	if(...)  is free
+//    	{
+//    		books_b.add(new TBook_borrowed(period, client, book));
+//    	}
     }
     
-    public synchronized void search_accesible_book()
+    public synchronized void search_accesible_book(TTitle_book book)
     {
     	
     }
