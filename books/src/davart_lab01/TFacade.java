@@ -26,12 +26,12 @@ public class TFacade implements Serializable {
     }
 
     public synchronized void setmTitle_books(ArrayList<TTitle_book> title_books) {
+        this.mTitle_books=title_books;
     };
 
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
         int idx;
         if ((idx = mTitle_books.indexOf(title_book)) != -1) {
-//            System.out.println("found this book "+mTitle_books.get(idx)+" on index="+idx);
             return mTitle_books.get(idx);
         }
         return null;
@@ -61,7 +61,9 @@ public class TFacade implements Serializable {
     }
 
     public synchronized TTitle_book Search_title_book(String[] data) {
-        return null;
+        TFactory factory = new TFactory();
+        TTitle_book title_book = factory.create_title_book(data);
+        return search_title_book(title_book);
     }
 
     public synchronized TBook Search_book(String[] data1, String[] data2) {
@@ -223,10 +225,10 @@ public class TFacade implements Serializable {
         //fourth iteration starts here
         ap.Print_title_books();
         ap.Print_books();
-        System.err.println("\nOnly up to here it is possible to do tasks without having done third iteration.");
 //        if(2==1+1) throw new RuntimeException("only up to here implementation is done");
-//        System.out.print("\nSearching of a title");
-//        System.out.print(ap.Search_title_book(t5).toString());
+        System.out.print("\nSearching of a title");
+        System.out.print(ap.Search_title_book(t5).toString());
+        System.err.println("\nOnly up to here it is possible to do tasks without having done third iteration.");
 //        System.out.print("\nSearching of an accessible book of a select title");
 //        System.out.print(ap. Search_accessible_book(d4, "2").toString());
 //        System.out.println();
