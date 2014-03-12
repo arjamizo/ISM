@@ -71,7 +71,12 @@ public class TFacade implements Serializable {
     }
 
     public synchronized TBook Search_accessible_book(String data1[],
-            Object data2) {
+            String data2) {
+        TTitle_book title_book_help = new TFactory().create_title_book(data1);
+        TTitle_book title_exist = search_title_book(title_book_help);
+        if(title_exist!=null) {
+            return title_exist.search_accessible_book(data2);
+        }
         return null;
     }
 
@@ -140,11 +145,6 @@ public class TFacade implements Serializable {
 //    	{
 //    		books_b.add(new TBook_borrowed(period, client, book));
 //    	}
-    }
-    
-    public synchronized void search_accesible_book(TTitle_book book)
-    {
-    	
     }
     
     ///////////////////////////////////////////////////////
@@ -228,9 +228,8 @@ public class TFacade implements Serializable {
 //        if(2==1+1) throw new RuntimeException("only up to here implementation is done");
         System.out.print("\nSearching of a title");
         System.out.print(ap.Search_title_book(t5).toString());
-        System.err.println("\nOnly up to here it is possible to do tasks without having done third iteration.");
-//        System.out.print("\nSearching of an accessible book of a select title");
-//        System.out.print(ap. Search_accessible_book(d4, "2").toString());
-//        System.out.println();
+        System.out.print("\nSearching of an accessible book of a select title");
+        System.out.print(ap. Search_accessible_book(d4, "2").toString());
+        System.out.println();
     }
 }

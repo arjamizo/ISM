@@ -66,8 +66,14 @@ public class TTitle_book implements Serializable {
         return null;
     }
 
-    public TBook search_accessible_book(Object data) {
-        throw new RuntimeException("not implemented yet");
+    public TBook search_accessible_book(String data) {
+        for (Iterator<TBook> help = mBooks.iterator(); help.hasNext();) {
+            TBook help_book = (TBook) help.next();
+            if (!help_book.period_pass(data)) {
+                return help_book;
+            }
+        }
+        return null;
     }
 
     public synchronized ArrayList<String> getbooks() {
@@ -124,4 +130,5 @@ public class TTitle_book implements Serializable {
 		return String.format("\nTitle: %s Author: %s ISBN: %s Publisher: %s", 
 				getTitle(), getAuthor(), getISBN(), getPublisher());
 	}
+
 }

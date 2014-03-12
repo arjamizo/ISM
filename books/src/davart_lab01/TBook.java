@@ -29,6 +29,12 @@ public class TBook implements Serializable {
         mTitle_book = title_book;
     }
 
+    /**
+     * Basing on reverse engineering of STDOUT output, 
+     * this method returns when book will be available for borrowing. 
+     * (Note that book with earlier date was choosen as being available).
+     * @return
+     */
     public Date getPeriod() {
 //        throw new RuntimeException("not implemented");
         return null;
@@ -63,11 +69,13 @@ public class TBook implements Serializable {
         return getNumber()==book.getNumber();
     }
     
-    public boolean period_pass(Date date) {
-        return true;
+    public boolean period_pass(String data) {
+//        int acceptIfAvailableInNDaysFromNow = Integer.parseInt(data);
+        return TFactory.mdays(data).compareTo(getPeriod())<=0; //it is important to compare <= because example says so. It shows that getPeriod returns date when book will be again available. 
     }
     
     public void startPeriod(Date date) {
+        System.err.println("startingPeriod for this book "+ toString()+ " is not supported.");
 //        throw new RuntimeException("not implemented");
     }
 
