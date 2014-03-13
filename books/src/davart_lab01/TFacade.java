@@ -46,15 +46,19 @@ public class TFacade implements Serializable {
         }
         return title_book;
     }
-    /*
-     * If book containing ISBN given in first argument does not exist, then add full info provided in second parameter. 
+    /***
+     * If book containing ISBN given in first argument does not exist, then add full info provided in second parameter.
+     * @author artur 
      */
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
         TFactory factory = new TFactory();
         TTitle_book help1 = factory.create_title_book(data1);
         TTitle_book title_exist;
         if ((title_exist = search_title_book(help1)) != null) {
+            System.out.println("\n->added book "+title_exist);
             title_exist.add_book(data2);
+        } else {
+            System.out.println("\n-|did not add book, exists: "+title_exist);
         }
         return title_exist;
 
@@ -65,9 +69,28 @@ public class TFacade implements Serializable {
         TTitle_book title_book = factory.create_title_book(data);
         return search_title_book(title_book);
     }
-
+    
+    /***
+     *         String d4[] = { "2", "ISBN1", "Actor1" };
+     *         String tr4[] = { "1", "2", "-1" };
+     *         ap.Search_book(d4, tr4);
+     *         first means title_book will be created only for searching, second one means book has to be of ISDN2 and should be given back 2 days ago. 
+     * @param data1
+     * @param data2
+     * @return
+     */
     public synchronized TBook Search_book(String[] data1, String[] data2) {
-        return null;
+        System.out.println("\nsearching for book of title"+data1+" and details of "+data2);
+        TTitle_book titlebook_forsearching = new TFactory().create_title_book(data1);
+        System.out.println("\ncreated book for searching "+titlebook_forsearching+".");
+        TTitle_book titlebook = search_title_book(titlebook_forsearching);
+        if(titlebook==null)
+            return null; //title does not even exist
+        System.out.println("\nfound title book here ||"+titlebook+" END OF FOUND BOOK INFO");
+        TBook book_details = new TFactory().create_book(data2);
+        book_details.setmTitle_book(titlebook);
+        System.out.println("\ncreated book for searching: "+book_details);
+        return titlebook.search_book(book_details);
     }
 
     public synchronized TBook Search_accessible_book(String data1[],
@@ -142,25 +165,22 @@ public class TFacade implements Serializable {
     	System.out.println("Clients");
     	for(int i=0;i<clients.size();i++)
     	{
-    		System.out.println(clients.elementAt(i).getLogin());
+    		System.out.println(clients.elementAt(i));
     	}
     }
     
     
-    public synchronized String borrow_book(Client client, TBook_period period, String data1[])
+    public synchronized String borrow_book(Client client, TBook book)
     {
-    	if(Search_title_book(data1)!=null)
-    	{
-    		//borrow
-	    	if(Search_accessible_book(data1, "0")!=null)
-	    	{
-	    		//start period here
-	    		books_b.add(new TBook_borrowed(period, client, Search_title_book(data1)));
-	    		return "Book borrowed successfully";
-	    	}
-	    	else return "Book not available";
-    	}
-    	else return "Book not exists";
+        if(book!=null) { 
+            if(book.getPeriod()!=null) {
+        		//start period here
+        		books_b.add(new TBook_borrowed(client, book));
+        		return "Book borrowed successfully";
+        	}
+        	else return "Book not available";
+        }
+    	return "Book not exists";
     }
     
     ///////////////////////////////////////////////////////
@@ -259,10 +279,14 @@ public class TFacade implements Serializable {
         ap.clients.add(new Client("Client5"));
         ap.clients.add(new Client("Client6"));
         ap.clients.add(new Client("Client7"));
-        TBook_period period1 = new TBook_period();
-        period1.setPeriod(TFactory.mdays("2"));
-        System.out.println("Borrowing some book");
+//        TBook_period period1 = new TBook_period();
+//        period1.setPeriod(TFactory.mdays("-2")); 
+//        ap.add_book(new String[]{ "0", "ISBN5" }, new String[]{ "1", "5", "-2" });//book was returned 2 days ago
+//        ap.Search_book(data1, data2);
+//        TBook recentlyAddedBook = ap.mTitle_books.get(ap.mTitle_books.size()-1);
+        TBook recentlyAddedBook=ap.Search_book(d4, tr4);
+        System.out.println("Borrowing some book, expecting it to be "+recentlyAddedBook);
         
-        System.out.print(ap.borrow_book(new Client("Client1"), period1, d5));
+        System.out.print(ap.borrow_book(new Client("Client1"), recentlyAddedBook));
     }
 }

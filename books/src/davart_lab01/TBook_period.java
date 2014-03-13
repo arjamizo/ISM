@@ -16,7 +16,7 @@ public class TBook_period extends TBook implements Serializable {
 	}
 
 	public String toString() {
-		return super.toString() + " Period: " + period;
+		return super.toString() + " Period: " + getPeriod();
 	}
 
 	public boolean period_pass(Object data) {

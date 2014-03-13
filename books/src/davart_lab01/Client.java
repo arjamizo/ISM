@@ -27,9 +27,12 @@ public class Client {
 	public void add_Borrowed(TBook_borrowed borrowed) {
 		this.borrowed.add(borrowed);
 	}
-	
-	
-	
+
+
+    @Override
+    public String toString() {
+        return "\nClient [login=" + login + ", borrowed=" + borrowed + "]";
+    }
 	
 	
 	

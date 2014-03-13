@@ -75,6 +75,16 @@ public class TTitle_book implements Serializable {
         }
         return null;
     }
+    public TBook search_accessible_book_for_borrowing(String data) {
+        for (Iterator<TBook> help = mBooks.iterator(); help.hasNext();) {
+            TBook help_book = (TBook) help.next();
+            if (help_book.getPeriod()!=null && !help_book.period_pass(data)) {
+                // checking for not-null skips all books, which are not for borrowing
+                return help_book;
+            }
+        }
+        return null;
+    }
 
     public synchronized ArrayList<String> getbooks() {
         ArrayList<String> title_books = new ArrayList<String>();

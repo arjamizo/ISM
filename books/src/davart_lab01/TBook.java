@@ -58,6 +58,9 @@ public class TBook implements Serializable {
 
     @Override
     public String toString() {
+        if(mTitle_book==null) {
+            throw new RuntimeException("book "+getNumber()+" does not have mTitle_book set.");
+        }
         return mTitle_book.toString() + " Number: " + getNumber();
     }
 
@@ -65,12 +68,15 @@ public class TBook implements Serializable {
     	//we assume that this is called only with TBook object, 
     	//therefore no instance of is needed
     	TBook book=(TBook)obj;
-    	
         return getNumber()==book.getNumber();
     }
     
     public boolean period_pass(String data) {
 //        int acceptIfAvailableInNDaysFromNow = Integer.parseInt(data);
+        if(getPeriod()==null) {
+            //Strategy design patter (we use getPeriod() method, but we are not sure on whcih object we will do it - it depends on TBook) 
+            return false; // in this case false means book is always inaccessible
+        }
         return TFactory.mdays(data).compareTo(getPeriod())<=0; //it is important to compare <= because example says so. It shows that getPeriod returns date when book will be again available. 
     }
     
