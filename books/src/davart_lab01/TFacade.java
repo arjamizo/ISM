@@ -137,14 +137,30 @@ public class TFacade implements Serializable {
     	}
     }
     
-    
-    public synchronized void borrow_book(Client client, TBook_period period, TTitle_book book)
+    public void Print_clients()
     {
-    	//borrow
-//    	if(...)  is free
-//    	{
-//    		books_b.add(new TBook_borrowed(period, client, book));
-//    	}
+    	System.out.println("Clients");
+    	for(int i=0;i<clients.size();i++)
+    	{
+    		System.out.println(clients.elementAt(i).getLogin());
+    	}
+    }
+    
+    
+    public synchronized String borrow_book(Client client, TBook_period period, String data1[])
+    {
+    	if(Search_title_book(data1)!=null)
+    	{
+    		//borrow
+	    	if(Search_accessible_book(data1, "0")!=null)
+	    	{
+	    		//start period here
+	    		books_b.add(new TBook_borrowed(period, client, Search_title_book(data1)));
+	    		return "Book borrowed successfully";
+	    	}
+	    	else return "Book not available";
+    	}
+    	else return "Book not exists";
     }
     
     ///////////////////////////////////////////////////////
@@ -222,6 +238,7 @@ public class TFacade implements Serializable {
         }
         System.out.println();
 
+    
         //fourth iteration starts here
         ap.Print_title_books();
         ap.Print_books();
@@ -229,7 +246,23 @@ public class TFacade implements Serializable {
         System.out.print("\nSearching of a title");
         System.out.print(ap.Search_title_book(t5).toString());
         System.out.print("\nSearching of an accessible book of a select title");
-        System.out.print(ap. Search_accessible_book(d4, "2").toString());
+        System.out.print(ap.Search_accessible_book(d4, "2").toString());
         System.out.println();
+        
+//      fifth iteration
+        
+        //add clients
+        ap.clients.add(new Client("Client1"));
+        ap.clients.add(new Client("Client2"));
+        ap.clients.add(new Client("Client3"));
+        ap.clients.add(new Client("Client4"));
+        ap.clients.add(new Client("Client5"));
+        ap.clients.add(new Client("Client6"));
+        ap.clients.add(new Client("Client7"));
+        TBook_period period1 = new TBook_period();
+        period1.setPeriod(TFactory.mdays("2"));
+        System.out.println("Borrowing some book");
+        
+        System.out.print(ap.borrow_book(new Client("Client1"), period1, d5));
     }
 }

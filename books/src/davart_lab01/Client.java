@@ -1,10 +1,12 @@
 package davart_lab01;
 
+import java.util.Vector;
+
 public class Client {
 
 	
 	private String login;
-	private boolean borrowed;
+	private Vector<TBook_borrowed> borrowed;
 	
 	
 	public Client(String login) {
@@ -19,11 +21,11 @@ public class Client {
 	public void setLogin(String login) {
 		this.login = login;
 	}
-	public boolean isBorrowed() {
+	public Vector<TBook_borrowed> Books_Borrowed() {
 		return borrowed;
 	}
-	public void setBorrowed(boolean borrowed) {
-		this.borrowed = borrowed;
+	public void add_Borrowed(TBook_borrowed borrowed) {
+		this.borrowed.add(borrowed);
 	}
 	
 	
