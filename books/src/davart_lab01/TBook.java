@@ -72,12 +72,7 @@ public class TBook implements Serializable {
     }
     
     public boolean period_pass(String data) {
-//        int acceptIfAvailableInNDaysFromNow = Integer.parseInt(data);
-        if(getPeriod()==null) {
-            //Strategy design patter (we use getPeriod() method, but we are not sure on whcih object we will do it - it depends on TBook) 
-            return false; // in this case false means book is always inaccessible
-        }
-        return TFactory.mdays(data).compareTo(getPeriod())<=0; //it is important to compare <= because example says so. It shows that getPeriod returns date when book will be again available. 
+      return false;
     }
     
     public void startPeriod(Date date) {
