@@ -6,8 +6,10 @@ if  [[ "$*" = *-d* ]]; then
 fi
 if  [[ "$*" = *-dp* ]]; then
 	rm books/.project
+	rm books/.classpath
 	rm -r books/.externalToolBuilders
 	rm Library_client_2014/.project
+	rm Library_client_2014/.classpath
 	rm -r Library_client_2014/.externalToolBuilders
 fi
 #set -e
@@ -22,9 +24,9 @@ BRANCH=projectfiles
 if [ ! -e $DIR/.project ]; then
 	echo ".project file does not exist."
 	git fetch origin $BRANCH
-	git checkout origin/$BRANCH -- $DIR/.project
-	git rm --cached $DIR/.project
-	echo "downloaded .project file for eclipse project"
+	git checkout origin/$BRANCH -- $DIR/.project;	git rm --cached $DIR/.project
+	git checkout origin/$BRANCH -- $DIR/.classpath;	git rm --cached $DIR/.classpath
+	echo "downloaded .project and .classpath files for Eclipse project"
 fi
 if [ ! -e $DIR/.externalToolBuilders ]; then
 	echo "Custom builder does not exist."
@@ -39,9 +41,9 @@ BRANCH=projectFilesGuiEclipse
 if [ ! -e $DIR/.project ]; then
 	echo ".project file does not exist."
 	git fetch origin $BRANCH
-	git checkout origin/$BRANCH -- $DIR/.project
-	git rm --cached $DIR/.project
-	echo "downloaded .project file for eclipse project"
+	git checkout origin/$BRANCH -- $DIR/.project;	git rm --cached $DIR/.project
+	git checkout origin/$BRANCH -- $DIR/.classpath;	git rm --cached $DIR/.classpath
+	echo "downloaded .project and .classpath files for Eclipse project"
 fi
 if [ ! -e $DIR/.externalToolBuilders ]; then
 	echo "Custom builder does not exist."
