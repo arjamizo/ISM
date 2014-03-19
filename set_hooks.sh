@@ -22,7 +22,7 @@ if [ ! -e books/.externalToolBuilders ]; then
 	echo "Custom builder does not exist."
 	git fetch origin projectfiles
 	git checkout origin/projectfiles -- ./books/.externalToolBuilders
-	git -r rm --cached ./books/.externalToolBuilders
+	git rm -r --cached ./books/.externalToolBuilders
 	echo "Downloaded custom builder. If it is not added by default, you need to add it by yourself."
 fi
 EOF
