@@ -14,6 +14,7 @@ public class TTitle_book_on_tape extends TTitle_book implements Serializable {
     
     private String actor;
 
+    @Override
     public String getActor() {
         return actor;
     }

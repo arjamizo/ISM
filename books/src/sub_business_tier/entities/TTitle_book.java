@@ -128,6 +128,10 @@ public class TTitle_book implements Serializable {
     public void setAuthor(String author) {
         this.author = author;
     }
+    
+    public String getActor() {
+        return null;
+    }
 
     public ArrayList<TBook> getmBooks() {
         return mBooks;

@@ -55,7 +55,7 @@ public class TFacade implements Serializable {
             title[1]=next.getISBN();
             title[2]=next.getTitle();
             title[3]=next.getAuthor();
-            title[4]=next.getActor();
+            title[4]=next.getActor(); //If Book is not book on tape, then this field has null
             title_books[i++]=title;
         }
         return title_books;
@@ -127,7 +127,7 @@ public class TFacade implements Serializable {
         return null;
     }
 
-    public synchronized ArrayList<String> gettitle_books() {
+    public synchronized ArrayList<String> gettitle_books_array() {
         ArrayList<String> title_books = new ArrayList<String>();
         Iterator<TTitle_book> iterator = mTitle_books.iterator();
         do {
@@ -148,7 +148,7 @@ public class TFacade implements Serializable {
 
     public synchronized void Print_title_books() {
         System.out.print("\nTitles of books");
-        ArrayList<String> help_list = gettitle_books();
+        ArrayList<String> help_list = gettitle_books_array();
         for (int i = 0; i < help_list.size(); i++) {
             System.out.print(help_list.get(i));
         }
