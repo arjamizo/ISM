@@ -1,7 +1,9 @@
-package davart_lab01;
+package sub_business_tier.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import sub_business_tier.TFactory;
 
 /*
  * To change this template, choose Tools | Templates
@@ -72,7 +74,12 @@ public class TBook implements Serializable {
     }
     
     public boolean period_pass(String data) {
-      return false;
+//        int acceptIfAvailableInNDaysFromNow = Integer.parseInt(data);
+        if(getPeriod()==null) {
+            //Strategy design patter (we use getPeriod() method, but we are not sure on whcih object we will do it - it depends on TBook) 
+            return false; // in this case false means book is always inaccessible
+        }
+        return TFactory.mdays(data).compareTo(getPeriod())<=0; //it is important to compare <= because example says so. It shows that getPeriod returns date when book will be again available. 
     }
     
     public void startPeriod(Date date) {

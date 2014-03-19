@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package davart_lab01;
+package sub_business_tier;
 
 /**
  *
@@ -12,6 +12,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
+
+import sub_business_tier.entities.Client;
+import sub_business_tier.entities.TBook;
+import sub_business_tier.entities.TBook_borrowed;
+import sub_business_tier.entities.TTitle_book;
 public class TFacade implements Serializable {
     private ArrayList<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
     //////////////to store a set of clients//////////////////////////

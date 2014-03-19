@@ -2,11 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package davart_lab01;
+package sub_business_tier;
 
 import java.util.Date;
 
 import javax.management.RuntimeErrorException;
+
+import sub_business_tier.entities.TBook;
+import sub_business_tier.entities.TBook_period;
+import sub_business_tier.entities.TTitle_book;
+import sub_business_tier.entities.TTitle_book_on_tape;
 
 /**
  *

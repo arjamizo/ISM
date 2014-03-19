@@ -1,4 +1,4 @@
-package davart_lab01;
+package sub_business_tier.entities;
 
 import java.io.Serializable; 
 import java.util.Date;
@@ -19,8 +19,8 @@ public class TBook_period extends TBook implements Serializable {
 		return super.toString() + " Period: " + getPeriod();
 	}
 
-	public boolean period_pass(String data) {
-        return TFactory.mdays(data).compareTo(getPeriod())<=0; //it is important to compare <= because example says so. It shows that getPeriod returns date when book will be again available.
+	public boolean period_pass(Object data) {
+		return true;
 	}
 
 	public void startPeriod(Date date) {

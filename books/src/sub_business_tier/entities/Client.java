@@ -1,4 +1,4 @@
-package davart_lab01;
+package sub_business_tier.entities;
 
 import java.util.Vector;
 

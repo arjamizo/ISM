@@ -2,11 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package davart_lab01;
+package sub_business_tier.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import sub_business_tier.TFactory;
 
 /**
  *

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package davart_lab01;
+package sub_business_tier.entities;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author UML05
  */
-class TTitle_book_on_tape extends TTitle_book implements Serializable {
+public class TTitle_book_on_tape extends TTitle_book implements Serializable {
     
     private String actor;
 

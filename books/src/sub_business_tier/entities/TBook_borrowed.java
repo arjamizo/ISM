@@ -1,4 +1,4 @@
-package davart_lab01;
+package sub_business_tier.entities;
 
 /**
  * This class represents only relation between client and borrowed book. 
