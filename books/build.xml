@@ -2,6 +2,22 @@
 <!-- Configuration of the Ant build system to generate a Jar file --> 
 <project name="TestMain" default="CreateJar">
   <target name="CreateJar" description="Create Jar file">
-        <jar jarfile="LibraryDSAZ.jar" basedir="bin" includes="davart_lab01/*.class" />
+      <echo message="Files: ${ProjectPropertiesBuilderPropertyBaseDir}"/>
+      <echo message="-cp ${Project_classpath}"/>
+      <echo><![CDATA[
+          If values do not appear here, 
+          1. create custom builder in Eclipse Project properties
+          2. add those lines either to .externalToolBuilders/*.launch file in project file
+          2a. or add them manually in Custom Builder configuration under Properties tab. 
+<mapEntry key="ProjectPropertiesBuilderPropertyBaseDir" value="${project_loc}"/>
+<mapEntry key="Project_classpath" value="${project_classpath}"/>
+<mapEntry key="Project_name" value="${project_name}"/>
+3. optional is working directory set to bin folder 
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${project_loc}/bin"/>
+          ]]></echo>
+		<condition property="Project_name" else="dist">
+		    <isset property="Project_name"/>
+		</condition>
+        <jar jarfile="../${Project_name}.jar" basedir="." includes="**/*.class"/>
   </target>
 </project>
