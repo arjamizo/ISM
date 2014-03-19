@@ -4,6 +4,12 @@ if  [[ "$*" = *-d* ]]; then
 	rm .git/hooks/post-checkout
 	rm .git/hooks/post-commit
 fi
+if  [[ "$*" = *-dp* ]]; then
+	rm books/.project
+	rm -r books/.externalToolBuilders
+	rm Library_client_2014/.project
+	rm -r Library_client_2014/.externalToolBuilders
+fi
 #set -e
 if [ ! -e .git/hooks/post-checkout ]; then
 ( cat <<"EOF"
