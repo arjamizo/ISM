@@ -41,6 +41,25 @@ public class TFacade implements Serializable {
         }
         return null;
     }
+	
+	/***
+	* @author zkruczkiewicz
+	***/
+    public synchronized Object[][] gettitle_books() {
+        Object[][] title_books = new Object[mTitle_books.size()][];
+        int i=0;
+        for(TTitle_book next:mTitle_books)
+        {
+            String[] title = new String[5];
+            title[0]=next.getPublisher();
+            title[1]=next.getISBN();
+            title[2]=next.getTitle();
+            title[3]=next.getAuthor();
+            title[4]=next.getActor();
+            title_books[i++]=title;
+        }
+        return title_books;
+    }
 
     public synchronized TTitle_book add_title_book(String[] data) {
         TFactory factory = new TFactory();
