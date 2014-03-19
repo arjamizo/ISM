@@ -4,27 +4,48 @@ if  [[ "$*" = *-d* ]]; then
 	rm .git/hooks/post-checkout
 	rm .git/hooks/post-commit
 fi
-set -e
+#set -e
 if [ ! -e .git/hooks/post-checkout ]; then
 ( cat <<"EOF"
 #!/bin/sh
 
 echo 'Checking for project files existance.' `date` $0 | tee log.txt
 
-if [ ! -e books/.project ]; then
+DIR=books
+BRANCH=projectfiles
+if [ ! -e $DIR/.project ]; then
 	echo ".project file does not exist."
-	git fetch origin projectfiles
-	git checkout origin/projectfiles -- ./books/.project
-	git rm --cached ./books/.project
+	git fetch origin $BRANCH
+	git checkout origin/$BRANCH -- $DIR/.project
+	git rm --cached $DIR/.project
 	echo "downloaded .project file for eclipse project"
 fi
-if [ ! -e books/.externalToolBuilders ]; then
+if [ ! -e $DIR/.externalToolBuilders ]; then
 	echo "Custom builder does not exist."
-	git fetch origin projectfiles
-	git checkout origin/projectfiles -- ./books/.externalToolBuilders
-	git rm -r --cached ./books/.externalToolBuilders
+	git fetch origin $BRANCH
+	git checkout origin/$BRANCH -- $DIR/.externalToolBuilders
+	git rm -r --cached $DIR/.externalToolBuilders
 	echo "Downloaded custom builder. If it is not added by default, you need to add it by yourself."
 fi
+
+DIR=Library_client_2014
+BRANCH=projectFilesGuiEclipse
+if [ ! -e $DIR/.project ]; then
+	echo ".project file does not exist."
+	git fetch origin $BRANCH
+	git checkout origin/$BRANCH -- $DIR/.project
+	git rm --cached $DIR/.project
+	echo "downloaded .project file for eclipse project"
+fi
+if [ ! -e $DIR/.externalToolBuilders ]; then
+	echo "Custom builder does not exist."
+	git fetch origin $BRANCH
+	git checkout origin/$BRANCH -- $DIR/.externalToolBuilders
+	git rm -r --cached $DIR/.externalToolBuilders
+	echo "Downloaded custom builder. If it is not added by default, you need to add it by yourself."
+fi
+
+
 EOF
 ) > .git/hooks/post-checkout
 _was=1
