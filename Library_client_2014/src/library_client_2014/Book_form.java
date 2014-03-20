@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+
 
 public class Book_form extends JPanel implements ActionListener {
 
@@ -45,7 +47,15 @@ public class Book_form extends JPanel implements ActionListener {
         table = new JTable(model);
         table.setPreferredScrollableViewportSize(new Dimension(500, 100));
         table.setFillsViewportHeight(true);
-        table.getSelectionModel().addListSelectionListener(new RowListener());
+        table.getSelectionModel().addListSelectionListener(new RowListener(new UnaryOperator() {
+            
+            @Override
+            public Object call(Object param) {
+                row = table.getSelectionModel().getLeadSelectionIndex();
+                print_books();
+                return null;
+            }
+        }));
 
         add(new JScrollPane(table));
 
@@ -123,24 +133,29 @@ public class Book_form extends JPanel implements ActionListener {
 
     void print_books() {
 
-        ArrayList<String> help3 = client.getFacade().Search_title_book(title());
+        ArrayList<String> help3 = client.getFacade().Search_title_books(title());
         if (help3 != null) {
             list_content(help3, books);
         }
     }
 
-    private class RowListener implements ListSelectionListener {
-
+    static protected class RowListener implements ListSelectionListener {
+        UnaryOperator callback=null;
+        public RowListener(UnaryOperator call) {
+            this.callback=call;
+        }
         public void valueChanged(ListSelectionEvent event) {
             if (event.getValueIsAdjusting()) {
                 return;
             }
-            row = table.getSelectionModel().getLeadSelectionIndex();
-            print_books();
+            //row = table.getSelectionModel().getLeadSelectionIndex();
+            //print_books();
+            if(callback!=null) 
+                callback.call(this);
         }
     }
 
-    class MyTableModel extends AbstractTableModel {
+    static protected class MyTableModel extends AbstractTableModel {
 
         private String[] columnNames = {"Publisher",
             "ISBN",
@@ -158,6 +173,7 @@ public class Book_form extends JPanel implements ActionListener {
         }
 
         public int getRowCount() {
+            if(data==null) return 0;
             return data.length;
         }
 
