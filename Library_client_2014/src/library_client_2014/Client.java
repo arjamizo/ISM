@@ -101,7 +101,7 @@ public class Client implements ActionListener {
     public Container createContentPane() {
         //Create the content-pane-to-be.
 
-        Card0 card0 = new Card0();
+        Card0 card0 = new Card0(this);
         Title_form card1 = new Title_form(this);
         Book_form card2 = new Book_form(this);
         Loan_form card3 = new Loan_form(this);
