@@ -1,5 +1,10 @@
 .project
+<<<<<<< HEAD
 .externalToolBuilders/
 private/
 build/
 dist/
+=======
+.classpath
+.externalToolBuilders/
+>>>>>>> origin/masterETA

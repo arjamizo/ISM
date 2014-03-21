@@ -44,6 +44,25 @@ public class TFacade implements Serializable, FacadeInterface {
         }
         return null;
     }
+	
+	/***
+	* @author zkruczkiewicz
+	***/
+    public synchronized Object[][] gettitle_books() {
+        Object[][] title_books = new Object[mTitle_books.size()][];
+        int i=0;
+        for(TTitle_book next:mTitle_books)
+        {
+            String[] title = new String[5];
+            title[0]=next.getPublisher();
+            title[1]=next.getISBN();
+            title[2]=next.getTitle();
+            title[3]=next.getAuthor();
+            title[4]=next.getActor(); //If Book is not book on tape, then this field has null
+            title_books[i++]=title;
+        }
+        return title_books;
+    }
 
     @Override
     public synchronized TTitle_book add_title_book(String[] data) {
@@ -80,6 +99,17 @@ public class TFacade implements Serializable, FacadeInterface {
         TTitle_book title_book = factory.create_title_book(data);
         return search_title_book(title_book);
     }
+    public synchronized ArrayList<String> Search_title_books(String[] data) {
+        ArrayList<String> returnList = new ArrayList<String>();
+        TFactory factory = new TFactory();
+        TTitle_book title_book = factory.create_title_book(data);
+        for (TTitle_book mTTitle_book : mTitle_books) {
+            if(title_book.compareTo(mTTitle_book)>0) {
+                returnList.add(mTTitle_book.toString());
+            }
+        }
+        return returnList;
+    }
     
     /***
      *         String d4[] = { "2", "ISBN1", "Actor1" };
@@ -114,22 +144,6 @@ public class TFacade implements Serializable, FacadeInterface {
             return title_exist.search_accessible_book(data2);
         }
         return null;
-    }
-
-    public synchronized Object[][] gettitle_books() {
-        Object[][] title_books = new Object[mTitle_books.size()][];
-        int i=0;
-        for(TTitle_book next:mTitle_books)
-        {
-            String[] title = new String[5];
-            title[0]=next.getPublisher();
-            title[1]=next.getISBN();
-            title[2]=next.getTitle();
-            title[3]=next.getAuthor();
-            title[4]=next.getActor();
-            title_books[i++]=title;
-        }
-        return title_books;
     }
     
     @Override
@@ -304,6 +318,8 @@ public class TFacade implements Serializable, FacadeInterface {
         System.out.print(ap.Search_title_book(t5).toString());
         System.out.print("\nSearching of an accessible book of a select title");
         System.out.print(ap.Search_accessible_book(d4, "2").toString());
+        System.out.print("\nSearching for book. Found following books: ");
+        System.out.print(ap.Search_title_books(new String[] { "2", "N4", "Actor4" }));
         System.out.println();
         
 //      fifth iteration

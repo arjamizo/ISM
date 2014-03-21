@@ -14,7 +14,7 @@ import sub_business_tier.TFactory;
  *
  * @author DavArt
  */
-public class TTitle_book implements Serializable {
+public class TTitle_book implements Serializable, Comparable<TTitle_book> {
 
     private static final long serialVersionUID = 1L;
     private String publisher;
@@ -44,6 +44,22 @@ public class TTitle_book implements Serializable {
 //            }
         }
         return false;
+    }
+    
+    public int compareTo(TTitle_book otherBook) {
+        if(otherBook.getTitle()!=null && getTitle()!=null && otherBook.getTitle().indexOf(getTitle())!=-1) {
+            return 1;
+        }
+        if(otherBook.getAuthor()!=null && getAuthor()!=null && otherBook.getAuthor().indexOf(getAuthor())!=-1) {
+            return 2;
+        }
+        if(otherBook.getISBN()!=null && getISBN()!=null && otherBook.getISBN().indexOf(getISBN())!=-1) {
+            return 3;
+        }
+        if(otherBook.getPublisher()!=null && getPublisher()!=null && otherBook.getPublisher().indexOf(getPublisher())!=-1) {
+            return 4;
+        }
+        return 0;
     }
 
     public void add_book(String[] data) {
@@ -128,6 +144,10 @@ public class TTitle_book implements Serializable {
     public void setAuthor(String author) {
         this.author = author;
     }
+    
+    public String getActor() {
+        return null;
+    }
 
     public ArrayList<TBook> getmBooks() {
         return mBooks;
@@ -142,9 +162,5 @@ public class TTitle_book implements Serializable {
 		return String.format("\nTitle: %s Author: %s ISBN: %s Publisher: %s", 
 				getTitle(), getAuthor(), getISBN(), getPublisher());
 	}
-
-    public String getActor() {
-        return "";
-    }
 
 }
