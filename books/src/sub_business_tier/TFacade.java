@@ -17,7 +17,7 @@ import sub_business_tier.entities.Client;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TBook_borrowed;
 import sub_business_tier.entities.TTitle_book;
-public class TFacade implements Serializable {
+public class TFacade implements Serializable, FacadeInterface {
     private ArrayList<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
     //////////////to store a set of clients//////////////////////////
     private Vector<Client> clients = new Vector<Client>();
@@ -26,14 +26,17 @@ public class TFacade implements Serializable {
     public TFacade() {
     }
 
+    @Override
     public synchronized ArrayList<TTitle_book> getmTitle_books() {
         return mTitle_books;
     }
 
+    @Override
     public synchronized void setmTitle_books(ArrayList<TTitle_book> title_books) {
         this.mTitle_books=title_books;
     };
 
+    @Override
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
         int idx;
         if ((idx = mTitle_books.indexOf(title_book)) != -1) {
@@ -42,6 +45,7 @@ public class TFacade implements Serializable {
         return null;
     }
 
+    @Override
     public synchronized TTitle_book add_title_book(String[] data) {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
@@ -55,6 +59,7 @@ public class TFacade implements Serializable {
      * If book containing ISBN given in first argument does not exist, then add full info provided in second parameter.
      * @author artur 
      */
+    @Override
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
         TFactory factory = new TFactory();
         TTitle_book help1 = factory.create_title_book(data1);
@@ -69,6 +74,7 @@ public class TFacade implements Serializable {
 
     }
 
+    @Override
     public synchronized TTitle_book Search_title_book(String[] data) {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
@@ -84,6 +90,7 @@ public class TFacade implements Serializable {
      * @param data2
      * @return
      */
+    @Override
     public synchronized TBook Search_book(String[] data1, String[] data2) {
         System.out.println("\nsearching for book of title"+data1+" and details of "+data2);
         TTitle_book titlebook_forsearching = new TFactory().create_title_book(data1);
@@ -98,6 +105,7 @@ public class TFacade implements Serializable {
         return titlebook.search_book(book_details);
     }
 
+    @Override
     public synchronized TBook Search_accessible_book(String data1[],
             String data2) {
         TTitle_book title_book_help = new TFactory().create_title_book(data1);
@@ -108,6 +116,7 @@ public class TFacade implements Serializable {
         return null;
     }
 
+    @Override
     public synchronized ArrayList<String> gettitle_books() {
         ArrayList<String> title_books = new ArrayList<String>();
         Iterator<TTitle_book> iterator = mTitle_books.iterator();
@@ -117,6 +126,7 @@ public class TFacade implements Serializable {
         return title_books;
     }
 
+    @Override
     public synchronized void Print_books() {
         System.out.print("\nBooks");
         for (int i = 0; i < mTitle_books.size(); i++) {
@@ -127,6 +137,7 @@ public class TFacade implements Serializable {
         }
     }
 
+    @Override
     public synchronized void Print_title_books() {
         System.out.print("\nTitles of books");
         ArrayList<String> help_list = gettitle_books();
@@ -140,6 +151,7 @@ public class TFacade implements Serializable {
     
     //						NEWS FOR LAB 2
     
+    @Override
     public synchronized Client search_client(String login)
     {
     	for(int i=0;i<clients.size();i++)
@@ -150,6 +162,7 @@ public class TFacade implements Serializable {
     }
     
     
+    @Override
     public synchronized void add_client(String name)
     {
     	Client client = new Client(name);
@@ -157,6 +170,7 @@ public class TFacade implements Serializable {
     }
     
     
+    @Override
     public synchronized void delete_client(String login)
     {
     	for(int i=0;i<clients.size();i++)
@@ -165,6 +179,7 @@ public class TFacade implements Serializable {
     	}
     }
     
+    @Override
     public void Print_clients()
     {
     	System.out.println("Clients");
@@ -175,6 +190,7 @@ public class TFacade implements Serializable {
     }
     
     
+    @Override
     public synchronized String borrow_book(Client client, TBook book)
     {
         if(book!=null) { 

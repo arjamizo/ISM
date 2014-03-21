@@ -1,2 +1,5 @@
-books/.project
-books/.externalToolBuilders
+.project
+.externalToolBuilders/
+private/
+build/
+dist/
