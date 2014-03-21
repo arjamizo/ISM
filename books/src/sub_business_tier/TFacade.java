@@ -116,18 +116,20 @@ public class TFacade implements Serializable, FacadeInterface {
         return null;
     }
 
-    @Override
     public synchronized Object[][] gettitle_books() {
-        ArrayList<String> title_books = new ArrayList<String>();
-        Iterator<TTitle_book> iterator = mTitle_books.iterator();
-        do {
-            title_books.add(iterator.next().toString());
-        } while (iterator.hasNext());
-        Object tab[][]=new Object[10][10];
-        for(int i=0; i<10; i++)
-            for(int j=0; j<10; j++)
-                tab[i][j]="TEST";
-        return tab;
+        Object[][] title_books = new Object[mTitle_books.size()][];
+        int i=0;
+        for(TTitle_book next:mTitle_books)
+        {
+            String[] title = new String[5];
+            title[0]=next.getPublisher();
+            title[1]=next.getISBN();
+            title[2]=next.getTitle();
+            title[3]=next.getAuthor();
+            title[4]=next.getActor();
+            title_books[i++]=title;
+        }
+        return title_books;
     }
     
     @Override

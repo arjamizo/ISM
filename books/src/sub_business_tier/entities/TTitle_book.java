@@ -143,4 +143,8 @@ public class TTitle_book implements Serializable {
 				getTitle(), getAuthor(), getISBN(), getPublisher());
 	}
 
+    public String getActor() {
+        return "";
+    }
+
 }
