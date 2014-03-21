@@ -7,6 +7,7 @@
 package pl.pwr;
 
 import javax.ejb.Remote;
+import sub_business_tier.TFacade;
 
 /**
  *
@@ -14,5 +15,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface FacadeRemote {
+
+    TFacade getFacade();
     
 }

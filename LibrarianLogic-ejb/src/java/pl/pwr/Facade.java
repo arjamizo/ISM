@@ -7,6 +7,7 @@
 package pl.pwr;
 
 import javax.ejb.Stateless;
+import sub_business_tier.TFacade;
 
 /**
  *
@@ -14,7 +15,12 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class Facade implements FacadeRemote {
-
+    
+    @Override
+    public TFacade getFacade() {
+        return null;
+    }
+    
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }
