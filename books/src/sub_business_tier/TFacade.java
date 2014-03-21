@@ -117,7 +117,19 @@ public class TFacade implements Serializable, FacadeInterface {
     }
 
     @Override
-    public synchronized ArrayList<String> gettitle_books() {
+    public synchronized Object[][] gettitle_books() {
+        ArrayList<String> title_books = new ArrayList<String>();
+        Iterator<TTitle_book> iterator = mTitle_books.iterator();
+        do {
+            title_books.add(iterator.next().toString());
+        } while (iterator.hasNext());
+        Object tab[][]=new Object[10][10];
+        tab[0][0]=new String("Hiho");
+        return tab;
+    }
+    
+    @Override
+    public synchronized ArrayList<String> gettitle_books_arr() {
         ArrayList<String> title_books = new ArrayList<String>();
         Iterator<TTitle_book> iterator = mTitle_books.iterator();
         do {
@@ -140,7 +152,7 @@ public class TFacade implements Serializable, FacadeInterface {
     @Override
     public synchronized void Print_title_books() {
         System.out.print("\nTitles of books");
-        ArrayList<String> help_list = gettitle_books();
+        ArrayList<String> help_list = gettitle_books_arr();
         for (int i = 0; i < help_list.size(); i++) {
             System.out.print(help_list.get(i));
         }

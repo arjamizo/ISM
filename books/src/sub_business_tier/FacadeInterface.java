@@ -55,7 +55,8 @@ public interface FacadeInterface {
 
     ArrayList<TTitle_book> getmTitle_books();
 
-    ArrayList<String> gettitle_books();
+    Object [][] gettitle_books();
+    ArrayList<String> gettitle_books_arr();
 
     ///////////////////////////////////////////////////////////////////////
     //						NEWS FOR LAB 2
