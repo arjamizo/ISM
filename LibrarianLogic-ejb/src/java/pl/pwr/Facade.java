@@ -6,6 +6,9 @@
 
 package pl.pwr;
 
+import java.util.Date;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import sub_business_tier.TFacade;
 
@@ -15,10 +18,13 @@ import sub_business_tier.TFacade;
  */
 @Stateless
 public class Facade implements FacadeRemote {
+
+    private TFacade facade = new TFacade();    
     
     @Override
     public TFacade getFacade() {
-        return null;
+        Logger.getLogger(Facade.class.getName()).info("executed!"+new Date().toString());
+        return facade;
     }
     
     // Add business logic below. (Right-click in editor and choose
