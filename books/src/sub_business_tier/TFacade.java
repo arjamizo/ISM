@@ -124,7 +124,9 @@ public class TFacade implements Serializable, FacadeInterface {
             title_books.add(iterator.next().toString());
         } while (iterator.hasNext());
         Object tab[][]=new Object[10][10];
-        tab[0][0]=new String("Hiho");
+        for(int i=0; i<10; i++)
+            for(int j=0; j<10; j++)
+                tab[i][j]="TEST";
         return tab;
     }
     
