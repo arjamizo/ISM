@@ -37,6 +37,7 @@ public interface FacadeInterface {
     TBook Search_book(String[] data1, String[] data2);
 
     TTitle_book Search_title_book(String[] data);
+    ArrayList<String> Search_title_books(String[] data);
 
     /***
      * If book containing ISBN given in first argument does not exist, then add full info provided in second parameter.
