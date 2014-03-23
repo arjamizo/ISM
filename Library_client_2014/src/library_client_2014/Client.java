@@ -16,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import sub_business_tier.FacadeInterface;
 import sub_business_tier.TFacade;
 
 /**
@@ -23,13 +24,22 @@ import sub_business_tier.TFacade;
  * @author Zofia
  */
 public class Client implements ActionListener {
+    private static FacadeInterface facadeStatic;
+
+    public static void setFacadeStatic(FacadeInterface facadeStatic) {
+        Client.facadeStatic = facadeStatic;
+    }
+
+    private static FacadeInterface getStaticFacade() {
+        return facadeStatic;
+    }
 
     JPanel cards; //a panel that uses CardLayout
     final static String SEARCH = "Search books";
     final static String TITLE = "Title form";
     final static String BOOK = "Book form";
     final static String LOAN = "Loan book";
-    TFacade facade = new TFacade();
+    FacadeInterface facade = null;
 
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
@@ -90,11 +100,11 @@ public class Client implements ActionListener {
         return menuBar;
     }
 
-    public TFacade getFacade() {
+    public FacadeInterface getFacade() {
         return facade;
     }
 
-    public void setFacade(TFacade facade) {
+    public void setFacade(FacadeInterface facade) {
         this.facade = facade;
     }
 
@@ -126,6 +136,7 @@ public class Client implements ActionListener {
         if (source.getText().equals(TITLE)) {
             cl.show(cards, TITLE);
         } else if (source.getText().equals(BOOK)) {
+            //((Book_form)(cards.getComponent(2))).table_content(); //Actually only here could be called table_content, but this depends how often we refresh data. 
             cl.show(cards, BOOK);
         } else if (source.getText().equals(SEARCH)) {
             cl.show(cards, SEARCH);
@@ -145,7 +156,11 @@ public class Client implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 460);
         //Create and set up the content pane.
+        if(getStaticFacade()==null) {
+            throw new RuntimeException("Facade is not set.");
+        }
         Client demo = new Client();
+        demo.setFacade(getStaticFacade());
         frame.setJMenuBar(demo.createMenuBar());
         frame.setContentPane(demo.createContentPane());
 

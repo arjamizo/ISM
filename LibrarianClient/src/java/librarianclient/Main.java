@@ -6,9 +6,12 @@
 
 package librarianclient;
 
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import library_client_2014.Client;
 import pl.pwr.FacadeRemote;
+import sub_business_tier.FacadeInterface;
+import sub_business_tier.TFacade;
 
 /**
  *
@@ -23,9 +26,9 @@ public class Main {
             add _static_ keyword to property
     */
     @EJB
-    static FacadeRemote facade;
+    private static FacadeRemote facade;
 
-    public FacadeRemote getFacade() {
+    static public FacadeInterface getFacade() {
         return facade;
     }
     /**
@@ -34,9 +37,10 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        final Client client = new Client();
-        client.setFacade(facade.getFacade());
-        client.main(args);
+        LOG.info("Using facade: "+facade.toString());
+        Client.setFacadeStatic(facade);
+        Client.main(args);
     }
+    private static final Logger LOG = Logger.getLogger(Main.class.getName());
     
 }

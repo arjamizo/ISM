@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import sub_business_tier.FacadeInterface;
 
 
 public class Book_form extends JPanel implements ActionListener {
@@ -100,16 +101,19 @@ public class Book_form extends JPanel implements ActionListener {
         }
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         table_content();
     }
 
     void table_content() {
-        Object[][] titles = client.getFacade().gettitle_books();
+        FacadeInterface facade = client.getFacade();
+        Object[][] titles = facade.gettitle_books();
         model.setData(titles);
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         if (!table.getSelectionModel().isSelectionEmpty()) {
             String what_book_type;
@@ -144,6 +148,7 @@ public class Book_form extends JPanel implements ActionListener {
         public RowListener(UnaryOperator call) {
             this.callback=call;
         }
+        @Override
         public void valueChanged(ListSelectionEvent event) {
             if (event.getValueIsAdjusting()) {
                 return;

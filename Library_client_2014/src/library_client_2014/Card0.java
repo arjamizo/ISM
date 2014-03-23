@@ -19,6 +19,7 @@ import javax.swing.JTable;
 
 import library_client_2014.Book_form.MyTableModel;
 import library_client_2014.Book_form.RowListener;
+import sub_business_tier.FacadeInterface;
 import sub_business_tier.TFacade;
 
 /**
@@ -29,7 +30,7 @@ public class Card0 extends JPanel{
     MyTableModel model;
     JTable table;
     Client client;
-    public TFacade getFacade() {
+    public FacadeInterface getFacade() {
         return client.getFacade();
     }
     public Card0(Client client) {
@@ -45,14 +46,14 @@ public class Card0 extends JPanel{
         c.gridx = 0;
         c.gridy = 1;
         button.addActionListener(new ActionListener() {
-            TFacade facade;
+            FacadeInterface facade;
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("executed "+new Date());
                 Logger.getLogger(Card0.class.getName()).info("executed!"+new Date().toString());
                 facade.Print_books();
             }
-            ActionListener init(TFacade facade) {
+            ActionListener init(FacadeInterface facade) {
                 this.facade=facade;
                 return this;
             }

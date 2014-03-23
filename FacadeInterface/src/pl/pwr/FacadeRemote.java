@@ -16,7 +16,4 @@ import sub_business_tier.TFacade;
  */
 @Remote
 public interface FacadeRemote extends FacadeInterface {
-
-    TFacade getFacade();
-    
 }
