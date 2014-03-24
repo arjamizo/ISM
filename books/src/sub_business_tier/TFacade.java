@@ -45,9 +45,10 @@ public class TFacade implements Serializable, FacadeInterface {
         return null;
     }
 	
-	/***
-	* @author zkruczkiewicz
-	***/
+    /***
+    * @author zkruczkiewicz
+    ***/
+    @Override
     public synchronized Object[][] gettitle_books() {
         Object[][] title_books = new Object[mTitle_books.size()][];
         int i=0;
@@ -65,18 +66,19 @@ public class TFacade implements Serializable, FacadeInterface {
     }
 
     @Override
-    public synchronized TTitle_book add_title_book(String[] data) {
+    public synchronized  TTitle_book add_title_book(String data[]) {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
         if (search_title_book(title_book) == null) {
-//            System.out.println(">ADDING title "+title_book);
             mTitle_books.add(title_book);
+           return title_book;
         }
-        return title_book;
+        return null;
     }
     /***
      * If book containing ISBN given in first argument does not exist, then add full info provided in second parameter.
      * @author artur 
+     * @return created title book
      */
     @Override
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
@@ -84,10 +86,10 @@ public class TFacade implements Serializable, FacadeInterface {
         TTitle_book help1 = factory.create_title_book(data1);
         TTitle_book title_exist;
         if ((title_exist = search_title_book(help1)) != null) {
-            System.out.println("\n->added book "+title_exist);
+//            System.out.println("\n->added book "+title_exist);
             title_exist.add_book(data2);
         } else {
-            System.out.println("\n-|did not add book, exists: "+title_exist);
+//            System.out.println("\n-|did not add book, exists: "+title_exist);
         }
         return title_exist;
 
@@ -99,8 +101,9 @@ public class TFacade implements Serializable, FacadeInterface {
         TTitle_book title_book = factory.create_title_book(data);
         return search_title_book(title_book);
     }
+    @Override
     public synchronized ArrayList<String> Search_title_books(String[] data) {
-        ArrayList<String> returnList = new ArrayList<String>();
+        ArrayList<String> returnList = new ArrayList<>();
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
         for (TTitle_book mTTitle_book : mTitle_books) {
@@ -122,16 +125,12 @@ public class TFacade implements Serializable, FacadeInterface {
      */
     @Override
     public synchronized TBook Search_book(String[] data1, String[] data2) {
-        System.out.println("\nsearching for book of title"+data1+" and details of "+data2);
         TTitle_book titlebook_forsearching = new TFactory().create_title_book(data1);
-        System.out.println("\ncreated book for searching "+titlebook_forsearching+".");
         TTitle_book titlebook = search_title_book(titlebook_forsearching);
         if(titlebook==null)
             return null; //title does not even exist
-        System.out.println("\nfound title book here ||"+titlebook+" END OF FOUND BOOK INFO");
         TBook book_details = new TFactory().create_book(data2);
         book_details.setmTitle_book(titlebook);
-        System.out.println("\ncreated book for searching: "+book_details);
         return titlebook.search_book(book_details);
     }
 
@@ -148,7 +147,7 @@ public class TFacade implements Serializable, FacadeInterface {
     
     @Override
     public synchronized ArrayList<String> gettitle_books_arr() {
-        ArrayList<String> title_books = new ArrayList<String>();
+        ArrayList<String> title_books = new ArrayList<>();
         Iterator<TTitle_book> iterator = mTitle_books.iterator();
         do {
             title_books.add(iterator.next().toString());

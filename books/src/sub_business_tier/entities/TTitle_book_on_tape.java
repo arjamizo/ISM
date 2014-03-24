@@ -5,6 +5,7 @@
 package sub_business_tier.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -16,6 +17,7 @@ public class TTitle_book_on_tape extends TTitle_book implements Serializable {
 
     @Override
     public String getActor() {
+        //in opposite to TTitle_book::getActor(), this returns not-null because audio-book has actor acting as a lector
         return actor;
     }
 
@@ -29,15 +31,10 @@ public class TTitle_book_on_tape extends TTitle_book implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(!getClass().equals(obj.getClass())) return false;
-        if(obj instanceof TTitle_book_on_tape) {
-//            System.out.println("comparing using ONTAPE operator");
-            TTitle_book_on_tape tape = (TTitle_book_on_tape)obj;
-            return super.equals(obj) && this.getActor().equals(tape.getActor());
-        }
-//        System.out.println("comparing using regular operator");
-        return !(obj instanceof TTitle_book_on_tape) && super.equals(obj);
-    }
+    public int hashCode() {
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.actor);
+        return hash;
+    }    
     
 }

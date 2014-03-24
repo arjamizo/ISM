@@ -7,6 +7,7 @@ package sub_business_tier.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 import sub_business_tier.TFactory;
 
@@ -14,7 +15,7 @@ import sub_business_tier.TFactory;
  *
  * @author DavArt
  */
-public class TTitle_book implements Serializable, Comparable<TTitle_book> {
+public class TTitle_book implements Serializable, Comparable<Object> {
 
     private static final long serialVersionUID = 1L;
     private String publisher;
@@ -31,22 +32,25 @@ public class TTitle_book implements Serializable, Comparable<TTitle_book> {
         return 0;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if(!this.getClass().equals(obj.getClass())) return false;
-        TTitle_book title_book = (TTitle_book) obj;
-        if(getISBN()==null) {
-        	throw new RuntimeException("book is not valid in book "+toString());
-        }
-        if(getISBN().equals(title_book.getISBN())) {
-//            if(get().equals(title_book.getAuthor())) {
-//                System.out.println("comparing "+this+" to "+title_book+" ret true");
+        if(getISBN().equals(((TTitle_book)obj).getISBN())) {
+            if(getActor().equals(((TTitle_book)obj).getActor())) {
                 return true;
-//            }
-        }
-        return false;
+            } else
+                return false;
+        } else 
+            return false;
     }
     
-    public int compareTo(TTitle_book otherBook) {
+    public int compareTo(Object obj) {
+        if (obj == null) {
+            return -1;
+        }
+        if (getClass() != obj.getClass()) {
+            return -1;
+        }
+        final TTitle_book otherBook = (TTitle_book) obj;
         if(otherBook.getTitle()!=null && getTitle()!=null && otherBook.getTitle().indexOf(getTitle())!=-1) {
             return 1;
         }
@@ -80,7 +84,6 @@ public class TTitle_book implements Serializable, Comparable<TTitle_book> {
     	{
     		return mBooks.get(idx);
     	}
-    	
         return null;
     }
 
@@ -146,7 +149,7 @@ public class TTitle_book implements Serializable, Comparable<TTitle_book> {
     }
     
     public String getActor() {
-        return null;
+        return "";
     }
 
     public ArrayList<TBook> getmBooks() {
