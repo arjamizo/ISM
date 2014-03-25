@@ -1,10 +1,6 @@
 .project
-<<<<<<< HEAD
 .externalToolBuilders/
 private/
+./books/books.jar
 build/
 dist/
-=======
-.classpath
-.externalToolBuilders/
->>>>>>> origin/masterETA
