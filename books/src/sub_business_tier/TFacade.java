@@ -66,7 +66,7 @@ public class TFacade implements Serializable, FacadeInterface {
     }
 
     @Override
-    public synchronized  TTitle_book add_title_book(String data[]) {
+    public synchronized  TTitle_book add_title_book(String[] data) {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
         if (search_title_book(title_book) == null) {
