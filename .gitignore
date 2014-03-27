@@ -4,3 +4,5 @@ private/
 ./books/books.jar
 build/
 dist/
+*.properties
+*.xml
