@@ -171,6 +171,7 @@ public class Book_form extends JPanel implements ActionListener {
 
         public void setData(Object[][] val) {
             data = val;
+            fireTableDataChanged();
         }
 
         public int getColumnCount() {

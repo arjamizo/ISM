@@ -69,7 +69,8 @@ public class Borrowing_form extends javax.swing.JPanel {
         Object[][] titles = facade.gettitle_books();
         System.out.println(titles.toString());
         model.setData(titles);
-        jTable1.getParent().repaint();
+//        jTable1.tableChanged(jTable1.getModel());
+        jTable1.repaint();
     }
     
     
