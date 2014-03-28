@@ -39,6 +39,7 @@ public class Client implements ActionListener {
     final static String TITLE = "Title form";
     final static String BOOK = "Book form";
     final static String LOAN = "Loan book";
+    final static String BORROWING = "Borrowing books";
     FacadeInterface facade = null;
 
     public JMenuBar createMenuBar() {
@@ -74,6 +75,13 @@ public class Client implements ActionListener {
         menuItem.setMnemonic(KeyEvent.VK_E);
         menuItem.addActionListener(this);
         menu.add(menuItem);
+        
+        menuItem = new JMenuItem(BORROWING);
+        menuItem.setMnemonic(KeyEvent.VK_E);
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
+        
+        
 
         menu.addSeparator();
 
@@ -89,6 +97,10 @@ public class Client implements ActionListener {
         menuItem = new JMenuItem(SEARCH);
         menuItem.addActionListener(this);
         submenu.add(menuItem);
+        
+      
+        
+        
         
         menu.add(submenu);
 
@@ -115,13 +127,15 @@ public class Client implements ActionListener {
         Title_form card1 = new Title_form(this);
         Book_form card2 = new Book_form(this);
         Loan_form card3 = new Loan_form(this);
-
+        Borrowing_form card4 = new Borrowing_form(this);
+        
         //Create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
         cards.add(card0, SEARCH);
         cards.add(card1, TITLE);
         cards.add(card2, BOOK);
         cards.add(card3, LOAN);
+        cards.add(card4, BORROWING);
 
         JPanel p1 = new JPanel();
 
@@ -142,9 +156,12 @@ public class Client implements ActionListener {
             cl.show(cards, SEARCH);
         } else if (source.getText().equals(LOAN)) {
             cl.show(cards, LOAN);
+        } else if (source.getText().equals(BORROWING)) {
+            cl.show(cards, BORROWING);
 
         }
     }
+    
 
     /**
      * Create the GUI and show it. For thread safety, this method should be
@@ -157,7 +174,7 @@ public class Client implements ActionListener {
         frame.setSize(800, 460);
         //Create and set up the content pane.
         if(getStaticFacade()==null) {
-            throw new RuntimeException("Facade is not set.");
+            setFacadeStatic(new TFacade());
         }
         Client demo = new Client();
         demo.setFacade(getStaticFacade());
