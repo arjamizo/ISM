@@ -53,7 +53,8 @@ public class Book_form extends JPanel implements ActionListener {
             @Override
             public Object call(Object param) {
                 row = table.getSelectionModel().getLeadSelectionIndex();
-                print_books();
+                if(row>=0) //TODO very strange bug: calling twice function
+                    print_books();
                 return null;
             }
         }));
