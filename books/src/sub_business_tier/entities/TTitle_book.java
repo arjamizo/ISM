@@ -6,6 +6,7 @@ package sub_business_tier.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -50,23 +51,18 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         if (obj == null) {
             return -1;
         }
-        if (getClass() != obj.getClass()) {
-            return -1;
-        }
+//        if (getClass() != obj.getClass()) {
+//            return -1;
+//        }
         final TTitle_book otherBook = (TTitle_book) obj;
-        if(otherBook.getTitle()!=null && getTitle()!=null && otherBook.getTitle().indexOf(getTitle())!=-1) {
-            return 1;
+        String book1[]=new String[]{otherBook.getActor(),otherBook.getAuthor(),otherBook.getISBN(),otherBook.getPublisher(),otherBook.getTitle()};
+        String book0[]=new String[]{getActor(),getAuthor(),getISBN(),getPublisher(),getTitle()};
+        System.out.println("checking "+Arrays.asList(book0)+" for "+Arrays.asList(book1));
+        for (int i = 0; i < book0.length; i++) {
+            if(book0[i]!=null && !(book0[i]).equals("") && book0[i].toLowerCase().indexOf(book1[i].toLowerCase())!=-1)
+                return i+1;
         }
-        if(otherBook.getAuthor()!=null && getAuthor()!=null && otherBook.getAuthor().indexOf(getAuthor())!=-1) {
-            return 2;
-        }
-        if(otherBook.getISBN()!=null && getISBN()!=null && otherBook.getISBN().indexOf(getISBN())!=-1) {
-            return 3;
-        }
-        if(otherBook.getPublisher()!=null && getPublisher()!=null && otherBook.getPublisher().indexOf(getPublisher())!=-1) {
-            return 4;
-        }
-        return 0;
+        return -1;
     }
 
     public void add_book(String[] data) {

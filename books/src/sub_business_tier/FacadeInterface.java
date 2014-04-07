@@ -7,6 +7,7 @@
 package sub_business_tier;
 
 import java.util.ArrayList;
+import library_client_2014.UnaryOperator;
 import sub_business_tier.entities.Client;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
@@ -57,6 +58,8 @@ public interface FacadeInterface {
     ArrayList<TTitle_book> getmTitle_books();
 
     Object [][] gettitle_books();
+    
+    Object[][] getBooks(UnaryOperator filter);
     ArrayList<String> gettitle_books_arr();
 
     ///////////////////////////////////////////////////////////////////////

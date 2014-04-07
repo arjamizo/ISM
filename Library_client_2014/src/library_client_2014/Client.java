@@ -35,7 +35,7 @@ public class Client implements ActionListener {
     }
 
     JPanel cards; //a panel that uses CardLayout
-    final static String SEARCH = "Search books";
+    final static String SEARCH = "Search titles";
     final static String TITLE = "Title form";
     final static String BOOK = "Book form";
     final static String LOAN = "Loan book";
@@ -123,7 +123,7 @@ public class Client implements ActionListener {
     public Container createContentPane() {
         //Create the content-pane-to-be.
 
-        Card0 card0 = new Card0(this);
+        Searching_book_form card0 = new Searching_book_form(this);
         Title_form card1 = new Title_form(this);
         Book_form card2 = new Book_form(this);
         Loan_form card3 = new Loan_form(this);

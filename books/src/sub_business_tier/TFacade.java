@@ -11,7 +11,9 @@ package sub_business_tier;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
+import library_client_2014.UnaryOperator;
 
 import sub_business_tier.entities.Client;
 import sub_business_tier.entities.TBook;
@@ -63,6 +65,28 @@ public class TFacade implements Serializable, FacadeInterface {
             title_books[i++]=title;
         }
         return title_books;
+    }
+    public synchronized Object[][] getBooks(UnaryOperator filter) {
+        List<Object[]> title_books = new ArrayList();
+        int i=0;
+        for(TTitle_book next2:mTitle_books)
+            for(TBook next:next2.getmBooks())
+            {
+                if(filter!=null && !filter.call(next.getmTitle_book()).equals(true)) continue;
+                String[] title = new String[6];
+                title[0]=Integer.toString(next.getNumber());
+                title[1]=next.getmTitle_book().getPublisher();
+                title[2]=next.getmTitle_book().getISBN();
+                title[3]=next.getmTitle_book().getTitle();
+                title[4]=next.getmTitle_book().getAuthor();
+                title[5]=next.getmTitle_book().getActor(); //If Book is not book on tape, then this field has null
+                title_books.add(title);
+            }
+        Object ret[][] = new Object[title_books.size()][];
+        for (Object str[] : title_books) {
+            ret[title_books.indexOf(str)]=str; //inefficient, but short. 
+        }
+        return ret;
     }
 
     @Override

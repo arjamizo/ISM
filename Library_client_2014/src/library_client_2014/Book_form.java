@@ -161,8 +161,17 @@ public class Book_form extends JPanel implements ActionListener {
     }
 
     static protected class MyTableModel extends AbstractTableModel {
+        boolean withNumber=false;
+        public MyTableModel(boolean withNumber) {
+            this.withNumber=withNumber;
+        }
+        public MyTableModel() {
+            
+        }
 
-        private String[] columnNames = {"Publisher",
+        private String[] columnNames = {
+            "Number", 
+            "Publisher",
             "ISBN",
             "Title",
             "Author",
@@ -175,7 +184,7 @@ public class Book_form extends JPanel implements ActionListener {
         }
 
         public int getColumnCount() {
-            return columnNames.length;
+            return columnNames.length-(withNumber?0:1);
         }
 
         public int getRowCount() {
@@ -184,7 +193,7 @@ public class Book_form extends JPanel implements ActionListener {
         }
 
         public String getColumnName(int col) {
-            return columnNames[col];
+            return columnNames[col+(withNumber?0:1)];
         }
 
         public Object getValueAt(int row, int col) {
