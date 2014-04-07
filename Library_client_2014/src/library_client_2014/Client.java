@@ -194,6 +194,7 @@ public class Client implements ActionListener {
             //javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
+                String str=new String(new char[5]).replace("\0","str");
             }
         });
     }
