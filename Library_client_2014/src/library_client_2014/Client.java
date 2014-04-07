@@ -174,7 +174,9 @@ public class Client implements ActionListener {
         frame.setSize(800, 460);
         //Create and set up the content pane.
         if(getStaticFacade()==null) {
-            setFacadeStatic(new TFacade());
+            TFacade facade = new TFacade();     
+            TFacade.fillWithExampleData(facade);
+            setFacadeStatic(facade);
         }
         Client demo = new Client();
         demo.setFacade(getStaticFacade());

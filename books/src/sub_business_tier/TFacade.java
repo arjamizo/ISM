@@ -239,15 +239,20 @@ public class TFacade implements Serializable, FacadeInterface {
     
     public static void main(String t[]) {
         TFacade ap = new TFacade();
+        
+        fillWithExampleData(ap);
+    }
+
+    public static void fillWithExampleData(TFacade ap) {
         String t1[] = { "1", "Author1", "Title1", "ISBN1", "Publisher1" };
         String t2[] = { "1", "Author2", "Title2", "ISBN2", "Publisher2" };
         String t3[] = { "1", "Author3", "Title3", "ISBN3", "Publisher3" };
         String t4[] = { "3", "Author1", "Title1", "ISBN1", "Publisher1",
-                "Actor1" };
+            "Actor1" };
         String t5[] = { "3", "Author2", "Title2", "ISBN2", "Publisher2",
-                "Actor2" };
+            "Actor2" };
         String t6[] = { "3", "Author4", "Title4", "ISBN4", "Publisher4",
-                "Actor4" };
+            "Actor4" };
         ap.add_title_book(t1);
         ap.add_title_book(t2);
         ap.add_title_book(t2);
@@ -307,8 +312,8 @@ public class TFacade implements Serializable, FacadeInterface {
             System.out.print(pom.getmBooks().toString());
         }
         System.out.println();
-
-    
+        
+        
         //fourth iteration starts here
         ap.Print_title_books();
         ap.Print_books();
