@@ -9,7 +9,6 @@ package pl.pwr;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.Client;

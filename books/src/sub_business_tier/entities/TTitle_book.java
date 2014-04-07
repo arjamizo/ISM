@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import sub_business_tier.TFactory;
 
@@ -116,6 +119,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         return title_books;
     }
     
+    @Column(name="Publisher")
     public String getPublisher() {
         return publisher;
     }
@@ -124,6 +128,8 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         this.publisher = publisher;
     }
 
+    @Id
+    @Column(name="ISBN")
     public String getISBN() {
         return ISBN;
     }
@@ -132,6 +138,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         this.ISBN = ISBN;
     }
 
+    @Column(name="Title")
     public String getTitle() {
         return title;
     }
@@ -152,6 +159,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         return "";
     }
 
+    @OneToMany(mappedBy = "mTitle_book")
     public ArrayList<TBook> getmBooks() {
         return mBooks;
     }

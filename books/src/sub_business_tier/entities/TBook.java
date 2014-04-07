@@ -2,6 +2,16 @@ package sub_business_tier.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.logging.Logger;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 import sub_business_tier.TFactory;
 
@@ -14,6 +24,12 @@ import sub_business_tier.TFactory;
  *
  * @author UML05
  */
+@Entity
+@Table(name = "TBook")
+
+@NamedQueries({
+    @NamedQuery(name = "TBook.findAll", query = "SELECT c FROM TBook c")
+})
 public class TBook implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +39,7 @@ public class TBook implements Serializable {
     public TBook() {
     }
 
+    @ManyToOne
     public TTitle_book getmTitle_book() {
         return mTitle_book;
     }
@@ -37,6 +54,8 @@ public class TBook implements Serializable {
      * (Note that book with earlier date was choosen as being available).
      * @return
      */
+    @Column(name = "PERIOD_time")
+    @Temporal(javax.persistence.TemporalType.DATE)
     public Date getPeriod() {
 //        throw new RuntimeException("not implemented");
         return null;
@@ -46,6 +65,9 @@ public class TBook implements Serializable {
 //        throw new RuntimeException("not implemented");
     }
 
+    @Id
+    @Basic(optional = false)
+    @Column(name = "NUMBER")
     public int getNumber() {
         return number;
     }
@@ -61,10 +83,11 @@ public class TBook implements Serializable {
     @Override
     public String toString() {
         if(mTitle_book==null) {
-            throw new RuntimeException("book "+getNumber()+" does not have mTitle_book set.");
+            LOG.warning("book "+getNumber()+" does not have mTitle_book set.");
         }
         return mTitle_book.toString() + " Number: " + getNumber();
     }
+    private static final Logger LOG = Logger.getLogger(TBook.class.getName());
 
     public boolean equals(Object obj) {
     	//we assume that this is called only with TBook object, 
@@ -86,5 +109,10 @@ public class TBook implements Serializable {
         System.err.println("startingPeriod for this book "+ toString()+ " is not supported.");
 //        throw new RuntimeException("not implemented");
     }
-
+    @Column(name="Actor")
+    public String getActor() {
+        return "";
+    }
+    public void setActor(String actor) {
+    }
 }
