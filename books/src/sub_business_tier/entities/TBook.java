@@ -131,4 +131,16 @@ public class TBook implements Serializable {
     public void setBorrower(String borrower) {
         this.borrower=borrower;
     }
+
+    private Integer id;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    @Id
+    @Column(name="id")
+    public Integer getId() {
+        return id;
+    }
 }

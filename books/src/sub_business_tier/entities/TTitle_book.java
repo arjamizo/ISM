@@ -8,10 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import sub_business_tier.TFactory;
 
@@ -19,6 +16,7 @@ import sub_business_tier.TFactory;
  *
  * @author DavArt
  */
+@Entity(name = "TTitle_book")
 public class TTitle_book implements Serializable, Comparable<Object> {
 
     private static final long serialVersionUID = 1L;
@@ -154,6 +152,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         this.title = title;
     }
 
+    @Column(name="Author")
     public String getAuthor() {
         return author;
     }
@@ -162,6 +161,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         this.author = author;
     }
     
+    @Column(name="Actor")
     public String getActor() {
         return "";
     }
@@ -175,14 +175,22 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         this.mBooks = mBooks;
     }
 
-	@Override
-	public String toString() {
-		return String.format("\nTitle: %s Author: %s ISBN: %s Publisher: %s", 
-				getTitle(), getAuthor(), getISBN(), getPublisher());
-	}
+    @Override
+    public String toString() {
+            return String.format("\nTitle: %s Author: %s ISBN: %s Publisher: %s", 
+                            getTitle(), getAuthor(), getISBN(), getPublisher());
+    }
+    
+    private Integer id;
 
-    public Object getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    @Id
+    @Column(name="id")
+    public Integer getId() {
+        return id;
     }
 
 }
