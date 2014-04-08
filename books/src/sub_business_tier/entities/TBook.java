@@ -115,4 +115,20 @@ public class TBook implements Serializable {
     }
     public void setActor(String actor) {
     }
+    
+    public String [] toSymbol() {
+        return new String[] {
+            getActor().equals("")?"0":"1"
+                ,getmTitle_book().getISBN().toString()
+                , getActor()};
+    }
+    String borrower="";
+    @Column(name="Borrower")
+    public String getBorrower() {
+        return borrower;
+    }
+    
+    public void setBorrower(String borrower) {
+        this.borrower=borrower;
+    }
 }

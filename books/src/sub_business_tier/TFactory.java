@@ -4,6 +4,7 @@
  */
 package sub_business_tier;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.management.RuntimeErrorException;
@@ -62,12 +63,18 @@ public class TFactory {
 	    		title_book2.setActor(data[5]);
 //	    		System.out.println("created "+title_book2+" for insertion purposes.");
 	    		return title_book2;
-			default:
-				throw new RuntimeException("unknown method for creating title book");
+                default:
+                        throw new RuntimeException("unknown method for creating title book");
     	}
     }
 
     @SuppressWarnings("deprecation")
+    /***
+     * creates book. If first argument [0] is 0, then TBook is created. If 
+     * first arg [0] is 1, then borrowable TBook_period is created. 
+     * [further arguments are number and in-how-many-days-book-will-be-available; 
+     * negative, e.g. -1 means book is available since 1 day]
+     */
 	public TBook create_book(String[] data) 
     {
     	TBook tbook = null;
@@ -80,8 +87,9 @@ public class TFactory {
     	{
     		tbook = new TBook_period();
     		tbook.setNumber(Integer.parseInt(data[1]));
-    		tbook.startPeriod(mdays(data[2]));
-    	}
+                tbook.startPeriod(mdays(data[2]));
+    	} else 
+            throw new RuntimeException(data[0]+" is not proper parameter for create_book");
         return tbook;
     }
 }

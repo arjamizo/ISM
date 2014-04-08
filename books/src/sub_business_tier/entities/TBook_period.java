@@ -20,12 +20,12 @@ public class TBook_period extends TBook {
        @Column(name = "PERIOD_")
        @Temporal(javax.persistence.TemporalType.DATE)
 	public Date getPeriod() {
-           return super.getPeriod(); //To change body of generated methods, choose Tools | Templates.
+           return period;
 	}
 
        @Override
 	public void setPeriod(Date date) {
-		period = date;
+		this.period = date;
 	}
 
        @Override
@@ -39,7 +39,7 @@ public class TBook_period extends TBook {
 
        @Override
 	public void startPeriod(Date date) {
-		period = date;
+		this.period = date;
 	}
 	
 }

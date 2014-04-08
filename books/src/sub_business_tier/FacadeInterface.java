@@ -7,6 +7,7 @@
 package sub_business_tier;
 
 import java.util.ArrayList;
+import java.util.List;
 import library_client_2014.UnaryOperator;
 import sub_business_tier.entities.Client;
 import sub_business_tier.entities.TBook;
@@ -39,6 +40,7 @@ public interface FacadeInterface {
 
     TTitle_book Search_title_book(String[] data);
     ArrayList<String> Search_title_books(String[] data);
+    TBook Search_borrowable_book(String data1[], String data2);
 
     /***
      * If book containing ISBN given in first argument does not exist, then add full info provided in second parameter.
@@ -65,9 +67,16 @@ public interface FacadeInterface {
     ///////////////////////////////////////////////////////////////////////
     //						NEWS FOR LAB 2
     Client search_client(String login);
+    
+    List<String> getClients();
 
     TTitle_book search_title_book(TTitle_book title_book);
 
     void setmTitle_books(ArrayList<TTitle_book> title_books);
+
+    public void returnBook(String data_title[], String data_book[]);
+
+    public void borrowBook(String[] toSymbol, String data[], String client);
+
     
 }

@@ -31,6 +31,7 @@ public class Searching_book_form extends javax.swing.JPanel {
     public Searching_book_form(Client client) {
         this.client=client;
         initComponents();
+        ((Book_form.MyTableModel)jTable1.getModel()).setData(getFacade().getBooks(null));
     }
 
     /**

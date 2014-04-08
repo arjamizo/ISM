@@ -47,6 +47,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
             return false;
     }
     
+    @Override
     public int compareTo(Object obj) {
         if (obj == null) {
             return -1;
@@ -85,7 +86,12 @@ public class TTitle_book implements Serializable, Comparable<Object> {
     	}
         return null;
     }
-
+    
+    /**
+     * This should not be used for checking for borrowing. Use search_aaccessible_book_for_borrowing instead. 
+     * @param data
+     * @return 
+     */
     public TBook search_accessible_book(String data) {
         for (Iterator<TBook> help = mBooks.iterator(); help.hasNext();) {
             TBook help_book = (TBook) help.next();
@@ -95,6 +101,11 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         }
         return null;
     }
+    /**
+     * Iterates over book instances having this title and returns first book which is available for borrowing. 
+     * @param data string expressing in-how-many-days book will be availabe. 
+     * @return available book for borrowing
+     */
     public TBook search_accessible_book_for_borrowing(String data) {
         for (Iterator<TBook> help = mBooks.iterator(); help.hasNext();) {
             TBook help_book = (TBook) help.next();

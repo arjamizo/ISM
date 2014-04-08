@@ -62,13 +62,13 @@ public class Card0 extends JPanel{
         
         model = new MyTableModel();
         table = new JTable(model);
-        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
-        table.setFillsViewportHeight(true);
+//        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
+//        table.setFillsViewportHeight(true);
         table.getSelectionModel().addListSelectionListener(new RowListener(new UnaryOperator() {
             
             @Override
             public Object call(Object obj) {
-                System.out.println();
+                System.out.println(obj);
                 return obj;
             }
         }));

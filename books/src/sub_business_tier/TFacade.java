@@ -10,9 +10,11 @@ package sub_business_tier;
  */
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Logger;
 import library_client_2014.UnaryOperator;
 
 import sub_business_tier.entities.Client;
@@ -42,6 +44,7 @@ public class TFacade implements Serializable, FacadeInterface {
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
         int idx;
         if ((idx = mTitle_books.indexOf(title_book)) != -1) {
+            //mTitle_books.equals(title_book);
             return mTitle_books.get(idx);
         }
         return null;
@@ -66,6 +69,7 @@ public class TFacade implements Serializable, FacadeInterface {
         }
         return title_books;
     }
+    @Override
     public synchronized Object[][] getBooks(UnaryOperator filter) {
         List<Object[]> title_books = new ArrayList();
         int i=0;
@@ -73,13 +77,23 @@ public class TFacade implements Serializable, FacadeInterface {
             for(TBook next:next2.getmBooks())
             {
                 if(filter!=null && !filter.call(next.getmTitle_book()).equals(true)) continue;
-                String[] title = new String[6];
+                String[] title = new String[8];
                 title[0]=Integer.toString(next.getNumber());
                 title[1]=next.getmTitle_book().getPublisher();
                 title[2]=next.getmTitle_book().getISBN();
                 title[3]=next.getmTitle_book().getTitle();
                 title[4]=next.getmTitle_book().getAuthor();
                 title[5]=next.getmTitle_book().getActor(); //If Book is not book on tape, then this field has null
+                try {
+                    title[6]=next.getBorrower();
+                } catch (Exception ex) {
+                    title[6]="";
+                }
+                try {
+                    title[7]=next.getPeriod().toString();
+                } catch (Exception ex) {
+                    title[7]="";
+                }
                 title_books.add(title);
             }
         Object ret[][] = new Object[title_books.size()][];
@@ -142,9 +156,9 @@ public class TFacade implements Serializable, FacadeInterface {
      *         String d4[] = { "2", "ISBN1", "Actor1" };
      *         String tr4[] = { "1", "2", "-1" };
      *         ap.Search_book(d4, tr4);
-     *         first means title_book will be created only for searching, second one means book has to be of ISDN2 and should be given back 2 days ago. 
-     * @param data1
-     * @param data2
+     *         first means , second arg data2 one means . 
+     * @param data1 {CMD=0, ISBN} | {CMD=2, ISBN, Actor} title_book is created from this array. Object will be created only for searching, and later will be assigned as title with setMTitle_book
+     * @param data2 {CMD=0, BOOK_NUMBER} | {CMD=1, BOOK_NUMBER, AVAILABLE_IN_N_DAYS} book has to have number=2 and was given back at least 1 days ago
      * @return
      */
     @Override
@@ -158,8 +172,30 @@ public class TFacade implements Serializable, FacadeInterface {
         return titlebook.search_book(book_details);
     }
 
+    /***
+     * 
+     * @param data1
+     * @param data2
+     * @return 
+     */
     @Override
     public synchronized TBook Search_accessible_book(String data1[],
+            String data2) {
+        TTitle_book title_book_help = new TFactory().create_title_book(data1);
+        TTitle_book title_exist = search_title_book(title_book_help);
+        if(title_exist!=null) {
+            return title_exist.search_accessible_book(data2);
+        }
+        return null;
+    }
+    /**
+     * Searches for borrowable instance of given book and returns it. 
+     * @param data1 information about book title, e.g. new String[]{"0","ISBN"} or new String[]{"1", "ISBN", "Actor"}
+     * @param data2 in how many days should book be available.
+     * @return 
+     */
+    @Override
+    public synchronized TBook Search_borrowable_book(String data1[],
             String data2) {
         TTitle_book title_book_help = new TFactory().create_title_book(data1);
         TTitle_book title_exist = search_title_book(title_book_help);
@@ -242,14 +278,24 @@ public class TFacade implements Serializable, FacadeInterface {
     	}
     }
     
+    @Override 
+    public List<String> getClients() {
+        List<String> ret=new ArrayList<>();
+        for (Client client : clients) {
+            ret.add(client.getLogin());
+        }
+        return ret;
+    }
     
     @Override
     public synchronized String borrow_book(Client client, TBook book)
     {
+        System.out.println("book:"+book);
         if(book!=null) { 
             if(book.getPeriod()!=null) {
         		//start period here
         		books_b.add(new TBook_borrowed(client, book));
+                        book.setBorrower(client.getLogin());
         		return "Book borrowed successfully";
         	}
         	else return "Book not available";
@@ -369,5 +415,39 @@ public class TFacade implements Serializable, FacadeInterface {
         System.out.println("Borrowing some book, expecting it to be "+recentlyAddedBook);
         
         System.out.print(ap.borrow_book(new Client("Client1"), recentlyAddedBook));
+    }
+
+    private Client whoBorrowed(String data[]) {
+        try {
+            return findBorrowed(data).getClient();
+        } catch (Exception ex){
+            return null;
+        }
+    }
+
+    @Override
+    public void returnBook(String data_title[], String data_book[]) {
+        TBook book = Search_book(data_title, data_book);
+        book.setBorrower("");
+    }
+
+    @Override
+    public void borrowBook(String data_title[], String data_book[], String client) {
+//        LOG.info("datatitle: "+Arrays.asList(data_title)+Arrays.asList(data_book));
+        TBook book = Search_book(data_title, data_book);
+        if(book!=null) {
+            borrow_book(search_client(client), book);
+        } else 
+            throw new RuntimeException("Boook can not be borrowed, maybe does not exist in db or is not available ");
+    }
+    private static final Logger LOG = Logger.getLogger(TFacade.class.getName());
+
+    private TBook_borrowed findBorrowed(String[] data) {
+        for (TBook_borrowed tBook_borrowed : books_b) {
+            if(tBook_borrowed.getBook().equals(new TFactory().create_book(data))) {
+                return tBook_borrowed;
+            }
+        }
+        return null;
     }
 }
