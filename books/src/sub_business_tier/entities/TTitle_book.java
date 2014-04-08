@@ -181,4 +181,8 @@ public class TTitle_book implements Serializable, Comparable<Object> {
 				getTitle(), getAuthor(), getISBN(), getPublisher());
 	}
 
+    public Object getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
