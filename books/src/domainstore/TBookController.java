@@ -6,6 +6,7 @@ package domainstore;
  */
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -31,11 +32,14 @@ public class TBookController {
         EntityManager em = getEntityManager();
         try {
             javax.persistence.Query q = em.createQuery("select c from TBook as c");
-            return q.getResultList();
+            List ret = q.getResultList();
+            LOG.info("Fetched "+ret.size() + " titles.");
+            return ret;
         } finally {
             em.close();
         }
     }
+    private static final Logger LOG = Logger.getLogger(TBookController.class.getName());
     
     public boolean addTBook(TBook book) {
         EntityManager em = getEntityManager();

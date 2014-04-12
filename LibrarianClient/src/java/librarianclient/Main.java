@@ -6,6 +6,7 @@
 
 package librarianclient;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import library_client_2014.Client;
@@ -37,7 +38,7 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        LOG.info("Using facade: "+facade.toString());
+//        LOG.log(Level.INFO, "Using facade: {0}", facade.toString());
         Client.setFacadeStatic(facade);
         Client.main(args);
     }

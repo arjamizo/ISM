@@ -6,8 +6,10 @@
 
 package domainstore;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.*;
 import sub_business_tier.entities.TTitle_book;
 
@@ -59,13 +61,20 @@ public class TTitle_bookController {
     }
 
     public List<TTitle_book> getTTitle_books() {
+        LOG.info("logging");
+        
         EntityManager em = getEntityManager();
         try {
-            javax.persistence.Query q
-                    = em.createQuery("select c from TTitle_book as c");
-            return q.getResultList();
+            javax.persistence.Query q = em.createNamedQuery("TTitle_book.findAll", TTitle_book.class);
+            List ret = q.getResultList();
+            LOG.info("Fetched "+ret.size() + " titles.");
+            return ret;
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
         } finally {
             em.close();
         }
+//        return new ArrayList();
     }
+    private static final Logger LOG = Logger.getLogger(TTitle_bookController.class.getName());
 }

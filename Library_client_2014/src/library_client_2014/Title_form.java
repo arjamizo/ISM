@@ -51,7 +51,8 @@ public class Title_form extends JPanel implements ActionListener {
         if (data == null) {
             return;
         }
-        client.getFacade().add_title_book(data);
+        System.out.println(
+        client.getFacade().add_title_book(data));
     }
 
     public String[] form_title() {

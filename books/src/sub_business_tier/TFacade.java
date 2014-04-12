@@ -22,7 +22,7 @@ import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TBook_borrowed;
 import sub_business_tier.entities.TTitle_book;
 public class TFacade implements Serializable, FacadeInterface {
-    private ArrayList<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
+    private List<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
     //////////////to store a set of clients//////////////////////////
     private Vector<Client> clients = new Vector<Client>();
     private Vector<TBook_borrowed> books_b = new Vector<TBook_borrowed>(); 
@@ -31,21 +31,21 @@ public class TFacade implements Serializable, FacadeInterface {
     }
 
     @Override
-    public synchronized ArrayList<TTitle_book> getmTitle_books() {
+    public synchronized List<TTitle_book> getmTitle_books() {
         return mTitle_books;
     }
 
     @Override
-    public synchronized void setmTitle_books(ArrayList<TTitle_book> title_books) {
+    public synchronized void setmTitle_books(List<TTitle_book> title_books) {
         this.mTitle_books=title_books;
     };
 
     @Override
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
         int idx;
-        if ((idx = mTitle_books.indexOf(title_book)) != -1) {
+        if ((idx = getmTitle_books().indexOf(title_book)) != -1) {
             //mTitle_books.equals(title_book);
-            return mTitle_books.get(idx);
+            return getmTitle_books().get(idx);
         }
         return null;
     }
@@ -55,9 +55,9 @@ public class TFacade implements Serializable, FacadeInterface {
     ***/
     @Override
     public synchronized Object[][] gettitle_books() {
-        Object[][] title_books = new Object[mTitle_books.size()][];
+        Object[][] title_books = new Object[getmTitle_books().size()][];
         int i=0;
-        for(TTitle_book next:mTitle_books)
+        for(TTitle_book next:getmTitle_books())
         {
             String[] title = new String[5];
             title[0]=next.getPublisher();
@@ -71,9 +71,10 @@ public class TFacade implements Serializable, FacadeInterface {
     }
     @Override
     public synchronized Object[][] getBooks(UnaryOperator filter) {
+        LOG.info("getting books");
         List<Object[]> title_books = new ArrayList();
         int i=0;
-        for(TTitle_book next2:mTitle_books)
+        for(TTitle_book next2:getmTitle_books())
             for(TBook next:next2.getmBooks())
             {
                 if(filter!=null && !filter.call(next.getmTitle_book()).equals(true)) continue;
@@ -108,7 +109,7 @@ public class TFacade implements Serializable, FacadeInterface {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
         if (search_title_book(title_book) == null) {
-            mTitle_books.add(title_book);
+            getmTitle_books().add(title_book);
            return title_book;
         }
         return null;
@@ -144,7 +145,7 @@ public class TFacade implements Serializable, FacadeInterface {
         ArrayList<String> returnList = new ArrayList<>();
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
-        for (TTitle_book mTTitle_book : mTitle_books) {
+        for (TTitle_book mTTitle_book : getmTitle_books()) {
             if(title_book.compareTo(mTTitle_book)>0) {
                 returnList.add(mTTitle_book.toString());
             }
@@ -208,7 +209,7 @@ public class TFacade implements Serializable, FacadeInterface {
     @Override
     public synchronized ArrayList<String> gettitle_books_arr() {
         ArrayList<String> title_books = new ArrayList<>();
-        Iterator<TTitle_book> iterator = mTitle_books.iterator();
+        Iterator<TTitle_book> iterator = getmTitle_books().iterator();
         do {
             title_books.add(iterator.next().toString());
         } while (iterator.hasNext()); 
@@ -218,8 +219,8 @@ public class TFacade implements Serializable, FacadeInterface {
     @Override
     public synchronized void Print_books() {
         System.out.print("\nBooks");
-        for (int i = 0; i < mTitle_books.size(); i++) {
-            ArrayList<String> help_list = mTitle_books.get(i).getbooks();
+        for (int i = 0; i < getmTitle_books().size(); i++) {
+            ArrayList<String> help_list = getmTitle_books().get(i).getbooks();
             for (int j = 0; j < help_list.size(); j++) {
                 System.out.print(help_list.get(j).toString());
             }

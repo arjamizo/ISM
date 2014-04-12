@@ -16,7 +16,12 @@ import sub_business_tier.TFactory;
  *
  * @author DavArt
  */
-@Entity(name = "TTitle_book")
+@Entity()
+@Table(name = "TTitle")
+
+@NamedQueries({
+    @NamedQuery(name = "TBook.findAll", query = "SELECT c FROM TTitle_book c")
+})
 public class TTitle_book implements Serializable, Comparable<Object> {
 
     private static final long serialVersionUID = 1L;
@@ -164,6 +169,9 @@ public class TTitle_book implements Serializable, Comparable<Object> {
     @Column(name="Actor")
     public String getActor() {
         return "";
+    }
+    public void setActor(String actor) {
+        
     }
 
     @OneToMany(mappedBy = "mTitle_book")

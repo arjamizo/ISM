@@ -57,12 +57,12 @@ public interface FacadeInterface {
 
     void delete_client(String login);
 
-    ArrayList<TTitle_book> getmTitle_books();
+    List<TTitle_book> getmTitle_books();
 
     Object [][] gettitle_books();
     
     Object[][] getBooks(UnaryOperator filter);
-    ArrayList<String> gettitle_books_arr();
+    List<String> gettitle_books_arr();
 
     ///////////////////////////////////////////////////////////////////////
     //						NEWS FOR LAB 2
@@ -72,7 +72,7 @@ public interface FacadeInterface {
 
     TTitle_book search_title_book(TTitle_book title_book);
 
-    void setmTitle_books(ArrayList<TTitle_book> title_books);
+    void setmTitle_books(List<TTitle_book> title_books);
 
     public void returnBook(String data_title[], String data_book[]);
 

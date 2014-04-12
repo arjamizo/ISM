@@ -8,7 +8,6 @@ package pl.pwr;
 
 import javax.ejb.Remote;
 import sub_business_tier.FacadeInterface;
-import sub_business_tier.TFacade;
 
 /**
  *
