@@ -13,11 +13,19 @@
             </test-roots>
             <included-library dirs="200">reference.FacadeInterface.jar</included-library>
             <included-library dirs="200">file.reference.selectingExample.jar</included-library>
-            <included-library dirs="200">file.reference.books.jar</included-library>
+            <included-library dirs="200">reference.books.jar</included-library>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>
                 <foreign-project>FacadeInterface</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+            <reference>
+                <foreign-project>books</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
                 <target>jar</target>
