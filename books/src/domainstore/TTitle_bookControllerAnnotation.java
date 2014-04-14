@@ -6,6 +6,7 @@
 
 package domainstore;
 
+import domainstore.util.EntityManagerProvider;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,26 +18,31 @@ import sub_business_tier.entities.TTitle_book;
  *
  * @author azochniak
  */
-public class TTitle_bookController {
+public class TTitle_bookControllerAnnotation {
 
     private EntityManagerFactory emf = null;
+    
+    public static EntityManagerProvider em;
+
+    public TTitle_bookControllerAnnotation(EntityManagerProvider em) {
+        this.em=em;
+    }
 
     private EntityManager getEntityManager() {
-        if (emf == null) {
-            emf = Persistence.createEntityManagerFactory("Library1PU");
-        }
-        return emf.createEntityManager();
+        if(em!=null) 
+            return em.getEm(); 
+        else 
+            throw new RuntimeException("no em in ttitlbebook_controller");
     }
     public boolean addTTitle_book(TTitle_book title_book) {
         EntityManager em = getEntityManager();
         try {
-            em.getTransaction().begin();
             em.persist(title_book);
-            em.getTransaction().commit();
+            LOG.fine("creating "+title_book);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            LOG.severe(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         } finally {
-            em.close();
             return false;
         }
     }
@@ -45,18 +51,15 @@ public class TTitle_bookController {
         TTitle_book newTTitle_book = null;
         try {
             Iterator it = titles.iterator();
-            em.getTransaction().begin();
             while (it.hasNext()) {
                 newTTitle_book = (TTitle_book) it.next();
                 if (newTTitle_book.getId() == null) {
                     em.persist(newTTitle_book);
                 }
             }
-            em.getTransaction().commit();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         } finally {
-            em.close();
             return false;
         }
     }
@@ -73,11 +76,10 @@ public class TTitle_bookController {
             List ret = q.getResultList();
             LOG.info("Fetched "+ret.size() + " titles.");
             return ret;
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         } finally {
-            em.close();
         }
     }
-    private static final Logger LOG = Logger.getLogger(TTitle_bookController.class.getName());
+    private static final Logger LOG = Logger.getLogger(TTitle_bookControllerAnnotation.class.getName());
 }

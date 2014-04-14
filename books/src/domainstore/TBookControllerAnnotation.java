@@ -4,6 +4,7 @@ package domainstore;
  *
  * @author azochniak
  */
+import domainstore.util.EntityManagerProvider;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -13,15 +14,21 @@ import javax.persistence.Persistence;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
 
-public class TBookController {
+public class TBookControllerAnnotation {
 
     private EntityManagerFactory emf = null;
 
+    public static EntityManagerProvider em;
+
+    public TBookControllerAnnotation(EntityManagerProvider em) {
+        this.em=em;
+    }
+
     private EntityManager getEntityManager() {
-        if (emf == null) {
-            emf = Persistence.createEntityManagerFactory("Library1PU");
-        }
-        return emf.createEntityManager();
+        if(em!=null) 
+            return em.getEm(); 
+        else 
+            throw new RuntimeException("no em in tbook_controller");
     }
     
     public TBook[] getTBooks_() {
@@ -35,20 +42,20 @@ public class TBookController {
             List ret = q.getResultList();
             LOG.info("Fetched "+ret.size() + " titles.");
             return ret;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
-            em.close();
         }
     }
-    private static final Logger LOG = Logger.getLogger(TBookController.class.getName());
+    private static final Logger LOG = Logger.getLogger(TBookControllerAnnotation.class.getName());
     
     public boolean addTBook(TBook book) {
         EntityManager em = getEntityManager();
         try {
-            em.getTransaction().begin();
             em.persist(book);
-            em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
-            em.close();
             return false;
         }
     }
@@ -56,7 +63,6 @@ public class TBookController {
         EntityManager em = getEntityManager();
         TBook newBook = null;
         Iterator it = titles.iterator();
-        em.getTransaction().begin();
         try {
             while (it.hasNext()) {
                 TTitle_book newTitle_book = (TTitle_book) it.next();
@@ -71,10 +77,10 @@ public class TBookController {
                     }
                 }
             }
-            em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
-            em.close();
             return false;
         }
     }
-} // end of TBookController
+} // end of TBookControllerAnnotation

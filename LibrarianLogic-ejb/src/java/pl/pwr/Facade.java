@@ -6,8 +6,8 @@
 
 package pl.pwr;
 
-import domainstore.TBookController;
-import domainstore.TTitle_bookController;
+import domainstore.TBookControllerAnnotation;
+import domainstore.TTitle_bookControllerAnnotation;
 import domainstore.util.EntityManagerProvider;
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,7 +24,10 @@ import sub_business_tier.entities.TTitle_book;
  */
 @Stateless
 public class Facade extends TFacade implements FacadeRemote {
-    @PersistenceContext
+    /**
+     * actually not used, but prooves existance of other possibility of accessing entities.
+     */
+    @PersistenceContext(unitName = "booksPUJTA")
     private EntityManager em;
 
     public EntityManager getEm() {
@@ -33,14 +36,14 @@ public class Facade extends TFacade implements FacadeRemote {
     
     public Facade() {
         EntityManagerProvider emp;
-        tTitle_bookController = new TTitle_bookController(emp=new EntityManagerProvider() {
+        tTitle_bookController = new TTitle_bookControllerAnnotation(emp=new EntityManagerProvider() {
 
             @Override
             public EntityManager getEm() {
                 return em;
             }
         });
-        tBookController = new TBookController(emp);
+        tBookController = new TBookControllerAnnotation(emp);
         LOG.info("initialized");
     }
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
@@ -55,10 +58,15 @@ public class Facade extends TFacade implements FacadeRemote {
     @Override
     public synchronized List<TTitle_book> getmTitle_books() {
         LOG.info("fetching title books: WOW! that many "+tTitle_bookController.getTTitle_books().size());
+        for (TTitle_book tTitle_book : tTitle_bookController.getTTitle_books()) {
+            for (TBook tBook : tTitle_book.getmBooks()) {
+                LOG.warning("is processed? "+tBook.toString());
+            }
+        }
         return (tTitle_bookController.getTTitle_books());
     }
-    public TBookController tBookController;
-    public TTitle_bookController tTitle_bookController;
+    public TBookControllerAnnotation tBookController;
+    public TTitle_bookControllerAnnotation tTitle_bookController;
 
     @Override
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
