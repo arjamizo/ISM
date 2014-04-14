@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.*;
 
 import sub_business_tier.TFactory;
@@ -62,13 +63,14 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         final TTitle_book otherBook = (TTitle_book) obj;
         String book1[]=new String[]{otherBook.getActor(),otherBook.getAuthor(),otherBook.getISBN(),otherBook.getPublisher(),otherBook.getTitle()};
         String book0[]=new String[]{getActor(),getAuthor(),getISBN(),getPublisher(),getTitle()};
-        System.out.println("checking "+Arrays.asList(book0)+" for "+Arrays.asList(book1));
+        LOG.info("checking "+Arrays.asList(book0)+" for "+Arrays.asList(book1));
         for (int i = 0; i < book0.length; i++) {
             if(book0[i]!=null && !(book0[i]).equals("") && book0[i].toLowerCase().indexOf(book1[i].toLowerCase())!=-1)
                 return i+1;
         }
         return -1;
     }
+    private static final Logger LOG = Logger.getLogger(TTitle_book.class.getName());
 
     public void add_book(String[] data) {
     	TFactory factory = new TFactory();
@@ -174,7 +176,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         
     }
 
-    @OneToMany(mappedBy = "mtitleBook")
+    @OneToMany(mappedBy = "mtitleBook", cascade = CascadeType.PERSIST)
     public List<TBook> getmBooks() {
         return mBooks;
     }

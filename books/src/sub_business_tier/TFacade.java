@@ -295,7 +295,7 @@ public class TFacade implements Serializable, FacadeInterface {
         if(book!=null) { 
             if(book.getPeriod()!=null) {
         		//start period here
-        		books_b.add(new TBook_borrowed(client, book));
+//        		books_b.add(new TBook_borrowed(client, book));
                         book.setBorrower(client.getLogin());
         		return "Book borrowed successfully";
         	}
@@ -437,7 +437,9 @@ public class TFacade implements Serializable, FacadeInterface {
 //        LOG.info("datatitle: "+Arrays.asList(data_title)+Arrays.asList(data_book));
         TBook book = Search_book(data_title, data_book);
         if(book!=null) {
-            borrow_book(search_client(client), book);
+            Client cli;//=search_client(client);
+            cli=new Client(client);
+            borrow_book(cli, book);
         } else 
             throw new RuntimeException("Boook can not be borrowed, maybe does not exist in db or is not available ");
     }
