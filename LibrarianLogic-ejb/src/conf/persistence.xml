@@ -25,6 +25,11 @@
       <property name="javax.persistence.jdbc.password" value="Library1"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
       <property name="javax.persistence.jdbc.user" value="Library1"/>
+      
+<!--  http://www.adam-bien.com/roller/abien/entry/don_t_use_jpa_s    
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:Library1;create=true"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>-->
+      
       <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>
