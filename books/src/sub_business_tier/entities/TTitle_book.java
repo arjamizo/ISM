@@ -20,7 +20,7 @@ import sub_business_tier.TFactory;
 @Table(name = "TTitle")
 
 @NamedQueries({
-    @NamedQuery(name = "TBook.findAll", query = "SELECT c FROM TTitle_book c")
+    @NamedQuery(name = "TTitle_book.findAll", query = "SELECT c FROM TTitle_book c")
 })
 public class TTitle_book implements Serializable, Comparable<Object> {
 
@@ -138,7 +138,6 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         this.publisher = publisher;
     }
 
-    @Id
     @Column(name="ISBN")
     public String getISBN() {
         return ISBN;
@@ -174,7 +173,8 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         
     }
 
-    @OneToMany(mappedBy = "mTitle_book")
+//    @OneToMany(mappedBy = "mTitle_book")
+    @Transient
     public ArrayList<TBook> getmBooks() {
         return mBooks;
     }
