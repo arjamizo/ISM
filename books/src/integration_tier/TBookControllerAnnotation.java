@@ -1,10 +1,10 @@
-package domainstore;
+package integration_tier;
 
 /**
  *
  * @author azochniak
  */
-import domainstore.util.EntityManagerProvider;
+import integration_tier.util.EntityManagerProvider;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;

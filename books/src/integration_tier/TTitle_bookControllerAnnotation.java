@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package domainstore;
+package integration_tier;
 
-import domainstore.util.EntityManagerProvider;
+import integration_tier.util.EntityManagerProvider;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

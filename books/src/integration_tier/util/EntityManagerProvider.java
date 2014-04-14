@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package domainstore.util;
+package integration_tier.util;
 
 import javax.persistence.EntityManager;
 

@@ -1,4 +1,4 @@
-package domainstore;
+package integration_tier;
 
 /**
  *

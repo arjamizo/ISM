@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package domainstore;
+package integration_tier;
 
 import java.util.ArrayList;
 import java.util.Iterator;

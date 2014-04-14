@@ -6,11 +6,11 @@
 
 package pl.pwr;
 
-import domainstore.TBookController;
-import domainstore.TBookControllerAnnotation;
-import domainstore.TTitle_bookController;
-import domainstore.TTitle_bookControllerAnnotation;
-import domainstore.util.EntityManagerProvider;
+import integration_tier.TBookController;
+import integration_tier.TBookControllerAnnotation;
+import integration_tier.TTitle_bookController;
+import integration_tier.TTitle_bookControllerAnnotation;
+import integration_tier.util.EntityManagerProvider;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -29,7 +29,7 @@ public class Facade extends TFacade implements FacadeRemote {
     /**
      * actually not used, but prooves existance of other possibility of accessing entities.
      */
-//    @PersistenceContext(unitName = "booksPUJTA")
+    @PersistenceContext(unitName = "booksPUJTA")
     private EntityManager em;
 
     public EntityManager getEm() {
