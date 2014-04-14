@@ -54,8 +54,8 @@ public class Book_form extends JPanel implements ActionListener {
             public Object call(Object param) {
                 row = table.getSelectionModel().getLeadSelectionIndex();
                 System.out.println("selected: "+row);
-                if(row>=0) //TODO very strange bug: calling twice function
-                    print_books();
+//                if(row>=0) //TODO very strange bug: calling twice function
+//                    print_books();
                 return null;
             }
         }));

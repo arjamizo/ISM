@@ -6,7 +6,9 @@
 
 package pl.pwr;
 
+import domainstore.TBookController;
 import domainstore.TBookControllerAnnotation;
+import domainstore.TTitle_bookController;
 import domainstore.TTitle_bookControllerAnnotation;
 import domainstore.util.EntityManagerProvider;
 import java.util.List;
@@ -27,7 +29,7 @@ public class Facade extends TFacade implements FacadeRemote {
     /**
      * actually not used, but prooves existance of other possibility of accessing entities.
      */
-    @PersistenceContext(unitName = "booksPUJTA")
+//    @PersistenceContext(unitName = "booksPUJTA")
     private EntityManager em;
 
     public EntityManager getEm() {
@@ -36,14 +38,16 @@ public class Facade extends TFacade implements FacadeRemote {
     
     public Facade() {
         EntityManagerProvider emp;
-        tTitle_bookController = new TTitle_bookControllerAnnotation(emp=new EntityManagerProvider() {
-
-            @Override
-            public EntityManager getEm() {
-                return em;
-            }
-        });
-        tBookController = new TBookControllerAnnotation(emp);
+//        tTitle_bookController = new TTitle_bookControllerAnnotation(emp=new EntityManagerProvider() {
+//
+//            @Override
+//            public EntityManager getEm() {
+//                return em;
+//            }
+//        });
+//        tBookController = new TBookControllerAnnotation(emp);
+        tBookController = new TBookController();
+        tTitle_bookController = new TTitle_bookController();
         LOG.info("initialized");
     }
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
@@ -58,15 +62,17 @@ public class Facade extends TFacade implements FacadeRemote {
     @Override
     public synchronized List<TTitle_book> getmTitle_books() {
         LOG.info("fetching title books: WOW! that many "+tTitle_bookController.getTTitle_books().size());
-        for (TTitle_book tTitle_book : tTitle_bookController.getTTitle_books()) {
-            for (TBook tBook : tTitle_book.getmBooks()) {
-                LOG.warning("is processed? "+tBook.toString());
-            }
-        }
+//        for (TTitle_book tTitle_book : tTitle_bookController.getTTitle_books()) {
+//            for (TBook tBook : tTitle_book.getmBooks()) {
+//                LOG.warning("is processed? "+tBook.toString());
+//            }
+//        }
+        //Caused by: java.lang.ClassCastException: sub_business_tier.entities.TTitle_book_on_tape cannot be cast to sub_business_tier.entities.TTitle_book
+	//at pl.pwr.Facade.getmTitle_books(Facade.java:65)
         return (tTitle_bookController.getTTitle_books());
     }
-    public TBookControllerAnnotation tBookController;
-    public TTitle_bookControllerAnnotation tTitle_bookController;
+    public TBookController tBookController;
+    public TTitle_bookController tTitle_bookController;
 
     @Override
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
