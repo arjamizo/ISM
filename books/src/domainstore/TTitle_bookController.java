@@ -20,12 +20,19 @@ import sub_business_tier.entities.TTitle_book;
 public class TTitle_bookController {
 
     private EntityManagerFactory emf = null;
+    
+    public static EntityManager em;
+
+    public TTitle_bookController(EntityManager em) {
+        this.em=em;
+    }
 
     private EntityManager getEntityManager() {
-        if (emf == null) {
-            emf = Persistence.createEntityManagerFactory("booksPU");
-        }
-        return emf.createEntityManager();
+        if(em!=null) return em; else throw new RuntimeException("no em in ttitlbebook_controller");
+//        if (emf == null) {
+//            emf = Persistence.createEntityManagerFactory("booksPU");
+//        }
+//        return emf.createEntityManager();
     }
     public boolean addTTitle_book(TTitle_book title_book) {
         EntityManager em = getEntityManager();
@@ -72,7 +79,7 @@ public class TTitle_bookController {
         } catch (Throwable e) {
             throw new RuntimeException(e);
         } finally {
-            em.close();
+//            em.close();
         }
 //        return new ArrayList();
     }

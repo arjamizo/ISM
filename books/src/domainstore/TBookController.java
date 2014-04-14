@@ -17,11 +17,18 @@ public class TBookController {
 
     private EntityManagerFactory emf = null;
 
+    public static EntityManager em;
+
+    public TBookController(EntityManager em) {
+        this.em=em;
+    }
+
     private EntityManager getEntityManager() {
-        if (emf == null) {
-            emf = Persistence.createEntityManagerFactory("Library1PU");
-        }
-        return emf.createEntityManager();
+        if(em!=null) return em; else throw new RuntimeException("no em in tbook_controller");
+//        if (emf == null) {
+//            emf = Persistence.createEntityManagerFactory("Library1PU");
+//        }
+//        return emf.createEntityManager();
     }
     
     public TBook[] getTBooks_() {

@@ -11,6 +11,8 @@ import domainstore.TTitle_bookController;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
@@ -21,10 +23,16 @@ import sub_business_tier.entities.TTitle_book;
  */
 @Stateless
 public class Facade extends TFacade implements FacadeRemote {
+    @PersistenceContext
+    private EntityManager em;
 
+    public EntityManager getEm() {
+        return em;
+    }
+    
     public Facade() {
-        tTitle_bookController = new TTitle_bookController();
-        tBookController = new TBookController();
+        tTitle_bookController = new TTitle_bookController(em);
+        tBookController = new TBookController(em);
         LOG.info("initialized");
     }
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
@@ -38,6 +46,7 @@ public class Facade extends TFacade implements FacadeRemote {
 
     @Override
     public synchronized List<TTitle_book> getmTitle_books() {
+        TTitle_bookController.em=em;
         LOG.info("fetching title books");
         return (tTitle_bookController.getTTitle_books());
     }
@@ -46,6 +55,7 @@ public class Facade extends TFacade implements FacadeRemote {
 
     @Override
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
+        TBookController.em=em;
         LOG.info("Adding book.");
         TTitle_book title = super.add_book(data1, data2);
         TBook book=Search_book(data1, data2);
@@ -55,6 +65,7 @@ public class Facade extends TFacade implements FacadeRemote {
 
     @Override
     public synchronized TTitle_book add_title_book(String[] data) {
+        TTitle_bookController.em=em;
         LOG.info("Adding title.");
         TTitle_book title_book = super.add_title_book(data);
         tTitle_bookController.addTTitle_book(title_book);
