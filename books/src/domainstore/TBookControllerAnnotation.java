@@ -14,7 +14,7 @@ import javax.persistence.Persistence;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
 
-public class TBookControllerAnnotation {
+public class TBookControllerAnnotation extends TBookController {
 
     private EntityManagerFactory emf = null;
 
@@ -24,63 +24,12 @@ public class TBookControllerAnnotation {
         this.em=em;
     }
 
-    private EntityManager getEntityManager() {
+    @Override
+    protected EntityManager getEntityManager() {
         if(em!=null) 
             return em.getEm(); 
         else 
             throw new RuntimeException("no em in tbook_controller");
     }
     
-    public TBook[] getTBooks_() {
-        return (TBook[]) getTBooks().toArray(new TBook[0]);
-    }
-
-    public List<TBook> getTBooks() {
-        EntityManager em = getEntityManager();
-        try {
-            javax.persistence.Query q = em.createQuery("select c from TBook as c");
-            List ret = q.getResultList();
-            LOG.info("Fetched "+ret.size() + " titles.");
-            return ret;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-        }
-    }
-    private static final Logger LOG = Logger.getLogger(TBookControllerAnnotation.class.getName());
-    
-    public boolean addTBook(TBook book) {
-        EntityManager em = getEntityManager();
-        try {
-            em.persist(book);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            return false;
-        }
-    }
-    public boolean addTBooks(List<TTitle_book> titles) {
-        EntityManager em = getEntityManager();
-        TBook newBook = null;
-        Iterator it = titles.iterator();
-        try {
-            while (it.hasNext()) {
-                TTitle_book newTitle_book = (TTitle_book) it.next();
-                if (newTitle_book.getId() == null) {
-                    continue;
-                }
-                Iterator it_ = newTitle_book.getmBooks().iterator();
-                while (it_.hasNext()) {
-                    newBook = (TBook) it_.next();
-                    if (newBook.getId() == null) {
-                        em.persist(newBook);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            return false;
-        }
-    }
 } // end of TBookControllerAnnotation

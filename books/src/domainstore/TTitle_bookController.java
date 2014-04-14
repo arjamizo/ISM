@@ -21,7 +21,7 @@ public class TTitle_bookController {
 
     private EntityManagerFactory emf = null;
 
-    private EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("Library1PU");
         }
@@ -30,12 +30,15 @@ public class TTitle_bookController {
     public boolean addTTitle_book(TTitle_book title_book) {
         EntityManager em = getEntityManager();
         try {
-            em.getTransaction().begin();
+            if(emf!=null)
+                em.getTransaction().begin();
             em.persist(title_book);
-            em.getTransaction().commit();
+            if(emf!=null)
+                em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
+            if(emf!=null)
             em.close();
             return false;
         }
@@ -45,17 +48,20 @@ public class TTitle_bookController {
         TTitle_book newTTitle_book = null;
         try {
             Iterator it = titles.iterator();
-            em.getTransaction().begin();
+            if(emf!=null)
+                em.getTransaction().begin();
             while (it.hasNext()) {
                 newTTitle_book = (TTitle_book) it.next();
                 if (newTTitle_book.getId() == null) {
                     em.persist(newTTitle_book);
                 }
             }
-            em.getTransaction().commit();
+            if(emf!=null)
+                em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
+            if(emf!=null)
             em.close();
             return false;
         }
@@ -76,7 +82,8 @@ public class TTitle_bookController {
         } catch (Throwable e) {
             throw new RuntimeException(e);
         } finally {
-            em.close();
+            if(emf!=null)
+                em.close();
         }
     }
     private static final Logger LOG = Logger.getLogger(TTitle_bookController.class.getName());

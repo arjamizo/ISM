@@ -17,7 +17,7 @@ public class TBookController {
 
     private EntityManagerFactory emf = null;
 
-    private EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("Library1PU");
         }
@@ -38,7 +38,8 @@ public class TBookController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            em.close();
+            if(emf!=null)
+                em.close();
         }
     }
     private static final Logger LOG = Logger.getLogger(TBookController.class.getName());
@@ -46,13 +47,16 @@ public class TBookController {
     public boolean addTBook(TBook book) {
         EntityManager em = getEntityManager();
         try {
-            em.getTransaction().begin();
+            if(emf!=null)
+                em.getTransaction().begin();
             em.persist(book);
-            em.getTransaction().commit();
+            if(emf!=null)
+                em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            em.close();
+            if(emf!=null)
+                em.close();
             return false;
         }
     }
@@ -60,7 +64,8 @@ public class TBookController {
         EntityManager em = getEntityManager();
         TBook newBook = null;
         Iterator it = titles.iterator();
-        em.getTransaction().begin();
+        if(emf!=null)
+                em.getTransaction().begin();
         try {
             while (it.hasNext()) {
                 TTitle_book newTitle_book = (TTitle_book) it.next();
@@ -75,11 +80,13 @@ public class TBookController {
                     }
                 }
             }
-            em.getTransaction().commit();
+            if(emf!=null)
+                em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            em.close();
+            if(emf!=null)
+                em.close();
             return false;
         }
     }

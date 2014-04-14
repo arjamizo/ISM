@@ -38,16 +38,21 @@ public class Facade extends TFacade implements FacadeRemote {
     
     public Facade() {
         EntityManagerProvider emp;
-//        tTitle_bookController = new TTitle_bookControllerAnnotation(emp=new EntityManagerProvider() {
-//
-//            @Override
-//            public EntityManager getEm() {
-//                return em;
-//            }
-//        });
-//        tBookController = new TBookControllerAnnotation(emp);
-        tBookController = new TBookController();
-        tTitle_bookController = new TTitle_bookController();
+        try {
+            tBookController = new TBookController();
+            tTitle_bookController = new TTitle_bookController();
+            tTitle_bookController.getTTitle_books();
+        } catch (Throwable e) {
+            LOG.severe("Due to some problems on linux with RESOURCE_LOCAL, it is needed to uncomment @PersistanceContext annotation in Facade.java. ");
+            tTitle_bookController = new TTitle_bookControllerAnnotation(emp=new EntityManagerProvider() {
+
+                @Override
+                public EntityManager getEm() {
+                    return em;
+                }
+            });
+            tBookController = new TBookControllerAnnotation(emp);
+        }
         LOG.info("initialized");
     }
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
