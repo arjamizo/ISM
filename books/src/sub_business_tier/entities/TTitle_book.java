@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import javax.persistence.*;
 
 import sub_business_tier.TFactory;
@@ -29,7 +30,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
     private String ISBN;
     private String title;
     private String author;
-    private ArrayList<TBook> mBooks = new java.util.ArrayList<TBook>();
+    private List<TBook> mBooks = new java.util.ArrayList<TBook>();
 
     public TTitle_book() {
     }
@@ -74,7 +75,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
     	TBook newbook = factory.create_book(data);
     	assert newbook!=null;
     	if(search_book(newbook)==null) {
-    		mBooks.add(newbook); // we store all books having the same title
+    		getmBooks().add(newbook); // we store all books having the same title
     		newbook.setmTitle_book(this); // and we store the title of each book in itself
     	} else {
     	    System.out.print("");
@@ -83,9 +84,9 @@ public class TTitle_book implements Serializable, Comparable<Object> {
 
     public TBook search_book(TBook book) {
     	int idx;
-    	if((idx = mBooks.indexOf(book))!=-1)
+    	if((idx = getmBooks().indexOf(book))!=-1)
     	{
-    		return mBooks.get(idx);
+    		return getmBooks().get(idx);
     	}
         return null;
     }
@@ -96,7 +97,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
      * @return 
      */
     public TBook search_accessible_book(String data) {
-        for (Iterator<TBook> help = mBooks.iterator(); help.hasNext();) {
+        for (Iterator<TBook> help = getmBooks().iterator(); help.hasNext();) {
             TBook help_book = (TBook) help.next();
             if (!help_book.period_pass(data)) {
                 return help_book;
@@ -110,7 +111,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
      * @return available book for borrowing
      */
     public TBook search_accessible_book_for_borrowing(String data) {
-        for (Iterator<TBook> help = mBooks.iterator(); help.hasNext();) {
+        for (Iterator<TBook> help = getmBooks().iterator(); help.hasNext();) {
             TBook help_book = (TBook) help.next();
             if (help_book.getPeriod()!=null && !help_book.period_pass(data)) {
                 // checking for not-null skips all books, which are not for borrowing
@@ -122,7 +123,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
 
     public synchronized ArrayList<String> getbooks() {
         ArrayList<String> title_books = new ArrayList<String>();
-        for (Iterator<TBook> help = mBooks.iterator(); help.hasNext();) {
+        for (Iterator<TBook> help = getmBooks().iterator(); help.hasNext();) {
             TBook next = (TBook) help.next();
             title_books.add(next.toString());
         }
@@ -173,13 +174,12 @@ public class TTitle_book implements Serializable, Comparable<Object> {
         
     }
 
-//    @OneToMany(mappedBy = "mTitle_book")
-    @Transient
-    public ArrayList<TBook> getmBooks() {
+    @OneToMany(mappedBy = "mtitleBook")
+    public List<TBook> getmBooks() {
         return mBooks;
     }
 
-    public void setmBooks(ArrayList<TBook> mBooks) {
+    public void setmBooks(List<TBook> mBooks) {
         this.mBooks = mBooks;
     }
 

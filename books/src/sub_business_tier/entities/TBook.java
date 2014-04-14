@@ -123,7 +123,7 @@ public class TBook implements Serializable {
         System.err.println("startingPeriod for this book "+ toString()+ " is not supported.");
 //        throw new RuntimeException("not implemented");
     }
-@Column(name="Borrower")
+    @Column(name="Borrower")
     String borrower="";
         public String getBorrower() {
         return borrower;
