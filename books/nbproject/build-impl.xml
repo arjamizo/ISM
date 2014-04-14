@@ -901,7 +901,7 @@ is divided into following sections:
         <available file="${build.classes.dir}/.netbeans_automatic_build" property="netbeans.automatic.build"/>
     </target>
     <target depends="init" if="netbeans.automatic.build" name="-clean-after-automatic-build">
-        <antcall target="clean"/>
+        <!--<antcall target="clean"/>-->
     </target>
     <target depends="init,deps-jar" name="-pre-pre-compile">
         <mkdir dir="${build.classes.dir}"/>

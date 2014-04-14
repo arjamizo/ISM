@@ -11,9 +11,9 @@
             <test-roots>
                 <root id="test.src.dir"/>
             </test-roots>
-            <included-library dirs="200">reference.FacadeInterface.jar</included-library>
             <included-library dirs="200">file.reference.selectingExample.jar</included-library>
             <included-library dirs="200">reference.books.jar</included-library>
+            <included-library dirs="200">reference.FacadeInterface.jar</included-library>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>
