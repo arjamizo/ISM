@@ -96,5 +96,23 @@ public class Facade extends TFacade implements FacadeRemote {
         return title_book;
     }
 
-    
+    @Override
+    public synchronized void update_data(TTitle_book[] titles, TBook[] books) {
+
+        getmTitle_books().clear();
+        for (TTitle_book t : titles) {
+            getmTitle_books().add(t);
+        }
+        for (TTitle_book title : getmTitle_books()) {
+            for (TBook book : books) {
+                TTitle_book title1 = book.getmTitle_book();
+                if (title1
+                        != null) {
+                    if (title1.equals(title)) {
+                        title.getmBooks().add(book);
+                    }
+                }
+            }
+        }
+    }
 }

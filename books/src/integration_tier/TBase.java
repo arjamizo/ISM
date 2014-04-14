@@ -27,7 +27,7 @@ public class TBase {
     public void update_data() throws Exception {
         update_titles();
         update_books();
-//        facade.update_data(titles, books);
+        facade.update_data(titles, books);
     }
 
     public void update_titles() throws Exception {

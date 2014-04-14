@@ -78,5 +78,5 @@ public interface FacadeInterface {
 
     public void borrowBook(String[] toSymbol, String data[], String client);
 
-    
+    public void update_data(TTitle_book[] titles, TBook[] books);
 }

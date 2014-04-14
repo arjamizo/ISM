@@ -15,4 +15,6 @@ import sub_business_tier.FacadeInterface;
  */
 @Remote
 public interface FacadeRemote extends FacadeInterface {
+
+    void update_data(sub_business_tier.entities.TTitle_book[] titles, sub_business_tier.entities.TBook[] books);
 }

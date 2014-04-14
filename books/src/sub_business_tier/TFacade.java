@@ -453,4 +453,9 @@ public class TFacade implements Serializable, FacadeInterface {
         }
         return null;
     }
+
+    @Override
+    public void update_data(TTitle_book[] titles, TBook[] books) {
+        throw new UnsupportedOperationException("Not supported yet. Facade implementation from EJB should be used."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
