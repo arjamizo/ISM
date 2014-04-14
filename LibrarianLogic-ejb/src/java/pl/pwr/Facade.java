@@ -8,6 +8,7 @@ package pl.pwr;
 
 import domainstore.TBookController;
 import domainstore.TTitle_bookController;
+import domainstore.util.EntityManagerProvider;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -31,8 +32,15 @@ public class Facade extends TFacade implements FacadeRemote {
     }
     
     public Facade() {
-        tTitle_bookController = new TTitle_bookController(em);
-        tBookController = new TBookController(em);
+        EntityManagerProvider emp;
+        tTitle_bookController = new TTitle_bookController(emp=new EntityManagerProvider() {
+
+            @Override
+            public EntityManager getEm() {
+                return em;
+            }
+        });
+        tBookController = new TBookController(emp);
         LOG.info("initialized");
     }
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
@@ -41,13 +49,12 @@ public class Facade extends TFacade implements FacadeRemote {
     public synchronized void setmTitle_books(List<TTitle_book> title_books) {
         LOG.info("setting title books");
         throw new RuntimeException("can not call set mtitlebooks");
-        //super.setmTitle_books(title_books); //To change body of generated methods, choose Tools | Templates.
+        //super.setmTitle_books(title_books);
     }
 
     @Override
     public synchronized List<TTitle_book> getmTitle_books() {
-        TTitle_bookController.em=em;
-        LOG.info("fetching title books");
+        LOG.info("fetching title books: WOW! that many "+tTitle_bookController.getTTitle_books().size());
         return (tTitle_bookController.getTTitle_books());
     }
     public TBookController tBookController;
@@ -55,7 +62,6 @@ public class Facade extends TFacade implements FacadeRemote {
 
     @Override
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
-        TBookController.em=em;
         LOG.info("Adding book.");
         TTitle_book title = super.add_book(data1, data2);
         TBook book=Search_book(data1, data2);
@@ -65,7 +71,6 @@ public class Facade extends TFacade implements FacadeRemote {
 
     @Override
     public synchronized TTitle_book add_title_book(String[] data) {
-        TTitle_bookController.em=em;
         LOG.info("Adding title.");
         TTitle_book title_book = super.add_title_book(data);
         tTitle_bookController.addTTitle_book(title_book);

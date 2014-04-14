@@ -197,6 +197,7 @@ public class TTitle_book implements Serializable, Comparable<Object> {
     
     @Id
     @Column(name="id")
+    @GeneratedValue
     public Integer getId() {
         return id;
     }

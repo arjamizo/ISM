@@ -28,8 +28,8 @@ public class TBook implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
+    @GeneratedValue
     private Integer id;
     @NotNull
     @Column(name = "NUMBER")
