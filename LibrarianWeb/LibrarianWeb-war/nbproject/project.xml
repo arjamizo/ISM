@@ -6,11 +6,12 @@
             <name>LibrarianWeb-war</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
-                <library dirs="100">
-                    <file>${reference.LibrarianWeb-ejb.dist}</file>
-                </library>
                 <library dirs="200">
                     <file>${reference.FacadeInterface.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${reference.books.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
@@ -32,12 +33,12 @@
                 <id>jar</id>
             </reference>
             <reference>
-                <foreign-project>LibrarianWeb-ejb</foreign-project>
+                <foreign-project>books</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
-                <target>dist</target>
+                <target>jar</target>
                 <clean-target>clean</clean-target>
-                <id>dist</id>
+                <id>jar</id>
             </reference>
         </references>
     </configuration>
