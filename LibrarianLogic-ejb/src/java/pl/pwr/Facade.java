@@ -19,7 +19,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import library_client_2014.UnaryOperator;
 import sub_business_tier.TFacade;
+import sub_business_tier.entities.Client;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
 
@@ -28,18 +30,20 @@ import sub_business_tier.entities.TTitle_book;
  * @author azochniak
  */
 @Stateless
-public class Facade extends TFacade implements FacadeRemote {
+public class Facade implements FacadeRemote {
     /**
      * actually not used, but prooves existance of other possibility of accessing entities.
      */
-    @PersistenceContext(unitName = "booksPUJTA")
-    private EntityManager em;
+   // @PersistenceContext(unitName = "booksPUJTA")
+  //  private EntityManager em; ABSOLUTNIE SIE POZBYC new InitialContext?
+    
+    TFacade facade=new TFacade(); // this class has to have TFacade instance, cannot inherit its because TFacade is application service and Facade class is session manager
     
     TBase base;
     
     @PostConstruct
     public void init() {
-        base = new TBase(this, em);
+        base = new TBase(facade);
     }
 
     public EntityManager getEm() {
@@ -55,58 +59,24 @@ public class Facade extends TFacade implements FacadeRemote {
     public synchronized void setmTitle_books(List<TTitle_book> title_books) {
         LOG.info("setting title books");
         throw new RuntimeException("can not call set mtitlebooks");
-        //super.setmTitle_books(title_books);
+        //facade.setmTitle_books(title_books);
     }
 
     @Override
     public synchronized List<TTitle_book> getmTitle_books() {
-        LOG.info("fetching title books: WOW! that many "+super.getmTitle_books().size());
-//        for (TTitle_book tTitle_book : tTitle_bookController.getTTitle_books()) {
-//            for (TBook tBook : tTitle_book.getmBooks()) {
-//                LOG.warning("is processed? "+tBook.toString());
-//            }
-//        }
-        //Caused by: java.lang.ClassCastException: sub_business_tier.entities.TTitle_book_on_tape cannot be cast to sub_business_tier.entities.TTitle_book
-	//at pl.pwr.Facade.getmTitle_books(Facade.java:65)
-        return (super.getmTitle_books());
+        return (facade.getmTitle_books());
     }
 
     @Override
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
-        LOG.info("Adding book.");
-        TTitle_book title = super.add_book(data1, data2);
-        TBook book=Search_book(data1, data2);
-        em.persist(book); //should be done via Tbase?
-        return title;
+        return facade.add_book(data1, data2);
     }
 
     @Override
     public synchronized TTitle_book add_title_book(String[] data) {
-        LOG.info("Adding title.");
-        TTitle_book title_book = super.add_title_book(data);
-        em.persist(title_book);//should be done via Tbase?
-        return title_book;
+        return facade.add_title_book(data); //later we will update titles
     }
-
-    @Override
-    public synchronized void update_data(TTitle_book[] titles, TBook[] books) {
-
-        getmTitle_books().clear();
-        for (TTitle_book t : titles) {
-            getmTitle_books().add(t);
-        }
-        for (TTitle_book title : getmTitle_books()) {
-            for (TBook book : books) {
-                TTitle_book title1 = book.getmTitle_book();
-                if (title1
-                        != null) {
-                    if (title1.equals(title)) {
-                        title.getmBooks().add(book);
-                    }
-                }
-            }
-        }
-    }
+//przeniesc do TFacade1: 
     
     public void update_titles() throws Exception {
         base.update_titles();
@@ -131,4 +101,101 @@ public class Facade extends TFacade implements FacadeRemote {
     public ArrayList<ArrayList<String>> titles() throws Exception {
         return base.titles();
     }
+
+    @Override
+    public void borrowBook(String[] data_title, String[] data_book, String client) {
+        facade.borrowBook(data_title, data_book, client); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void returnBook(String[] data_title, String[] data_book) {
+        facade.returnBook(data_title, data_book); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized String borrow_book(Client client, TBook book) {
+        return facade.borrow_book(client, book); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> getClients() {
+        return facade.getClients(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void Print_clients() {
+        facade.Print_clients(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized void delete_client(String login) {
+        facade.delete_client(login); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized void add_client(String name) {
+        facade.add_client(name); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized Client search_client(String login) {
+        return facade.search_client(login); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized void Print_title_books() {
+        facade.Print_title_books(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized void Print_books() {
+        facade.Print_books(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized ArrayList<String> gettitle_books_arr() {
+        return facade.gettitle_books_arr(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized TBook Search_borrowable_book(String[] data1, String data2) {
+        return facade.Search_borrowable_book(data1, data2); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized TBook Search_accessible_book(String[] data1, String data2) {
+        return facade.Search_accessible_book(data1, data2); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized TBook Search_book(String[] data1, String[] data2) {
+        return facade.Search_book(data1, data2); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized ArrayList<String> Search_title_books(String[] data) {
+        return facade.Search_title_books(data); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized TTitle_book Search_title_book(String[] data) {
+        return facade.Search_title_book(data); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized Object[][] getBooks(UnaryOperator filter) {
+        return facade.getBooks(filter); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized Object[][] gettitle_books() {
+        return facade.gettitle_books(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public synchronized TTitle_book search_title_book(TTitle_book title_book) {
+        return facade.search_title_book(title_book); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }
