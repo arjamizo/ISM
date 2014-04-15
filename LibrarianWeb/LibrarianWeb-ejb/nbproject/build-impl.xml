@@ -780,8 +780,26 @@ exists or setup the property manually. For example like this:
     <!--
                 COMPILATION SECTION
             -->
-    <target depends="init" if="no.dist.ear.dir" name="-deps-module-jar" unless="no.deps"/>
-    <target depends="init" if="dist.ear.dir" name="-deps-ear-jar" unless="no.deps"/>
+    <target depends="init" if="no.dist.ear.dir" name="-deps-module-jar" unless="no.deps">
+        <ant antfile="${project.FacadeInterface}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.LibrarianLogic-ejb}/build.xml" inheritall="false" target="dist"/>
+        <ant antfile="${project.books}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+    </target>
+    <target depends="init" if="dist.ear.dir" name="-deps-ear-jar" unless="no.deps">
+        <ant antfile="${project.FacadeInterface}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.LibrarianLogic-ejb}/build.xml" inheritall="false" target="dist-ear">
+            <property location="${build.dir}" name="dist.ear.dir"/>
+        </ant>
+        <ant antfile="${project.books}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+    </target>
     <target depends="init, -deps-module-jar, -deps-ear-jar" name="deps-jar"/>
     <target depends="init,deps-jar" name="-pre-pre-compile">
         <mkdir dir="${build.classes.dir}"/>
@@ -792,11 +810,26 @@ exists or setup the property manually. For example like this:
         <!-- You can override this target in the ../build.xml file. -->
     </target>
     <target depends="compile,-library-inclusion-in-archive-weblogic,-library-inclusion-in-archive-by-user" name="library-inclusion-in-archive"/>
-    <target if="is.jars.in.ejbjar" name="-library-inclusion-in-archive-by-user"/>
+    <target if="is.jars.in.ejbjar" name="-library-inclusion-in-archive-by-user">
+        <copyfiles files="${reference.books.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${reference.FacadeInterface.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${reference.LibrarianLogic-ejb.dist}" todir="${build.classes.dir}"/>
+    </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
-        <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
+        <basename file="${reference.books.jar}" property="manifest.reference.books.jar"/>
+        <basename file="${reference.FacadeInterface.jar}" property="manifest.reference.FacadeInterface.jar"/>
+        <basename file="${reference.LibrarianLogic-ejb.dist}" property="manifest.reference.LibrarianLogic-ejb.dist"/>
+        <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 "/>
+            <attribute name="jar-1-Extension-Name" value="${manifest.reference.books.jar}"/>
+            <attribute name="jar-2-Extension-Name" value="${manifest.reference.FacadeInterface.jar}"/>
+            <attribute name="jar-3-Extension-Name" value="${manifest.reference.LibrarianLogic-ejb.dist}"/>
+        </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
+        <copyfiles files="${reference.books.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.FacadeInterface.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.LibrarianLogic-ejb.dist}" todir="${dist.ear.dir}"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target name="-copy-meta-inf">
@@ -1179,7 +1212,11 @@ exists or setup the property manually. For example like this:
     <!--
                 CLEANUP SECTION
             -->
-    <target depends="init" name="deps-clean" unless="no.deps"/>
+    <target depends="init" name="deps-clean" unless="no.deps">
+        <ant antfile="${project.FacadeInterface}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.LibrarianLogic-ejb}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.books}/build.xml" inheritall="false" target="clean"/>
+    </target>
     <target depends="init" name="-do-clean">
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>
