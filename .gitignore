@@ -7,3 +7,4 @@ dist/
 *.properties
 *.xml
 !persistence.xml
+!glassfish-resources.xml
