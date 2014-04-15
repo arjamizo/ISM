@@ -1,7 +1,10 @@
 package integration_tier;
 
+import integration_tier.util.EntityManagerProvider;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
@@ -14,15 +17,31 @@ public class TBase {
     private TTitle_book titles[];
     private TBook books[];
 
-    public TBase(TFacade facade_) {
+    public TBase(TFacade facade_, final EntityManager em) {
         facade = facade_;
-        titleJpaController = new TTitle_bookController();
-        bookJpaController = new TBookController();
+        EntityManagerProvider emp;
+        try {
+            bookJpaController = new TBookController();
+            titleJpaController = new TTitle_bookController();
+            titleJpaController.getTTitle_books();
+        } catch (Throwable e) {
+            LOG.severe("Due to some problems on linux with RESOURCE_LOCAL, it is needed to uncomment @PersistanceContext annotation in Facade.java. ");
+            titleJpaController = new TTitle_bookControllerAnnotation(emp=new EntityManagerProvider() {
+
+                @Override
+                public EntityManager getEm() {
+                    return em;
+                }
+            });
+            bookJpaController = new TBookControllerAnnotation(emp);
+        }
+        LOG.info("initialized");
         try {
             update_data();
         } catch (Exception e) {
         }
     }
+    private static final Logger LOG = Logger.getLogger(TBase.class.getName());
 
     public void update_data() throws Exception {
         update_titles();

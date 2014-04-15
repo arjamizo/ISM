@@ -6,6 +6,7 @@
 
 package pl.pwr;
 
+import java.util.ArrayList;
 import javax.ejb.Remote;
 import sub_business_tier.FacadeInterface;
 
@@ -17,4 +18,6 @@ import sub_business_tier.FacadeInterface;
 public interface FacadeRemote extends FacadeInterface {
 
     void update_data(sub_business_tier.entities.TTitle_book[] titles, sub_business_tier.entities.TBook[] books);
+    public ArrayList<ArrayList<String>> titles() throws Exception;
+;
 }

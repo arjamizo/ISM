@@ -6,13 +6,16 @@
 
 package pl.pwr;
 
+import integration_tier.TBase;
 import integration_tier.TBookController;
 import integration_tier.TBookControllerAnnotation;
 import integration_tier.TTitle_bookController;
 import integration_tier.TTitle_bookControllerAnnotation;
 import integration_tier.util.EntityManagerProvider;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,28 +34,19 @@ public class Facade extends TFacade implements FacadeRemote {
      */
     @PersistenceContext(unitName = "booksPUJTA")
     private EntityManager em;
+    
+    TBase base;
+    
+    @PostConstruct
+    public void init() {
+        base = new TBase(this, em);
+    }
 
     public EntityManager getEm() {
         return em;
     }
     
     public Facade() {
-        EntityManagerProvider emp;
-        try {
-            tBookController = new TBookController();
-            tTitle_bookController = new TTitle_bookController();
-            tTitle_bookController.getTTitle_books();
-        } catch (Throwable e) {
-            LOG.severe("Due to some problems on linux with RESOURCE_LOCAL, it is needed to uncomment @PersistanceContext annotation in Facade.java. ");
-            tTitle_bookController = new TTitle_bookControllerAnnotation(emp=new EntityManagerProvider() {
-
-                @Override
-                public EntityManager getEm() {
-                    return em;
-                }
-            });
-            tBookController = new TBookControllerAnnotation(emp);
-        }
         LOG.info("initialized");
     }
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
@@ -66,7 +60,7 @@ public class Facade extends TFacade implements FacadeRemote {
 
     @Override
     public synchronized List<TTitle_book> getmTitle_books() {
-        LOG.info("fetching title books: WOW! that many "+tTitle_bookController.getTTitle_books().size());
+        LOG.info("fetching title books: WOW! that many "+super.getmTitle_books().size());
 //        for (TTitle_book tTitle_book : tTitle_bookController.getTTitle_books()) {
 //            for (TBook tBook : tTitle_book.getmBooks()) {
 //                LOG.warning("is processed? "+tBook.toString());
@@ -74,17 +68,15 @@ public class Facade extends TFacade implements FacadeRemote {
 //        }
         //Caused by: java.lang.ClassCastException: sub_business_tier.entities.TTitle_book_on_tape cannot be cast to sub_business_tier.entities.TTitle_book
 	//at pl.pwr.Facade.getmTitle_books(Facade.java:65)
-        return (tTitle_bookController.getTTitle_books());
+        return (super.getmTitle_books());
     }
-    public TBookController tBookController;
-    public TTitle_bookController tTitle_bookController;
 
     @Override
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
         LOG.info("Adding book.");
         TTitle_book title = super.add_book(data1, data2);
         TBook book=Search_book(data1, data2);
-        tBookController.addTBook(book);
+        em.persist(book); //should be done via Tbase?
         return title;
     }
 
@@ -92,7 +84,7 @@ public class Facade extends TFacade implements FacadeRemote {
     public synchronized TTitle_book add_title_book(String[] data) {
         LOG.info("Adding title.");
         TTitle_book title_book = super.add_title_book(data);
-        tTitle_bookController.addTTitle_book(title_book);
+        em.persist(title_book);//should be done via Tbase?
         return title_book;
     }
 
@@ -114,5 +106,29 @@ public class Facade extends TFacade implements FacadeRemote {
                 }
             }
         }
+    }
+    
+    public void update_titles() throws Exception {
+        base.update_titles();
+    }
+
+    public void update_books() throws Exception {
+        base.update_books();
+    }
+
+    public void update_data() throws Exception {
+        base.update_data();
+    }
+
+    public void add_titles() throws Exception {
+        base.add_titles();
+    }
+
+    public void add_books() throws Exception {
+        base.add_books();
+    }
+
+    public ArrayList<ArrayList<String>> titles() throws Exception {
+        return base.titles();
     }
 }
