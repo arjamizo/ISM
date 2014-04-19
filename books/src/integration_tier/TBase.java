@@ -16,8 +16,9 @@ public class TBase {
     private TFacade facade;
     private TTitle_book titles[];
     private TBook books[];
+    public EntityManager em;
 
-    public TBase(TFacade facade_, final EntityManager em) {
+    public TBase(TFacade facade_) {
         facade = facade_;
         EntityManagerProvider emp;
         try {
@@ -26,6 +27,7 @@ public class TBase {
             titleJpaController.getTTitle_books();
         } catch (Throwable e) {
             LOG.severe("Due to some problems on linux with RESOURCE_LOCAL, it is needed to uncomment @PersistanceContext annotation in Facade.java. ");
+            e.printStackTrace();
             titleJpaController = new TTitle_bookControllerAnnotation(emp=new EntityManagerProvider() {
 
                 @Override

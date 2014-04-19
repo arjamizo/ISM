@@ -17,6 +17,7 @@ import sub_business_tier.FacadeInterface;
 @Remote
 public interface FacadeRemote extends FacadeInterface {
 
+    @Override
     void update_data(sub_business_tier.entities.TTitle_book[] titles, sub_business_tier.entities.TBook[] books);
     public ArrayList<ArrayList<String>> titles() throws Exception;
 ;

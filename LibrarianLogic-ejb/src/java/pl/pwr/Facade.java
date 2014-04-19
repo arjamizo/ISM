@@ -7,18 +7,12 @@
 package pl.pwr;
 
 import integration_tier.TBase;
-import integration_tier.TBookController;
-import integration_tier.TBookControllerAnnotation;
-import integration_tier.TTitle_bookController;
-import integration_tier.TTitle_bookControllerAnnotation;
-import integration_tier.util.EntityManagerProvider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import library_client_2014.UnaryOperator;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.Client;
@@ -47,7 +41,8 @@ public class Facade implements FacadeRemote {
     }
 
     public EntityManager getEm() {
-        return em;
+//        return em;
+        return null;
     }
     
     public Facade() {
@@ -195,6 +190,11 @@ public class Facade implements FacadeRemote {
     @Override
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
         return facade.search_title_book(title_book); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void update_data(TTitle_book[] titles, TBook[] books) {
+        facade.update_data(titles, books);
     }
     
     
