@@ -6,6 +6,7 @@
 
 package library_client_2014;
 
+import sub_business_tier.UnaryOperator;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +17,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 import library_client_2014.Book_form.MyTableModel;
 import plpwr.JComboBoxDemo;
-import sub_business_tier.FacadeInterface;
+import pl.pwr.remote.FacadeRemote;
 import sub_business_tier.TFactory;
 import sub_business_tier.entities.TBook;
 
@@ -37,7 +38,7 @@ public class Borrowing_form extends javax.swing.JPanel {
     String selectedNumber;
     String actor=null;
     public static final String NEW_USER = "Create new user...";
-    public FacadeInterface getFacade() {
+    public FacadeRemote getFacade() {
         return client.getFacade();
     }
     public Borrowing_form(Client client) {
@@ -194,7 +195,7 @@ public class Borrowing_form extends javax.swing.JPanel {
     
     void table_content() 
     {
-        FacadeInterface facade = client.getFacade();
+        FacadeRemote facade = client.getFacade();
         Object[][] titles = facade.getBooks(null);
         model.setData(titles);
 //        jTable1.tableChanged(jTable1.getModel());

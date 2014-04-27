@@ -4,6 +4,7 @@
  */
 package library_client_2014;
 
+import adapter.FacadeAdapter;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
@@ -16,7 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import sub_business_tier.FacadeInterface;
+import pl.pwr.remote.FacadeRemote;
 import sub_business_tier.TFacade;
 
 /**
@@ -24,13 +25,13 @@ import sub_business_tier.TFacade;
  * @author Zofia
  */
 public class Client implements ActionListener {
-    private static FacadeInterface facadeStatic;
+    private static FacadeRemote facadeStatic;
 
-    public static void setFacadeStatic(FacadeInterface facadeStatic) {
+    public static void setFacadeStatic(FacadeRemote facadeStatic) {
         Client.facadeStatic = facadeStatic;
     }
 
-    private static FacadeInterface getStaticFacade() {
+    private static FacadeRemote getStaticFacade() {
         return facadeStatic;
     }
 
@@ -38,9 +39,9 @@ public class Client implements ActionListener {
     final static String SEARCH = "Search titles";
     final static String TITLE = "Title form";
     final static String BOOK = "Book form";
-    final static String LOAN = "Loan book";
+//    final static String LOAN = "Loan book";
     final static String BORROWING = "Borrowing books";
-    FacadeInterface facade = null;
+    FacadeRemote facade = null;
 
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
@@ -66,10 +67,10 @@ public class Client implements ActionListener {
         menuItem.addActionListener(this);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(LOAN);
-        menuItem.setMnemonic(KeyEvent.VK_L);
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
+//        menuItem = new JMenuItem(LOAN);
+//        menuItem.setMnemonic(KeyEvent.VK_L);
+//        menuItem.addActionListener(this);
+//        menu.add(menuItem);
 
         menuItem = new JMenuItem(SEARCH);
         menuItem.setMnemonic(KeyEvent.VK_E);
@@ -112,11 +113,11 @@ public class Client implements ActionListener {
         return menuBar;
     }
 
-    public FacadeInterface getFacade() {
+    public FacadeRemote getFacade() {
         return facade;
     }
 
-    public void setFacade(FacadeInterface facade) {
+    public void setFacade(FacadeRemote facade) {
         this.facade = facade;
     }
 
@@ -126,7 +127,7 @@ public class Client implements ActionListener {
         Searching_book_form card0 = new Searching_book_form(this);
         Title_form card1 = new Title_form(this);
         Book_form card2 = new Book_form(this);
-        Loan_form card3 = new Loan_form(this);
+//        Loan_form card3 = new Loan_form(this);
         Borrowing_form card4 = new Borrowing_form(this);
         
         //Create the panel that contains the "cards".
@@ -134,7 +135,7 @@ public class Client implements ActionListener {
         cards.add(card0, SEARCH);
         cards.add(card1, TITLE);
         cards.add(card2, BOOK);
-        cards.add(card3, LOAN);
+//        cards.add(card3, LOAN);
         cards.add(card4, BORROWING);
 
         JPanel p1 = new JPanel();
@@ -154,8 +155,8 @@ public class Client implements ActionListener {
             cl.show(cards, BOOK);
         } else if (source.getText().equals(SEARCH)) {
             cl.show(cards, SEARCH);
-        } else if (source.getText().equals(LOAN)) {
-            cl.show(cards, LOAN);
+//        } else if (source.getText().equals(LOAN)) {
+//            cl.show(cards, LOAN);
         } else if (source.getText().equals(BORROWING)) {
             cl.show(cards, BORROWING);
 
@@ -176,7 +177,7 @@ public class Client implements ActionListener {
         if(getStaticFacade()==null) {
             TFacade facade = new TFacade();     
             TFacade.fillWithExampleData(facade);
-            setFacadeStatic(facade);
+            setFacadeStatic(new FacadeAdapter(facade));
         }
         Client demo = new Client();
         demo.setFacade(getStaticFacade());

@@ -41,6 +41,7 @@ public class TBase {
         try {
             update_data();
         } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
     private static final Logger LOG = Logger.getLogger(TBase.class.getName());
@@ -63,6 +64,7 @@ public class TBase {
         try {
             titleJpaController.addTTitle_books(facade.getmTitle_books());
         } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -70,6 +72,7 @@ public class TBase {
         try {
             bookJpaController.addTBooks(facade.getmTitle_books());
         } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

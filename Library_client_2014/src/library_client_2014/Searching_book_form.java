@@ -6,9 +6,10 @@
 
 package library_client_2014;
 
+import sub_business_tier.UnaryOperator;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
-import sub_business_tier.FacadeInterface;
+import pl.pwr.remote.FacadeRemote;
 import sub_business_tier.TFactory;
 import sub_business_tier.entities.TTitle_book;
 
@@ -21,7 +22,7 @@ public class Searching_book_form extends javax.swing.JPanel {
     Book_form.MyTableModel model;
     JTable table;
     Client client;
-    public FacadeInterface getFacade() {
+    public FacadeRemote getFacade() {
         return client.getFacade();
     }
     /**

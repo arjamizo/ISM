@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 
-package sub_business_tier;
+package pl.pwr.remote;
 
 import java.util.ArrayList;
 import java.util.List;
-import library_client_2014.UnaryOperator;
+import sub_business_tier.UnaryOperator;
 import sub_business_tier.entities.Client;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
@@ -17,7 +17,7 @@ import sub_business_tier.entities.TTitle_book;
  *
  * @author azochniak
  */
-public interface FacadeInterface {
+public interface FacadeRemote {
 
     void Print_books();
 
@@ -52,12 +52,12 @@ public interface FacadeInterface {
 
     TTitle_book add_title_book(String[] data);
 
-    String borrow_book(Client client, TBook book);
+    String borrow_book(String client, String[] book);
     ///////////////////////////////////////////////////////
 
     void delete_client(String login);
 
-    List<TTitle_book> getmTitle_books();
+//    List<TTitle_book> getmTitle_books();
 
     Object [][] gettitle_books();
     
@@ -79,4 +79,6 @@ public interface FacadeInterface {
     public void borrowBook(String[] toSymbol, String data[], String client);
 
     public void update_data(TTitle_book[] titles, TBook[] books);
+//    void update_data(sub_business_tier.entities.TTitle_book[] titles, sub_business_tier.entities.TBook[] books);
+    public ArrayList<ArrayList<String>> titles() throws Exception;
 }

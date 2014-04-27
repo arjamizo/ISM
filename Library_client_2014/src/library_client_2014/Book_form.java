@@ -4,6 +4,7 @@
  */
 package library_client_2014;
 
+import sub_business_tier.UnaryOperator;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -23,7 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
-import sub_business_tier.FacadeInterface;
+import sub_business_tier.TFacade;
 
 
 public class Book_form extends JPanel implements ActionListener {
@@ -110,8 +111,7 @@ public class Book_form extends JPanel implements ActionListener {
     }
 
     void table_content() {
-        FacadeInterface facade = client.getFacade();
-        Object[][] titles = facade.gettitle_books();
+        Object[][] titles = client.getFacade().gettitle_books();
         model.setData(titles);
     }
 

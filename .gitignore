@@ -5,6 +5,6 @@ private/
 build/
 dist/
 *.properties
-*.xml
+#*.xml
 !persistence.xml
 !glassfish-resources.xml

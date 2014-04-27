@@ -15,13 +15,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
-import library_client_2014.UnaryOperator;
 
 import sub_business_tier.entities.Client;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TBook_borrowed;
 import sub_business_tier.entities.TTitle_book;
-public class TFacade implements Serializable, FacadeInterface {
+public class TFacade implements Serializable {
     private List<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
     //////////////to store a set of clients//////////////////////////
     private Vector<Client> clients = new Vector<Client>();
@@ -30,17 +29,17 @@ public class TFacade implements Serializable, FacadeInterface {
     public TFacade() {
     }
 
-    @Override
+    
     public synchronized List<TTitle_book> getmTitle_books() {
         return mTitle_books;
     }
 
-    @Override
+    
     public synchronized void setmTitle_books(List<TTitle_book> title_books) {
         this.mTitle_books=title_books;
     };
 
-    @Override
+    
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
         int idx;
         if ((idx = getmTitle_books().indexOf(title_book)) != -1) {
@@ -53,7 +52,7 @@ public class TFacade implements Serializable, FacadeInterface {
     /***
     * @author zkruczkiewicz
     ***/
-    @Override
+    
     public synchronized Object[][] gettitle_books() {
         Object[][] title_books = new Object[getmTitle_books().size()][];
         int i=0;
@@ -69,7 +68,7 @@ public class TFacade implements Serializable, FacadeInterface {
         }
         return title_books;
     }
-    @Override
+    
     public synchronized Object[][] getBooks(UnaryOperator filter) {
         LOG.info("getting books");
         List<Object[]> title_books = new ArrayList();
@@ -104,7 +103,7 @@ public class TFacade implements Serializable, FacadeInterface {
         return ret;
     }
 
-    @Override
+    
     public synchronized  TTitle_book add_title_book(String[] data) {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
@@ -119,7 +118,7 @@ public class TFacade implements Serializable, FacadeInterface {
      * @author artur 
      * @return created title book
      */
-    @Override
+    
     public synchronized TTitle_book add_book(String[] data1, String[] data2) {
         TFactory factory = new TFactory();
         TTitle_book help1 = factory.create_title_book(data1);
@@ -134,13 +133,13 @@ public class TFacade implements Serializable, FacadeInterface {
 
     }
 
-    @Override
+    
     public synchronized TTitle_book Search_title_book(String[] data) {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
         return search_title_book(title_book);
     }
-    @Override
+    
     public synchronized ArrayList<String> Search_title_books(String[] data) {
         ArrayList<String> returnList = new ArrayList<>();
         TFactory factory = new TFactory();
@@ -162,7 +161,7 @@ public class TFacade implements Serializable, FacadeInterface {
      * @param data2 {CMD=0, BOOK_NUMBER} | {CMD=1, BOOK_NUMBER, AVAILABLE_IN_N_DAYS} book has to have number=2 and was given back at least 1 days ago
      * @return
      */
-    @Override
+    
     public synchronized TBook Search_book(String[] data1, String[] data2) {
         TTitle_book titlebook_forsearching = new TFactory().create_title_book(data1);
         TTitle_book titlebook = search_title_book(titlebook_forsearching);
@@ -179,7 +178,7 @@ public class TFacade implements Serializable, FacadeInterface {
      * @param data2
      * @return 
      */
-    @Override
+    
     public synchronized TBook Search_accessible_book(String data1[],
             String data2) {
         TTitle_book title_book_help = new TFactory().create_title_book(data1);
@@ -195,7 +194,7 @@ public class TFacade implements Serializable, FacadeInterface {
      * @param data2 in how many days should book be available.
      * @return 
      */
-    @Override
+    
     public synchronized TBook Search_borrowable_book(String data1[],
             String data2) {
         TTitle_book title_book_help = new TFactory().create_title_book(data1);
@@ -206,7 +205,7 @@ public class TFacade implements Serializable, FacadeInterface {
         return null;
     }
     
-    @Override
+    
     public synchronized ArrayList<String> gettitle_books_arr() {
         ArrayList<String> title_books = new ArrayList<>();
         Iterator<TTitle_book> iterator = getmTitle_books().iterator();
@@ -216,7 +215,7 @@ public class TFacade implements Serializable, FacadeInterface {
         return title_books;
     }
 
-    @Override
+    
     public synchronized void Print_books() {
         System.out.print("\nBooks");
         for (int i = 0; i < getmTitle_books().size(); i++) {
@@ -227,7 +226,7 @@ public class TFacade implements Serializable, FacadeInterface {
         }
     }
 
-    @Override
+    
     public synchronized void Print_title_books() {
         System.out.print("\nTitles of books");
         ArrayList<String> help_list = gettitle_books_arr();
@@ -241,7 +240,7 @@ public class TFacade implements Serializable, FacadeInterface {
     
     //						NEWS FOR LAB 2
     
-    @Override
+    
     public synchronized Client search_client(String login)
     {
     	for(int i=0;i<clients.size();i++)
@@ -252,7 +251,7 @@ public class TFacade implements Serializable, FacadeInterface {
     }
     
     
-    @Override
+    
     public synchronized void add_client(String name)
     {
     	Client client = new Client(name);
@@ -260,7 +259,7 @@ public class TFacade implements Serializable, FacadeInterface {
     }
     
     
-    @Override
+    
     public synchronized void delete_client(String login)
     {
     	for(int i=0;i<clients.size();i++)
@@ -269,7 +268,7 @@ public class TFacade implements Serializable, FacadeInterface {
     	}
     }
     
-    @Override
+    
     public void Print_clients()
     {
     	System.out.println("Clients");
@@ -279,7 +278,7 @@ public class TFacade implements Serializable, FacadeInterface {
     	}
     }
     
-    @Override 
+     
     public List<String> getClients() {
         List<String> ret=new ArrayList<>();
         for (Client client : clients) {
@@ -288,7 +287,7 @@ public class TFacade implements Serializable, FacadeInterface {
         return ret;
     }
     
-    @Override
+    
     public synchronized String borrow_book(Client client, TBook book)
     {
         System.out.println("book:"+book);
@@ -426,13 +425,13 @@ public class TFacade implements Serializable, FacadeInterface {
         }
     }
 
-    @Override
+    
     public void returnBook(String data_title[], String data_book[]) {
         TBook book = Search_book(data_title, data_book);
         book.setBorrower("");
     }
 
-    @Override
+    
     public void borrowBook(String data_title[], String data_book[], String client) {
 //        LOG.info("datatitle: "+Arrays.asList(data_title)+Arrays.asList(data_book));
         TBook book = Search_book(data_title, data_book);
@@ -454,8 +453,13 @@ public class TFacade implements Serializable, FacadeInterface {
         return null;
     }
 
-    @Override
+    
     public void update_data(TTitle_book[] titles, TBook[] books) {
         throw new UnsupportedOperationException("Not supported yet. Facade implementation from EJB should be used."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    public ArrayList<ArrayList<String>> titles() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

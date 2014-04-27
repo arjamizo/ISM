@@ -4,6 +4,7 @@
  */
 package library_client_2014;
 
+import sub_business_tier.UnaryOperator;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,7 +20,7 @@ import javax.swing.JTable;
 
 import library_client_2014.Book_form.MyTableModel;
 import library_client_2014.Book_form.RowListener;
-import sub_business_tier.FacadeInterface;
+import pl.pwr.remote.FacadeRemote;
 import sub_business_tier.TFacade;
 
 /**
@@ -30,7 +31,7 @@ public class Card0 extends JPanel{
     MyTableModel model;
     JTable table;
     Client client;
-    public FacadeInterface getFacade() {
+    public FacadeRemote getFacade() {
         return client.getFacade();
     }
     public Card0(Client client) {
@@ -46,14 +47,14 @@ public class Card0 extends JPanel{
         c.gridx = 0;
         c.gridy = 1;
         button.addActionListener(new ActionListener() {
-            FacadeInterface facade;
+            FacadeRemote facade;
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("executed "+new Date());
                 Logger.getLogger(Card0.class.getName()).info("executed!"+new Date().toString());
                 facade.Print_books();
             }
-            ActionListener init(FacadeInterface facade) {
+            ActionListener init(FacadeRemote facade) {
                 this.facade=facade;
                 return this;
             }

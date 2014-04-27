@@ -5,17 +5,12 @@
  */
 package presentation_tier;
 
-import integration_tier.TBase;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.persistence.PersistenceContext;
-import pl.pwr.FacadeRemote;
-import sub_business_tier.TFacade;
+import pl.pwr.remote.FacadeRemote;
 
 /**
  *
