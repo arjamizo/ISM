@@ -786,22 +786,22 @@ exists or setup the property manually. For example like this:
         <!-- You can override this target in the ../build.xml file. -->
     </target>
     <target depends="compile" if="is.server.weblogic" name="library-inclusion-in-archive">
+        <basename file="${file.reference.selectingExample.jar}" property="manifest.file.reference.selectingExample.jar"/>
         <basename file="${reference.FacadeInterface.jar}" property="manifest.reference.FacadeInterface.jar"/>
         <basename file="${reference.books.jar}" property="manifest.reference.books.jar"/>
-        <basename file="${file.reference.selectingExample.jar}" property="manifest.file.reference.selectingExample.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
             <attribute name="Extension-List" value="jar-1 jar-2 jar-3 "/>
-            <attribute name="jar-1-Extension-Name" value="${manifest.reference.FacadeInterface.jar}"/>
-            <attribute name="jar-2-Extension-Name" value="${manifest.reference.books.jar}"/>
-            <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.selectingExample.jar}"/>
+            <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.selectingExample.jar}"/>
+            <attribute name="jar-2-Extension-Name" value="${manifest.reference.FacadeInterface.jar}"/>
+            <attribute name="jar-3-Extension-Name" value="${manifest.reference.books.jar}"/>
         </manifest>
     </target>
     <target depends="compile" if="dist.ear.dir" name="library-inclusion-in-manifest">
+        <copyfiles files="${file.reference.selectingExample.jar}" manifestproperty="manifest.file.reference.selectingExample.jar" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.FacadeInterface.jar}" manifestproperty="manifest.reference.FacadeInterface.jar" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.books.jar}" manifestproperty="manifest.reference.books.jar" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.selectingExample.jar}" manifestproperty="manifest.file.reference.selectingExample.jar" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.reference.FacadeInterface.jar} lib/${manifest.reference.FacadeInterface.jar} ${manifest.reference.books.jar} lib/${manifest.reference.books.jar} ${manifest.file.reference.selectingExample.jar} lib/${manifest.file.reference.selectingExample.jar} "/>
+            <attribute name="Class-Path" value="${manifest.file.reference.selectingExample.jar} lib/${manifest.file.reference.selectingExample.jar} ${manifest.reference.FacadeInterface.jar} lib/${manifest.reference.FacadeInterface.jar} ${manifest.reference.books.jar} lib/${manifest.reference.books.jar} "/>
         </manifest>
     </target>
     <target name="-copy-meta-inf">
