@@ -8,10 +8,6 @@
     Caused by: java.io.FileNotFoundException: /home/azochniak/prjs/ISM/FacadeInterface/dist/lib/books.jar (Nie ma takiego pliku ani katalogu)
 	at java.util.zip.ZipFile.open(Native Method)
     -->
-    <class>sub_business_tier.entities.TBook</class>
-    <class>sub_business_tier.entities.TBook_period</class>
-    <class>sub_business_tier.entities.TTitle_book</class>
-    <class>sub_business_tier.entities.TTitle_book_on_tape</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
@@ -29,11 +25,9 @@
       <property name="javax.persistence.jdbc.password" value="Library1"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
       <property name="javax.persistence.jdbc.user" value="Library1"/>
-      
-<!--  http://www.adam-bien.com/roller/abien/entry/don_t_use_jpa_s    
+      <!--  http://www.adam-bien.com/roller/abien/entry/don_t_use_jpa_s    
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:Library1;create=true"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>-->
-      
       <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>

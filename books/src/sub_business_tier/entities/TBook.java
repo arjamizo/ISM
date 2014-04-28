@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Logger;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import sub_business_tier.TFactory;
 
@@ -31,7 +30,6 @@ public class TBook implements Serializable {
     @Column(name = "ID")
     @GeneratedValue
     private Integer id;
-    @NotNull
     @Column(name = "NUMBER")
     private Integer number;
     @Column(name = "PERIOD")

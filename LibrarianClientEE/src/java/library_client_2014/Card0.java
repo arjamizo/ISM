@@ -20,7 +20,7 @@ import javax.swing.JTable;
 
 import library_client_2014.Book_form.MyTableModel;
 import library_client_2014.Book_form.RowListener;
-import pl.pwr.remote.FacadeRemote;
+import business_tire.FacadeRemote;
 import sub_business_tier.TFacade;
 
 /**

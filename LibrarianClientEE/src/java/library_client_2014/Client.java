@@ -17,7 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import pl.pwr.remote.FacadeRemote;
+import business_tire.FacadeRemote;
 import sub_business_tier.TFacade;
 
 /**

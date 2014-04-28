@@ -141,7 +141,7 @@ public class TFacade implements Serializable {
     }
     
     public synchronized ArrayList<String> Search_title_books(String[] data) {
-        ArrayList<String> returnList = new ArrayList<>();
+        ArrayList<String> returnList = new ArrayList<String>();
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
         for (TTitle_book mTTitle_book : getmTitle_books()) {
@@ -207,7 +207,7 @@ public class TFacade implements Serializable {
     
     
     public synchronized ArrayList<String> gettitle_books_arr() {
-        ArrayList<String> title_books = new ArrayList<>();
+        ArrayList<String> title_books = new ArrayList<String>();
         Iterator<TTitle_book> iterator = getmTitle_books().iterator();
         do {
             title_books.add(iterator.next().toString());
@@ -280,7 +280,7 @@ public class TFacade implements Serializable {
     
      
     public List<String> getClients() {
-        List<String> ret=new ArrayList<>();
+        List<String> ret=new ArrayList<String>();
         for (Client client : clients) {
             ret.add(client.getLogin());
         }

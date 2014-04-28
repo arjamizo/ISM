@@ -17,7 +17,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 import library_client_2014.Book_form.MyTableModel;
 import plpwr.JComboBoxDemo;
-import pl.pwr.remote.FacadeRemote;
+import business_tire.FacadeRemote;
 import sub_business_tier.TFactory;
 import sub_business_tier.entities.TBook;
 

@@ -17,8 +17,8 @@ import javax.ejb.Stateless;
  *
  * @author azochniak
  */
-@WebService(serviceName = "NewWebService")
-@Stateless()
+//@WebService(serviceName = "NewWebService")
+//@Stateless()
 public class FacadeWS {
 
     /**

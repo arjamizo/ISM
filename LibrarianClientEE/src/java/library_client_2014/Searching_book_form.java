@@ -9,7 +9,7 @@ package library_client_2014;
 import sub_business_tier.UnaryOperator;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
-import pl.pwr.remote.FacadeRemote;
+import business_tire.FacadeRemote;
 import sub_business_tier.TFactory;
 import sub_business_tier.entities.TTitle_book;
 

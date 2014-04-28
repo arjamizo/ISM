@@ -10,7 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import pl.pwr.remote.FacadeRemote;
+import business_tire.FacadeRemote;
 
 /**
  *

@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 
-package pl.pwr.remote;
+package business_tire;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Remote;
 import sub_business_tier.UnaryOperator;
 import sub_business_tier.entities.Client;
 import sub_business_tier.entities.TBook;
@@ -17,6 +18,7 @@ import sub_business_tier.entities.TTitle_book;
  *
  * @author azochniak
  */
+@Remote
 public interface FacadeRemote {
 
     void Print_books();
