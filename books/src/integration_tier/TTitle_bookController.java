@@ -67,7 +67,9 @@ public class TTitle_bookController {
         }
     }
     public TTitle_book[] getTTitle_books_() {
-        return (TTitle_book[]) getTTitle_books().toArray(new TTitle_book[0]);
+        List<TTitle_book> list = getTTitle_books();
+        LOG.info("Fetched "+list.size() + " titles.");
+        return (TTitle_book[]) list.toArray(new TTitle_book[0]);
     }
 
     public List<TTitle_book> getTTitle_books() {

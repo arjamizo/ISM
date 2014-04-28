@@ -7,6 +7,7 @@
 package pl.pwr.web;
 
 import integration_tier.TTitle_bookController;
+import java.util.Arrays;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -18,7 +19,7 @@ import javax.ejb.Stateless;
  */
 @WebService(serviceName = "NewWebService")
 @Stateless()
-public class Facade {
+public class FacadeWS {
 
     /**
      * This is a sample web service operation
@@ -26,7 +27,7 @@ public class Facade {
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !" 
-//                + new TTitle_bookController().getTTitle_books_()
+                + Arrays.asList(new TTitle_bookController().getTTitle_books_())
                 ;
     }
 }

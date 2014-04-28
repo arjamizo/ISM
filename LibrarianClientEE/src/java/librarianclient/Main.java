@@ -6,13 +6,10 @@
 
 package librarianclient;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import library_client_2014.Client;
-import pl.pwr.FacadeRemote;
-import sub_business_tier.FacadeInterface;
-import sub_business_tier.TFacade;
+import pl.pwr.remote.FacadeRemote;
 
 /**
  *
@@ -29,7 +26,7 @@ public class Main {
     @EJB
     private static FacadeRemote facade;
 
-    static public FacadeInterface getFacade() {
+    static public FacadeRemote getFacade() {
         return facade;
     }
     /**

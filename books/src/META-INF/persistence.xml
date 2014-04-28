@@ -3,7 +3,11 @@
   <persistence-unit name="booksPUJTA" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>derbie</jta-data-source>
-    <jar-file>lib/books.jar</jar-file>
+    <!--<jar-file>lib/_books.jar</jar-file>
+    causes: 
+    Caused by: java.io.FileNotFoundException: /home/azochniak/prjs/ISM/FacadeInterface/dist/lib/books.jar (Nie ma takiego pliku ani katalogu)
+	at java.util.zip.ZipFile.open(Native Method)
+    -->
     <class>sub_business_tier.entities.TBook</class>
     <class>sub_business_tier.entities.TBook_period</class>
     <class>sub_business_tier.entities.TTitle_book</class>
