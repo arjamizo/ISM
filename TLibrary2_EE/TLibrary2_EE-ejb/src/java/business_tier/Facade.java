@@ -6,7 +6,9 @@ package business_tier;
 
 import integration_tier.TBase;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
@@ -84,21 +86,25 @@ public class Facade implements FacadeRemote {
     }
 
     @Override
-    public void returnBook(String[] string, String[] string0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void returnBook(String[] bookTitle, String[] bookNumber) {
+        LOG.info("returning book="+Arrays.asList(bookTitle)+ " number=" + Arrays.asList(bookNumber));
+        facade.returnBook(bookTitle, bookNumber);
     }
+    private static final Logger LOG = Logger.getLogger(Facade.class.getName());
 
     @Override
     public void borrowBook(String[] string, String[] string0, String client) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        facade.borrowBook(string, string0, client);
     }
 
     @Override
     public List<String> getClients() {
-        final ArrayList<String> cls = new ArrayList<String>();
-        cls.add("Artur");
-        cls.add("David");
-        return cls;
+        return facade.getClients();
+    }
+
+    @Override
+    public Object[][] getBooksWithBorrower() {
+        return facade.getBooksWithBorrowers();
     }
 
 }

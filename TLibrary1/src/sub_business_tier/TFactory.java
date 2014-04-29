@@ -37,6 +37,7 @@ public class TFactory {
             case 2: {
                 title_book2 = new TTitle_book_on_tape();
                 title_book2.setISBN(data[1]);
+                if(data[2]==null || data[2].equals("")) throw new RuntimeException("You have created book on tape without actor: "+data[2]+".");
                 title_book2.setActor(data[2]);
                 return title_book2;
 
@@ -47,6 +48,7 @@ public class TFactory {
                 title_book2.setTitle(data[2]);
                 title_book2.setISBN(data[3]);
                 title_book2.setPublisher(data[4]);
+                if(data[5]==null || data[5].equals("")) throw new RuntimeException("You have created book on tape without actor.");
                 title_book2.setActor(data[5]);
                 return title_book2;
 

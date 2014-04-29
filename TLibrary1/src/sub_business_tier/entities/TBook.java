@@ -84,7 +84,7 @@ public class TBook implements Serializable {
         return true;
     }
 
-    public void startPeriod(Object data) {
+    public void startPeriod(String data) {
     }
 
 }

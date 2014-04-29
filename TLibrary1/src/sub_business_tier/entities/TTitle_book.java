@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,19 +45,19 @@ public class TTitle_book implements Serializable {
     }
 
     @OneToMany(mappedBy = "mTitle_book")
-    private Collection<TBook> books;
+    private List<TBook> books = new ArrayList<TBook>();
 
     @XmlTransient
-    public Collection<TBook> getBooks() {
+    public List<TBook> getBooks() {
         return books;
     }
 
-    public void setBooks(Collection<TBook> books) {
+    public void setBooks(List<TBook> books) {
         this.books = books;
     }
 
-    @Transient
-    private ArrayList<TBook> mBooks = new java.util.ArrayList<TBook>();
+//    @Transient
+//    private ArrayList<TBook> mBooks = new java.util.ArrayList<TBook>();
 
     public TTitle_book() {
         id = null;
@@ -78,12 +79,12 @@ public class TTitle_book implements Serializable {
         this.author = author;
     }
 
-    public ArrayList<TBook> getmBooks() {
-        return mBooks;
+    public List<TBook> getmBooks() {
+        return getBooks();
     }
 
     public void setmBooks(ArrayList<TBook> mBooks) {
-        this.mBooks = mBooks;
+        setBooks(mBooks);
     }
 
     public String getPublisher() {
@@ -104,7 +105,7 @@ public class TTitle_book implements Serializable {
 
     public synchronized ArrayList<String> getbooks() {
         ArrayList<String> titleList = new ArrayList<String>();
-        Iterator iterator = mBooks.iterator();
+        Iterator iterator = getmBooks().iterator();
         while (iterator.hasNext()) {
             titleList.add(iterator.next().toString());
         }
@@ -149,21 +150,22 @@ public class TTitle_book implements Serializable {
         TFactory factory = new TFactory();
         TBook newbook = factory.create_book(data);
         if (search_book(newbook) == null) {
-            mBooks.add(newbook);
+            getBooks().add(newbook);
             newbook.setmTitle_book(this);
         }
     }
 
     public TBook search_book(TBook book) {
         int idx;
-        if ((idx = mBooks.indexOf(book)) != -1) {
-            return mBooks.get(idx);
+        if ((idx = getmBooks().indexOf(book)) != -1) {
+            return getmBooks().get(idx);
+        } else {
         }
         return null;
     }
 
     public TBook search_available_book(String days) {
-        Iterator iterator = mBooks.iterator();
+        Iterator iterator = getBooks().iterator();
         while (iterator.hasNext()) {
             TBook help_book = (TBook) iterator.next();
             if (help_book.getPeriod() != null && !help_book.period_pass(days)) {
@@ -174,7 +176,7 @@ public class TTitle_book implements Serializable {
     }
 
     public TBook search_accessible_book(Object data) {
-        for (Iterator<TBook> help = mBooks.iterator(); help.hasNext();) {
+        for (Iterator<TBook> help = getBooks().iterator(); help.hasNext();) {
             TBook help_book = (TBook) help.next();
             if (!help_book.period_pass(data)) {
                 return help_book;

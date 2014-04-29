@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -54,15 +55,22 @@ public class Borrowing_form extends javax.swing.JPanel {
                     try {
                         client=comboBox.getSelectedText();
                         if(client.equals(AVAILABLE)) {
-                            getFacade().returnBook(new String[]{actor.equals("")?"1":"2",selectedISBN,actor}, new String[]{"1",selectedNumber,"0"});
+                            String[] title = new String[]{(actor == null || actor.equals(""))?"0":"2",selectedISBN,actor};
+                            FacadeRemote facade = getFacade();
+                            facade.returnBook(title, new String[]{"1",selectedNumber,"0"});
                         } else {
-                            getFacade().borrowBook(new String[]{actor.equals("")?"1":"2",selectedISBN,actor}, new String[]{"1",selectedNumber,"0"}, client);
+                            getFacade().borrowBook(
+                                    new String[]{(actor == null || actor.equals(""))?"0":"2",selectedISBN,actor}
+                                    , new String[]{"1",selectedNumber,"0"}
+                                    , client);
                         }
                         table_content();
-                        model.fireTableCellUpdated(row, 6);
-                    }catch(Exception e) {
+//                        model.fireTableCellUpdated(row, 6);
+                        model.fireTableDataChanged();
+                    } catch (Exception e) {
                         System.err.println("some excep, probably is not a number");
                         e.printStackTrace();
+                        JOptionPane.showMessageDialog(jComboBox1, e, "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 public ActionListener init(JComboBoxDemo combo) {
@@ -214,7 +222,7 @@ public class Borrowing_form extends javax.swing.JPanel {
     void table_content() 
     {
         FacadeRemote facade = client.getFacade();
-        Object[][] titles = facade.gettitle_books();
+        Object[][] titles = facade.getBooksWithBorrower();
         model.setData(titles);
 //        jTable1.tableChanged(jTable1.getModel());
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
@@ -252,15 +260,12 @@ public class Borrowing_form extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(288, Short.MAX_VALUE)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addGap(273, 273, 273))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

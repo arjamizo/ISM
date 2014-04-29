@@ -32,6 +32,7 @@ public class Client implements ActionListener {
     final static String LEND = "Borrowing form";
     final static String TITLE = "Title form";
     final static String BOOK = "Book form";
+    private String EXAMPLE_DATA = "Example data";
 
     public Client() {
 
@@ -83,15 +84,17 @@ public class Client implements ActionListener {
 
         menu.add(submenu);
 
-        //Build second menu in the menu bar.
-        menu = new JMenu("Another Menu");
-        menu.setMnemonic(KeyEvent.VK_N);
+        menu = new JMenu(EXAMPLE_DATA);
+        menu.setMnemonic(KeyEvent.VK_E);
+        menuItem.addActionListener(this);
         menuBar.add(menu);
+        
+        menu.add(submenu);
 
         return menuBar;
     }
 
-    public static FacadeRemote getFacade() {
+    public FacadeRemote getFacade() {
         return facade;
     }
 
@@ -127,6 +130,8 @@ public class Client implements ActionListener {
             cl.show(cards, BOOK);
         } else if (source.getText().equals(LEND)) {
             cl.show(cards, LEND);
+        } else if (source.getText().equals(EXAMPLE_DATA)) {
+//            facade.exampleData();
         }
     }
 

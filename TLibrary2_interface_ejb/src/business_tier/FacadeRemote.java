@@ -53,4 +53,6 @@ public interface FacadeRemote {
 
     public List<String> getClients();
 
+    public Object[][] getBooksWithBorrower();
+
 }

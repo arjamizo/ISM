@@ -26,7 +26,7 @@ public class TBook_period extends TBook implements Serializable {
         return true;
     }
 
-    public void startPeriod(Object data) {
+    public void startPeriod(String data) {
         this.periodDate = TFactory.mdays(data.toString());
     }
 
