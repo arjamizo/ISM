@@ -6,6 +6,9 @@ package integration_tier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
@@ -21,6 +24,11 @@ public class TBase {
     private TFacade facade;
     private TTitle_book titles[];
     private TBook books[];
+    
+    public void setEm(Object em) {
+        titleJpaController.setEm(em);
+        bookJpaController.setEm(em);
+    }
 
     public TBase(TFacade facade_) {
         facade = facade_;
@@ -28,10 +36,13 @@ public class TBase {
         bookJpaController = new TBookController();
         try {
             update_data();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (javax.persistence.PersistenceException e) {
+            LOG.warning("Probably EntityManager was not loaded properly.");
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
+    private static final Logger LOG = Logger.getLogger(TBase.class.getName());
 
     public void update_data() throws Exception {
         update_titles();

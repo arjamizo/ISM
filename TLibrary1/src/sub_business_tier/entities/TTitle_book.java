@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,8 +44,8 @@ public class TTitle_book implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-    @OneToMany(mappedBy = "mTitle_book")
+    
+    @OneToMany(mappedBy = "mTitle_book", cascade = CascadeType.PERSIST)
     private List<TBook> books = new ArrayList<TBook>();
 
     @XmlTransient

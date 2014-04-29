@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
@@ -20,9 +23,17 @@ import sub_business_tier.entities.TTitle_book;
  */
 @Stateless
 public class Facade implements FacadeRemote {
+    
+    @PersistenceContext
+    private EntityManager em; 
 
     TFacade facade = new TFacade();
     TBase base = new TBase(facade);
+    
+    @PostConstruct
+    public void init() {
+        base.setEm(em);
+    }
 
     public ArrayList<TTitle_book> getmTitle_books() {
         return facade.getmTitle_books();
