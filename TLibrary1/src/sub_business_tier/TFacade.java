@@ -290,7 +290,7 @@ public class TFacade implements Serializable {
                 try {
                     title[7] = next.getPeriod().toString();
                 } catch (Exception e) {
-                    
+                    //Intentionally left empty. If date can not be obtained, then there is no date. 
                 }
                 for (TLend lend : borrows) {
                     try {

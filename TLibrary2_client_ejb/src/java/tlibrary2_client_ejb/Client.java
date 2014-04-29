@@ -16,13 +16,11 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-/**
- *
- * @author Zofia
- */
+
 public class Client implements ActionListener {
 
     @EJB
@@ -32,7 +30,9 @@ public class Client implements ActionListener {
     final static String LEND = "Borrowing form";
     final static String TITLE = "Title form";
     final static String BOOK = "Book form";
-    private String EXAMPLE_DATA = "Example data";
+    private String EXAMPLE_DATA = "Fill with example data";
+    private String SAVE = "Save to database";
+    private String DB_UTILS = "Database commands";
 
     public Client() {
 
@@ -84,12 +84,22 @@ public class Client implements ActionListener {
 
         menu.add(submenu);
 
-        menu = new JMenu(EXAMPLE_DATA);
-        menu.setMnemonic(KeyEvent.VK_E);
+        menu = new JMenu(DB_UTILS);
+        menu.setMnemonic(KeyEvent.VK_D);
         menuItem.addActionListener(this);
         menuBar.add(menu);
         
-        menu.add(submenu);
+        menuItem = new JMenuItem(SAVE);
+        menuItem.setMnemonic(KeyEvent.VK_S);
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
+        
+        menuItem = new JMenuItem(EXAMPLE_DATA);
+        menuItem.setMnemonic(KeyEvent.VK_E);
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
+        
+//        menu.add(submenu);
 
         return menuBar;
     }
@@ -121,7 +131,7 @@ public class Client implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-
+        try {
         JMenuItem source = (JMenuItem) (e.getSource());
         CardLayout cl = (CardLayout) (cards.getLayout());
         if (source.getText().equals(TITLE)) {
@@ -131,7 +141,12 @@ public class Client implements ActionListener {
         } else if (source.getText().equals(LEND)) {
             cl.show(cards, LEND);
         } else if (source.getText().equals(EXAMPLE_DATA)) {
-//            facade.exampleData();
+            facade.exampleData();
+        } else if (source.getText().equals(SAVE)) {
+            getFacade().update_data();
+        }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

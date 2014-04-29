@@ -107,4 +107,9 @@ public class Facade implements FacadeRemote {
         return facade.getBooksWithBorrowers();
     }
 
+    @Override
+    public void exampleData() {
+        facade.exampleData();
+    }
+
 }
