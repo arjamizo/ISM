@@ -146,6 +146,9 @@ public class Client implements ActionListener {
         } else if (source.getText().equals(SAVE)) {
             LOG.info("saving");
             getFacade().add_titles();
+            getFacade().add_books();
+            getFacade().Print_books();
+            getFacade().Print_title_books();
         }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);

@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import sub_business_tier.entities.TLend;
 import sub_business_tier.entities.TTitle_book;
 import sub_business_tier.entities.TUser;
@@ -26,18 +27,19 @@ public class TFacade implements Serializable {
     private Collection<TLend> borrows = new ArrayList<TLend>();
 
     public void exampleData() {
-        users.add(new TUser().setLogin("Madzia")); 
-        String t1[] = {"1", "Author1", "Title1", "ISBN1", "Publisher1"};
-        TTitle_book title = add_title_book(t1);
+//        users.add(new TUser().setLogin("Madzia")); 
+//        String t1[] = {"1", "Author1", "Title1", "ISBN1", "Publisher1"};
+//        TTitle_book title = add_title_book(t1);
+//        
+//        String d1[] = {"0", "ISBN1"};
+//        String tr1[] = {"1", "1", "0"}; //1x0 oznacza, ze ksiazka jest do wypozyczenia (1) oraz dostepna od teraz (0)
+//        TBook book;
+//        This might have some problems because of assumption thatq we obtain serialized (and deserialized by client) entity object.
+//        book = add_book(d1, tr1).getmBooks().listIterator().next();
+//        book = add_book(d1, new String[] {"0", "2"}).getmBooks().listIterator().next();
+//        book = add_book(d1, new String[] {"1", "3", "0"}).getmBooks().listIterator().next();
         
-        String d1[] = {"0", "ISBN1"};
-        String tr1[] = {"1", "1", "0"}; //1x0 oznacza, ze ksiazka jest do wypozyczenia (1) oraz dostepna od teraz (0)
-        TBook book;
-        book = add_book(d1, tr1).getmBooks().listIterator().next();
-        book = add_book(d1, new String[] {"0", "2"}).getmBooks().listIterator().next();
-        book = add_book(d1, new String[] {"1", "3", "0"}).getmBooks().listIterator().next();
-        
-        borrows.add(new TLend().setBook(book).setUser(users.iterator().next()));
+//        borrows.add(new TLend().setBook(book).setUser(users.iterator().next()));
     }
     
     public TFacade() {
@@ -93,8 +95,11 @@ public class TFacade implements Serializable {
         if ((help2 = search_title_book(help1)) != null) {
             help2.add_book(data2);
         }
-        return help2;
+        LOG.info("ELO");
+//        return help2;
+        return help1;
     }
+    private static final Logger LOG = Logger.getLogger(TFacade.class.getName());
 
     public synchronized ArrayList<String> Search_title_book(String data[]) {
         TFactory factory = new TFactory();
