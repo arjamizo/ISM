@@ -108,9 +108,8 @@ public class Borrowing_form extends javax.swing.JPanel {
             if (event.getValueIsAdjusting()) {
                 return;
             }
-            row = table.getSelectionModel().getLeadSelectionIndex();
-            table_content();
             unaryOperator2.call(row);
+            table_content();
         }
     }
     
