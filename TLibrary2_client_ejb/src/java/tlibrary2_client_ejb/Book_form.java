@@ -99,12 +99,7 @@ public class Book_form extends JPanel implements ActionListener {
     }
 
     void table_content() {
-        //!! change
-        //Object[][] res = new Object[client.getFacade().gettitle_books().size()][];      
-        //Object[][] titles = client.getFacade().gettitle_books().toArray(res);
         Object[][] titles = client.getFacade().gettitle_books();
-        //for(Object [] obj: titles) {         
-        //}
         model.setData(titles);
     }
 

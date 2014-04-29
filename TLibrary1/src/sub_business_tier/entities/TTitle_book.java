@@ -43,7 +43,7 @@ public class TTitle_book implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     @OneToMany(mappedBy = "mTitle_book")
     private List<TBook> books = new ArrayList<TBook>();
 
@@ -130,11 +130,6 @@ public class TTitle_book implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        boolean result;
-        TTitle_book other = (TTitle_book) obj;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
         TTitle_book title_book = (TTitle_book) obj;
         if (getISBN().equals(title_book.getISBN())) {
             if (getActor().equals(title_book.getActor())) {

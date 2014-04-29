@@ -71,7 +71,9 @@ public class TFacade implements Serializable {
 
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
         int idx;
+        LOG.info("searching among: "+getmTitle_books());
         if ((idx = getmTitle_books().indexOf(title_book)) != -1) {
+            LOG.info("found at position "+idx);
             title_book = getmTitle_books().get(idx);
             return title_book;
         }
@@ -104,7 +106,9 @@ public class TFacade implements Serializable {
     public synchronized ArrayList<String> Search_title_book(String data[]) {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
+        LOG.info("from factory: "+title_book);
         TTitle_book title_book_ = search_title_book(title_book);
+        LOG.info("found: "+title_book_);
         if (title_book_ != null) {
             return title_book_.getbooks();
         }
