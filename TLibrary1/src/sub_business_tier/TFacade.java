@@ -319,4 +319,7 @@ public class TFacade implements Serializable {
         return ret;
     }
 
+    public ArrayList<String> getBooksByTitle(String[] title) {
+        return search_title_book(new TFactory().create_title_book(title)).getbooks();
+    }
 }

@@ -124,7 +124,8 @@ public class Book_form extends JPanel implements ActionListener {
                 (String) period.getText()};
             final String[] title = title();
             FacadeRemote facade = client.getFacade();
-            ArrayList<String> help3 = facade.add_book(title, data2).getbooks();
+            ArrayList<String> help3 = facade.add_book(title, data2).getbooks(); //This may not work, because getbooks is executed on deserialized object, should be executed on server side. 
+            help3 = facade.getBooksByTitle(title);
 
             if (help3 != null) {
                 list_content(help3, books);

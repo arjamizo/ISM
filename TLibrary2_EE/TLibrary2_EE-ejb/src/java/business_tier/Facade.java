@@ -112,4 +112,9 @@ public class Facade implements FacadeRemote {
         facade.exampleData();
     }
 
+    @Override
+    public ArrayList<String> getBooksByTitle(String[] title) {
+        return facade.getBooksByTitle(title);
+    }
+    
 }

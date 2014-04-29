@@ -57,4 +57,6 @@ public interface FacadeRemote {
 
     public void exampleData();
 
+    public ArrayList<String> getBooksByTitle(String[] title);
+
 }
