@@ -19,7 +19,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-//import sub_business_tier.TFacade;
 /**
  *
  * @author Zofia
@@ -30,10 +29,9 @@ public class Client implements ActionListener {
     private static FacadeRemote facade;
 
     JPanel cards;
-    final static String NOTHING1 = "Empty1";
+    final static String LEND = "Borrowing form";
     final static String TITLE = "Title form";
     final static String BOOK = "Book form";
-    //TFacade facade = new TFacade();
 
     public Client() {
 
@@ -63,8 +61,8 @@ public class Client implements ActionListener {
         menuItem.addActionListener(this);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(NOTHING1);
-        menuItem.setMnemonic(KeyEvent.VK_E);
+        menuItem = new JMenuItem(LEND);
+        menuItem.setMnemonic(KeyEvent.VK_O);
         menuItem.addActionListener(this);
         menu.add(menuItem);
 
@@ -73,13 +71,13 @@ public class Client implements ActionListener {
         submenu = new JMenu("A submenu");
         submenu.setMnemonic(KeyEvent.VK_S);
 
-        menuItem = new JMenuItem(NOTHING1);
+        menuItem = new JMenuItem(LEND);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_2, ActionEvent.ALT_MASK));
         menuItem.addActionListener(this);
         submenu.add(menuItem);
 
-        menuItem = new JMenuItem(NOTHING1);
+        menuItem = new JMenuItem(LEND);
         menuItem.addActionListener(this);
         submenu.add(menuItem);
 
@@ -103,13 +101,13 @@ public class Client implements ActionListener {
 
     public Container createContentPane() {
 
-        Card0 card0 = new Card0();
+        Borrowing_form card0 = new Borrowing_form(this);
         Title_form card1 = new Title_form(this);
         Book_form card2 = new Book_form(this);
 
         //Create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
-        cards.add(card0, NOTHING1);
+        cards.add(card0, LEND);
         cards.add(card1, TITLE);
         cards.add(card2, BOOK);
 
@@ -127,8 +125,8 @@ public class Client implements ActionListener {
             cl.show(cards, TITLE);
         } else if (source.getText().equals(BOOK)) {
             cl.show(cards, BOOK);
-        } else if (source.getText().equals(NOTHING1)) {
-            cl.show(cards, NOTHING1);
+        } else if (source.getText().equals(LEND)) {
+            cl.show(cards, LEND);
         }
     }
 

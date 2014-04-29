@@ -5,6 +5,7 @@
 package business_tier;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Remote;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
@@ -45,5 +46,11 @@ public interface FacadeRemote {
     public void add_books() throws Exception;
 
     public ArrayList<ArrayList<String>> titles() throws Exception;
+
+    public void returnBook(String[] string, String[] string0);
+
+    public void borrowBook(String[] string, String[] string0, String client);
+
+    public List<String> getClients();
 
 }

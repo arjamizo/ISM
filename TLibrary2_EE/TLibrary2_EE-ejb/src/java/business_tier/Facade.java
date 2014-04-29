@@ -6,6 +6,7 @@ package business_tier;
 
 import integration_tier.TBase;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
@@ -80,6 +81,24 @@ public class Facade implements FacadeRemote {
 
     public ArrayList<ArrayList<String>> titles() throws Exception {
         return base.titles();
+    }
+
+    @Override
+    public void returnBook(String[] string, String[] string0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void borrowBook(String[] string, String[] string0, String client) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> getClients() {
+        final ArrayList<String> cls = new ArrayList<String>();
+        cls.add("Artur");
+        cls.add("David");
+        return cls;
     }
 
 }
