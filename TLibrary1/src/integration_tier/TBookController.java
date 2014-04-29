@@ -37,6 +37,8 @@ public class TBookController {
         try {
             javax.persistence.Query q = em.createQuery("select c from TBook as c");
             return q.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             em.close();
         }
@@ -48,6 +50,8 @@ public class TBookController {
             em.getTransaction().begin();
             em.persist(book);
             em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             em.close();
             return false;
@@ -74,6 +78,8 @@ public class TBookController {
                 }
             }
             em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             em.close();
             return false;

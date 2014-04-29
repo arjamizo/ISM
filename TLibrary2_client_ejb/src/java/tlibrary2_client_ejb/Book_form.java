@@ -4,6 +4,7 @@
  */
 package tlibrary2_client_ejb;
 
+import business_tier.FacadeRemote;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -22,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import sub_business_tier.entities.TTitle_book;
 
 public class Book_form extends JPanel implements ActionListener {
 
@@ -120,8 +122,9 @@ public class Book_form extends JPanel implements ActionListener {
             }
             String data2[] = {what_book_type, (String) number.getText(),
                 (String) period.getText()};
-            //ArrayList<String> help3 = client.getFacade().add_book(title(), data2).getbooks();
-            ArrayList<String> help3 = client.getFacade().add_book(title(), data2).getbooks();
+            final String[] title = title();
+            FacadeRemote facade = client.getFacade();
+            ArrayList<String> help3 = facade.add_book(title, data2).getbooks();
 
             if (help3 != null) {
                 list_content(help3, books);
@@ -130,7 +133,6 @@ public class Book_form extends JPanel implements ActionListener {
     }
 
     void print_books() {
-        //!! change
         ArrayList<String> help3 = client.getFacade().Search_title_book(title());
         if (help3 != null) {
             list_content(help3, books);

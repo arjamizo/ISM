@@ -11,6 +11,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -143,12 +144,14 @@ public class Client implements ActionListener {
         } else if (source.getText().equals(EXAMPLE_DATA)) {
             facade.exampleData();
         } else if (source.getText().equals(SAVE)) {
-            getFacade().update_data();
+            LOG.info("saving");
+            getFacade().add_titles();
         }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    private static final Logger LOG = Logger.getLogger(Client.class.getName());
 
     /**
      * Create the GUI and show it. For thread safety, this method should be
