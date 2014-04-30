@@ -12,7 +12,6 @@ import sub_business_tier.entities.TBook;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -23,27 +22,43 @@ import sub_business_tier.entities.TUser;
 public class TFacade implements Serializable {
 
     private ArrayList<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
-    private Collection<TUser> users = new ArrayList<TUser>();
-    private Collection<TLend> borrows = new ArrayList<TLend>();
+    private List<TUser> users = new ArrayList<TUser>();
+    private List<TLend> borrows = new ArrayList<TLend>();
+
+    public List<TUser> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<TUser> users) {
+        this.users = users;
+    }
+
+    public List<TLend> getBorrows() {
+        return borrows;
+    }
+
+    public void setBorrows(List<TLend> borrows) {
+        this.borrows = borrows;
+    }
 
     public void exampleData() {
-//        users.add(new TUser().setLogin("Madzia")); 
-//        String t1[] = {"1", "Author1", "Title1", "ISBN1", "Publisher1"};
-//        TTitle_book title = add_title_book(t1);
-//        
-//        String d1[] = {"0", "ISBN1"};
-//        String tr1[] = {"1", "1", "0"}; //1x0 oznacza, ze ksiazka jest do wypozyczenia (1) oraz dostepna od teraz (0)
-//        TBook book;
-//        This might have some problems because of assumption thatq we obtain serialized (and deserialized by client) entity object.
-//        book = add_book(d1, tr1).getmBooks().listIterator().next();
-//        book = add_book(d1, new String[] {"0", "2"}).getmBooks().listIterator().next();
-//        book = add_book(d1, new String[] {"1", "3", "0"}).getmBooks().listIterator().next();
+        users.add(new TUser().setLogin("Madzia")); 
+        String t1[] = {"1", "Author1", "Title1", "ISBN1", "Publisher1"};
+        TTitle_book title = add_title_book(t1);
         
-//        borrows.add(new TLend().setBook(book).setUser(users.iterator().next()));
+        String d1[] = {"0", "ISBN1"};
+        String tr1[] = {"1", "1", "0"}; //1x0 oznacza, ze ksiazka jest do wypozyczenia (1) oraz dostepna od teraz (0)
+        TBook book;
+//        This might have some problems because of assumption thatq we obtain serialized (and deserialized by client) entity object.
+        add_book(d1, tr1);//.getmBooks().listIterator().next();
+        add_book(d1, new String[] {"0", "2"});//.getmBooks().listIterator().next();
+        add_book(d1, new String[] {"1", "3", "0"});//.getmBooks().listIterator().next();
+        book = search_title_book(new TFactory().create_title_book(d1)).getmBooks().get(0);
+        
+        borrows.add(new TLend().setBook(book).setUser(users.iterator().next()));
     }
     
     public TFacade() {
-        exampleData();
     }
 
     public ArrayList<TTitle_book> getmTitle_books() {
@@ -71,7 +86,9 @@ public class TFacade implements Serializable {
 
     public synchronized TTitle_book search_title_book(TTitle_book title_book) {
         int idx;
+        LOG.info("searching among: "+getmTitle_books());
         if ((idx = getmTitle_books().indexOf(title_book)) != -1) {
+            LOG.info("found at position "+idx);
             title_book = getmTitle_books().get(idx);
             return title_book;
         }
@@ -104,7 +121,9 @@ public class TFacade implements Serializable {
     public synchronized ArrayList<String> Search_title_book(String data[]) {
         TFactory factory = new TFactory();
         TTitle_book title_book = factory.create_title_book(data);
+        LOG.info("from factory: "+title_book);
         TTitle_book title_book_ = search_title_book(title_book);
+        LOG.info("found: "+title_book_);
         if (title_book_ != null) {
             return title_book_.getbooks();
         }
@@ -142,7 +161,7 @@ public class TFacade implements Serializable {
         }
     }
 
-    public synchronized void update_data(TTitle_book titles[], TBook books[]) {
+    public synchronized void update_data(TTitle_book titles[], TBook books[], TLend borrows[], TUser users[]) {
         getmTitle_books().clear();
         for (TTitle_book t : titles) {
             getmTitle_books().add(t);
@@ -157,6 +176,8 @@ public class TFacade implements Serializable {
                 }
             }
         }
+        setUsers(Arrays.asList(users));
+        setBorrows(Arrays.asList(borrows));
     }
 
     public static void main(String args[]) {

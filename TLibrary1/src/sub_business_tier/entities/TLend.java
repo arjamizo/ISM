@@ -6,13 +6,39 @@
 
 package sub_business_tier.entities;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *  Note fluent interface in setters. 
  * @author artur
  */
-public class TLend {
+@Entity
+@Table(name = "LEND")
+public class TLend implements Serializable {
     
+    
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    @Column(name = "user")
     private TUser user;
+    @Column
     private TBook book;
 
     public TBook getBook() {
@@ -31,6 +57,11 @@ public class TLend {
     public TLend setUser(TUser user) {
         this.user = user;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "TLend{" + "id=" + id + ", user=" + user + ", book=" + book + '}';
     }
 
 }

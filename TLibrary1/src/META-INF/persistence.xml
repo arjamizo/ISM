@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     
-  <!--<property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:Lib1;create=true"/>-->
-  <!-- 
-  <persistence-unit name="Library1PU" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>sub_business_tier.entities.TBook</class>
-    <class>sub_business_tier.entities.TBook_period</class>
-    <class>sub_business_tier.entities.TTitle_book</class>
-    <class>sub_business_tier.entities.TTitle_book_on_tape</class>
-    <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Library1"/>
-      <property name="javax.persistence.jdbc.password" value="Library1"/>
-      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.user" value="Library1"/>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
-      <property name="hbm2ddl.auto" value="create"/>
-    </properties>
-  </persistence-unit>
-  -->
-  <persistence-unit name="Library1JTA" transaction-type="JTA">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <jta-data-source>derbie</jta-data-source>
-    <class>sub_business_tier.entities.TBook</class>
-    <class>sub_business_tier.entities.TBook_period</class>
-    <class>sub_business_tier.entities.TTitle_book</class>
-    <class>sub_business_tier.entities.TTitle_book_on_tape</class>
-    <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
-    </properties>
-  </persistence-unit>
+    <!--<property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:Lib1;create=true"/>-->
+    <!-- 
+    <persistence-unit name="Library1PU" transaction-type="RESOURCE_LOCAL">
+      <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+      <class>sub_business_tier.entities.TBook</class>
+      <class>sub_business_tier.entities.TBook_period</class>
+      <class>sub_business_tier.entities.TTitle_book</class>
+      <class>sub_business_tier.entities.TTitle_book_on_tape</class>
+      <class>sub_business_tier.entities.TLend</class>
+      <class>sub_business_tier.entities.TUser</class>
+      <properties>
+        <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Library1"/>
+        <property name="javax.persistence.jdbc.password" value="Library1"/>
+        <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+        <property name="javax.persistence.jdbc.user" value="Library1"/>
+        <property name="eclipselink.ddl-generation" value="create-tables"/>
+        <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        <property name="hbm2ddl.auto" value="create"/>
+      </properties>
+    </persistence-unit>
+    -->
+    <persistence-unit name="Library1JTA" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>derbie</jta-data-source>
+        <class>sub_business_tier.entities.TBook</class>
+        <class>sub_business_tier.entities.TBook_period</class>
+        <class>sub_business_tier.entities.TTitle_book</class>
+        <class>sub_business_tier.entities.TTitle_book_on_tape</class>
+        <class>sub_business_tier.entities.TLend</class>
+        <class>sub_business_tier.entities.TUser</class>
+        <properties>
+            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <property name="hbm2ddl.auto" value="create"/>
+        </properties>
+    </persistence-unit>
 </persistence>

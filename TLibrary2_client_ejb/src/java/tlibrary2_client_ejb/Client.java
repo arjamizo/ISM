@@ -11,6 +11,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.swing.JFrame;
@@ -33,6 +34,7 @@ public class Client implements ActionListener {
     final static String BOOK = "Book form";
     private String EXAMPLE_DATA = "Fill with example data";
     private String SAVE = "Save to database";
+    private String LOAD = "Load from database";
     private String DB_UTILS = "Database commands";
 
     public Client() {
@@ -90,6 +92,11 @@ public class Client implements ActionListener {
         menuItem.addActionListener(this);
         menuBar.add(menu);
         
+        menuItem = new JMenuItem(LOAD);
+        menuItem.setMnemonic(KeyEvent.VK_L);
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
+        
         menuItem = new JMenuItem(SAVE);
         menuItem.setMnemonic(KeyEvent.VK_S);
         menuItem.addActionListener(this);
@@ -142,15 +149,20 @@ public class Client implements ActionListener {
         } else if (source.getText().equals(LEND)) {
             cl.show(cards, LEND);
         } else if (source.getText().equals(EXAMPLE_DATA)) {
-            facade.exampleData();
+            getFacade().exampleData();
         } else if (source.getText().equals(SAVE)) {
-            LOG.info("saving");
+            LOG.info("Saving to DB...");
             getFacade().add_titles();
             getFacade().add_books();
             getFacade().Print_books();
             getFacade().Print_title_books();
+        } else if (source.getText().equals(LOAD)) {
+            LOG.info("Loading from DB...");
+            getFacade().update_data();
         }
         } catch (Exception ex) {
+            ex.printStackTrace();
+//            LOG.log(Level.WARNING, ex.getLocalizedMessage(), ex);
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

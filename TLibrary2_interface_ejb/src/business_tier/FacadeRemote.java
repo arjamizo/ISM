@@ -59,4 +59,6 @@ public interface FacadeRemote {
 
     public ArrayList<String> getBooksByTitle(String[] title);
 
+    public void add_client(String client) throws Exception;
+
 }

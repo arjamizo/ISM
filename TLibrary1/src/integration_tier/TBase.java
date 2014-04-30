@@ -4,6 +4,8 @@
  */
 package integration_tier;
 
+import integration_tier.jpa.TLendJpaController;
+import integration_tier.jpa.TUserJpaController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -11,29 +13,36 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
+import sub_business_tier.entities.TLend;
 import sub_business_tier.entities.TTitle_book;
+import sub_business_tier.entities.TUser;
 
-/**
- *
- * @author azochniak
- */
+
 public class TBase {
 
     private TTitle_bookController titleJpaController;
     private TBookController bookJpaController;
+    private TLendJpaController tLendJpaController;
+    private TUserJpaController tUserJpaController;
     private TFacade facade;
     private TTitle_book titles[];
     private TBook books[];
+    private TLend borrows[];
+    private TUser users[];
     
     public void setEm(Object em) {
         titleJpaController.setEm(em);
         bookJpaController.setEm(em);
+        tLendJpaController.setEm(em);
+        tUserJpaController.setEm(em);
     }
-
+    
     public TBase(TFacade facade_) {
         facade = facade_;
         titleJpaController = new TTitle_bookController();
         bookJpaController = new TBookController();
+        tLendJpaController = new TLendJpaController();
+        tUserJpaController = new TUserJpaController();
         try {
             update_data();
         } catch (javax.persistence.PersistenceException e) {
@@ -47,7 +56,13 @@ public class TBase {
     public void update_data() throws Exception {
         update_titles();
         update_books();
-        facade.update_data(titles, books);
+        try {
+            update_users();
+            update_borrows();
+        } catch (Exception e) {
+            LOG.warning("something wrong with TLend or TUser JPA ctrls.");
+        }
+        facade.update_data(titles, books, borrows, users);
     }
 
     public void update_titles() throws Exception {
@@ -55,7 +70,15 @@ public class TBase {
     }
 
     public void update_books() throws Exception {
-        books = (TBook[]) bookJpaController.getTBooks_();;
+        books = (TBook[]) bookJpaController.getTBooks_();
+    }
+
+    private void update_users() {
+        users = tUserJpaController.getTUsers_();
+    }
+
+    private void update_borrows() {
+        borrows = tLendJpaController.getTLends_();
     }
 
     public void add_titles() throws Exception {
@@ -87,6 +110,22 @@ public class TBase {
             help2.add(help3);
         }
         return help2;
+    }
+    
+    public void add_users() throws Exception {
+        try {
+            tUserJpaController.addUsers(facade.getUsers());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void add_lends() throws Exception {
+        try {
+            tLendJpaController.addLends(facade.getBorrows());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -127,5 +127,10 @@ public class Facade implements FacadeRemote {
     public ArrayList<String> getBooksByTitle(String[] title) {
         return facade.getBooksByTitle(title);
     }
+
+    @Override
+    public void add_client(String client) throws Exception {
+        base.add_users();
+    }
     
 }

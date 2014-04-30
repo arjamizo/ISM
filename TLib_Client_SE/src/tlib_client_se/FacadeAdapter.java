@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
+import sub_business_tier.entities.TLend;
 import sub_business_tier.entities.TTitle_book;
+import sub_business_tier.entities.TUser;
 
 /**
  *
@@ -44,8 +46,8 @@ class FacadeAdapter implements FacadeRemote {
         return facade.Search_title_books(data); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public synchronized void update_data(TTitle_book[] titles, TBook[] books) {
-        facade.update_data(titles, books); //To change body of generated methods, choose Tools | Templates.
+    public synchronized void update_data(TTitle_book[] titles, TBook[] books, TLend borrows[], TUser users[]) {
+        facade.update_data(titles, books, borrows, users); //To change body of generated methods, choose Tools | Templates.
     }
 
     public synchronized void Print_title_books() {
@@ -92,15 +94,15 @@ class FacadeAdapter implements FacadeRemote {
         facade.exampleData(); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void update_data() throws Exception {
+        throw new Exception("fetching from DB: " + String.format("%d titles and %d books ", getmTitle_books().size(), getBooksWithBorrower().length) + getClients().toString() + " borrows: " + getBorrows().toString());
+    }
+
     public void update_titles() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void update_books() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void update_data() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -113,12 +115,27 @@ class FacadeAdapter implements FacadeRemote {
     }
 
     public ArrayList<ArrayList<String>> titles() throws Exception {
-//        return facade
+//        return base.
         return null;
     }
 
     public Object[][] getBooksWithBorrower() {
         return facade.getBooksWithBorrowers();
+    }
+
+    @Override
+    public ArrayList<String> getBooksByTitle(String[] title) {
+        return facade.getBooksByTitle(title);
+    }
+
+    private List<TLend> getBorrows() {
+        return facade.getBorrows();
+    }
+
+    @Override
+    public void add_client(String client) throws Exception {
+        if(!getClients().contains(client) && client!="Available") getClients().add(client);
+        throw new UnsupportedOperationException(String.format("User %s was added.", client)); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
