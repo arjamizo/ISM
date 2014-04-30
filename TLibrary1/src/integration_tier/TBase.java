@@ -37,6 +37,7 @@ public class TBase {
         tUserJpaController.setEm(em);
     }
     
+
     public TBase(TFacade facade_) {
         facade = facade_;
         titleJpaController = new TTitle_bookController();
@@ -56,6 +57,7 @@ public class TBase {
     public void update_data() throws Exception {
         update_titles();
         update_books();
+
         try {
             update_users();
             update_borrows();
