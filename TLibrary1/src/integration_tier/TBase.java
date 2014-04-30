@@ -61,6 +61,7 @@ public class TBase {
             update_users();
             update_borrows();
         } catch (Exception e) {
+            e.printStackTrace();
             LOG.warning("something wrong with TLend or TUser JPA ctrls.");
         }
         facade.update_data(titles, books, borrows, users);
