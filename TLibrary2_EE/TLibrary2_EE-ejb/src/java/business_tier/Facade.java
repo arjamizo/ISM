@@ -24,17 +24,16 @@ import sub_business_tier.entities.TTitle_book;
 @Stateless
 public class Facade implements FacadeRemote {
     
-    @PersistenceContext
-    private EntityManager em; 
+//    @PersistenceContext
+//    private EntityManager em;
+//    @PostConstruct
+//    public void init() {
+//        base.setEm(em);
+//    } 
 
     TFacade facade = new TFacade();
     TBase base = new TBase(facade);
     
-    @PostConstruct
-    public void init() {
-        base.setEm(em);
-    }
-
     public ArrayList<TTitle_book> getmTitle_books() {
         return facade.getmTitle_books();
     }

@@ -2,7 +2,7 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     
     <!--<property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:Lib1;create=true"/>-->
-    <!-- 
+    
     <persistence-unit name="Library1PU" transaction-type="RESOURCE_LOCAL">
       <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
       <class>sub_business_tier.entities.TBook</class>
@@ -21,7 +21,7 @@
         <property name="hbm2ddl.auto" value="create"/>
       </properties>
     </persistence-unit>
-    -->
+    <!-- 
     <persistence-unit name="Library1JTA" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <jta-data-source>derbie</jta-data-source>
@@ -37,4 +37,5 @@
             <property name="hbm2ddl.auto" value="create"/>
         </properties>
     </persistence-unit>
+    -->
 </persistence>
