@@ -176,8 +176,12 @@ public class TFacade implements Serializable {
                 }
             }
         }
-        setUsers(Arrays.asList(users));
-        setBorrows(Arrays.asList(borrows));
+        try {
+            setUsers(Arrays.asList(users));
+            setBorrows(Arrays.asList(borrows));
+        } catch (Exception e) {
+            LOG.warning("something wrong with setting users and/or borrows");
+        }
     }
 
     public static void main(String args[]) {

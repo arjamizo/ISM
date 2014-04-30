@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import sub_business_tier.entities.TLend;
@@ -25,29 +26,36 @@ import sub_business_tier.entities.TUser;
  */
 public class TLendJpaController implements Serializable {
 
-    public TLendJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
     private EntityManagerFactory emf = null;
+    private EntityManager em = null;
 
-    public TLendJpaController() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setEm(Object em) {
+        this.em = (EntityManager) em;
     }
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
+        if(em!=null) 
+            return em;
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory("Library1PU");
+        }
         return emf.createEntityManager();
+    }
+    
+    public TLendJpaController() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void create(TLend TLend) {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            em.getTransaction().begin();
+            if(this.em==null) em.getTransaction().begin();
             em.persist(TLend);
-            em.getTransaction().commit();
+            if(this.em==null) em.getTransaction().commit();
         } finally {
             if (em != null) {
-                em.close();
+                if(this.em==null) em.close();
             }
         }
     }
@@ -56,9 +64,9 @@ public class TLendJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            em.getTransaction().begin();
+            if(this.em==null) em.getTransaction().begin();
             TLend = em.merge(TLend);
-            em.getTransaction().commit();
+            if(this.em==null) em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -70,7 +78,7 @@ public class TLendJpaController implements Serializable {
             throw ex;
         } finally {
             if (em != null) {
-                em.close();
+                if(this.em==null) em.close();
             }
         }
     }
@@ -79,7 +87,7 @@ public class TLendJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            em.getTransaction().begin();
+            if(this.em==null) em.getTransaction().begin();
             TLend TLend;
             try {
                 TLend = em.getReference(TLend.class, id);
@@ -88,10 +96,10 @@ public class TLendJpaController implements Serializable {
                 throw new NonexistentEntityException("The TLend with id " + id + " no longer exists.", enfe);
             }
             em.remove(TLend);
-            em.getTransaction().commit();
+            if(this.em==null) em.getTransaction().commit();
         } finally {
             if (em != null) {
-                em.close();
+                if(this.em==null) em.close();
             }
         }
     }
@@ -116,7 +124,7 @@ public class TLendJpaController implements Serializable {
             }
             return q.getResultList();
         } finally {
-            em.close();
+            if(this.em==null) em.close();
         }
     }
 
@@ -125,7 +133,7 @@ public class TLendJpaController implements Serializable {
         try {
             return em.find(TLend.class, id);
         } finally {
-            em.close();
+            if(this.em==null) em.close();
         }
     }
 
@@ -138,7 +146,7 @@ public class TLendJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
-            em.close();
+            if(this.em==null) em.close();
         }
     }
 
@@ -151,13 +159,13 @@ public class TLendJpaController implements Serializable {
     public boolean addLend(TLend lend) {
         EntityManager em = getEntityManager();
         try {
-            em.getTransaction().begin();
+            if(this.em==null) em.getTransaction().begin();
             em.persist(lend);
-            em.getTransaction().commit();
+            if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            em.close();
+            if(this.em==null) em.close();
             return false;
         }
     }

@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import sub_business_tier.entities.TUser;
@@ -23,26 +24,29 @@ import sub_business_tier.entities.TUser;
  */
 public class TUserJpaController implements Serializable {
 
-    public TUserJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
     private EntityManagerFactory emf = null;
+    private EntityManager em = null;
 
-    public TUserJpaController() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setEm(Object em) {
+        this.em = (EntityManager) em;
     }
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
+        if(em!=null) 
+            return em;
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory("Library1PU");
+        }
         return emf.createEntityManager();
     }
-
+    
     public void create(TUser TUser) {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            em.getTransaction().begin();
+            if(this.em==null) em.getTransaction().begin();
             em.persist(TUser);
-            em.getTransaction().commit();
+            if(this.em==null) em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();
@@ -54,9 +58,9 @@ public class TUserJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            em.getTransaction().begin();
+            if(this.em==null) em.getTransaction().begin();
             TUser = em.merge(TUser);
-            em.getTransaction().commit();
+            if(this.em==null) em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -68,7 +72,7 @@ public class TUserJpaController implements Serializable {
             throw ex;
         } finally {
             if (em != null) {
-                em.close();
+                if(this.em==null) em.close();
             }
         }
     }
@@ -77,7 +81,7 @@ public class TUserJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            em.getTransaction().begin();
+            if(this.em==null) em.getTransaction().begin();
             TUser TUser;
             try {
                 TUser = em.getReference(TUser.class, id);
@@ -86,10 +90,10 @@ public class TUserJpaController implements Serializable {
                 throw new NonexistentEntityException("The TUser with id " + id + " no longer exists.", enfe);
             }
             em.remove(TUser);
-            em.getTransaction().commit();
+            if(this.em==null) em.getTransaction().commit();
         } finally {
             if (em != null) {
-                em.close();
+                if(this.em==null) em.close();
             }
         }
     }
@@ -114,7 +118,7 @@ public class TUserJpaController implements Serializable {
             }
             return q.getResultList();
         } finally {
-            em.close();
+            if(this.em==null) em.close();
         }
     }
 
@@ -123,7 +127,7 @@ public class TUserJpaController implements Serializable {
         try {
             return em.find(TUser.class, id);
         } finally {
-            em.close();
+            if(this.em==null) em.close();
         }
     }
 
@@ -136,7 +140,7 @@ public class TUserJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
-            em.close();
+            if(this.em==null) em.close();
         }
     }
 
@@ -149,13 +153,13 @@ public class TUserJpaController implements Serializable {
     public boolean addUser(TUser user) {
         EntityManager em = getEntityManager();
         try {
-            em.getTransaction().begin();
+            if(this.em==null) em.getTransaction().begin();
             em.persist(user);
-            em.getTransaction().commit();
+            if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            em.close();
+            if(this.em==null) em.close();
             return false;
         }
     }

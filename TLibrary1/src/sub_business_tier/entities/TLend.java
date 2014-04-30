@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -36,9 +38,9 @@ public class TLend implements Serializable {
         this.id = id;
     }
     
-    @Column(name = "user")
+    @ManyToOne
     private TUser user;
-    @Column
+    @ManyToOne
     private TBook book;
 
     public TBook getBook() {

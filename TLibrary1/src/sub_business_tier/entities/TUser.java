@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 public class TUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,7 +36,7 @@ public class TUser implements Serializable {
         this.id = id;
     }
     
-    @Column
+    @Column (name = "login")
     private String login;
 
     public String getLogin() {

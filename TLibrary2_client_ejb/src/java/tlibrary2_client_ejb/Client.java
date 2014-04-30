@@ -192,11 +192,8 @@ public class Client implements ActionListener {
         java.awt.EventQueue.invokeLater(new Runnable() {
             //javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    createAndShowGUI();
-                } catch (NoClassDefFoundError ex) {
-                    JOptionPane.showMessageDialog(null, ex.getLocalizedMessage() + "\n If this is about COBRA, then probably you are using bugged Java version. Search google: 23302314/781312.\nTry running Glassfish with following command:\nJAVA_HOME=~/glassfish3/glassfish/bin/asadmin start-domain domain1");
-                }
+                createAndShowGUI();
+                //java.rmi.MarshalException will be never sent here.
             }
         });
     }
