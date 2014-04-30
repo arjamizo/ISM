@@ -53,6 +53,8 @@ public class TLendJpaController implements Serializable {
             if(this.em==null) em.getTransaction().begin();
             em.persist(TLend);
             if(this.em==null) em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if (em != null) {
                 if(this.em==null) em.close();
@@ -97,6 +99,8 @@ public class TLendJpaController implements Serializable {
             }
             em.remove(TLend);
             if(this.em==null) em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if (em != null) {
                 if(this.em==null) em.close();
@@ -123,6 +127,8 @@ public class TLendJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if(this.em==null) em.close();
         }
@@ -132,6 +138,8 @@ public class TLendJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(TLend.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if(this.em==null) em.close();
         }
@@ -145,6 +153,8 @@ public class TLendJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if(this.em==null) em.close();
         }

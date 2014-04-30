@@ -47,6 +47,8 @@ public class TUserJpaController implements Serializable {
             if(this.em==null) em.getTransaction().begin();
             em.persist(TUser);
             if(this.em==null) em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if (em != null) {
                 em.close();
@@ -91,6 +93,8 @@ public class TUserJpaController implements Serializable {
             }
             em.remove(TUser);
             if(this.em==null) em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if (em != null) {
                 if(this.em==null) em.close();
@@ -117,6 +121,8 @@ public class TUserJpaController implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if(this.em==null) em.close();
         }
@@ -126,6 +132,8 @@ public class TUserJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(TUser.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if(this.em==null) em.close();
         }
@@ -139,6 +147,8 @@ public class TUserJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if(this.em==null) em.close();
         }
