@@ -36,7 +36,6 @@ public class TBase {
         tLendJpaController.setEm(em);
         tUserJpaController.setEm(em);
     }
-    
 
     public TBase(TFacade facade_) {
         facade = facade_;

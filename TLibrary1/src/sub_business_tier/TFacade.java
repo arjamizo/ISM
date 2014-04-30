@@ -276,6 +276,7 @@ public class TFacade implements Serializable {
         for (TLend tLend : borrows) {
             if (tLend.getBook().equals(book)) throw new RuntimeException("Book " + book + " can not be borrowed.");
         }
+        LOG.info("borrows class: "+ borrows.getClass().getName());
         borrows.add(new TLend().setUser(new TUser().setLogin(client)).setBook(book));
         book.startPeriod("7");
     }

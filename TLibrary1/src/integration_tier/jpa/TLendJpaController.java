@@ -46,12 +46,12 @@ public class TLendJpaController implements Serializable {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void create(TLend TLend) {
+    public void create(TLend tLend) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             if(this.em==null) em.getTransaction().begin();
-            em.persist(TLend);
+            em.persist(tLend);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
