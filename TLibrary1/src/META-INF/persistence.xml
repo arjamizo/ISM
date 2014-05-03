@@ -9,8 +9,9 @@
       <class>sub_business_tier.entities.TBook_period</class>
       <class>sub_business_tier.entities.TTitle_book</class>
       <class>sub_business_tier.entities.TTitle_book_on_tape</class>
-      <class>sub_business_tier.entities.TLend</class>
       <class>sub_business_tier.entities.TUser</class>
+      <class>sub_business_tier.entities.TLend</class>
+      <exclude-unlisted-classes>false</exclude-unlisted-classes>
       <properties>
         <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Library1"/>
         <property name="javax.persistence.jdbc.password" value="Library1"/>

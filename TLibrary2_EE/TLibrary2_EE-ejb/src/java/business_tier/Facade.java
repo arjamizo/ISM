@@ -131,5 +131,22 @@ public class Facade implements FacadeRemote {
     public void add_client(String client) throws Exception {
         base.add_users();
     }
+
+    @Override
+    public List getBooks() {
+        ArrayList<Object[]> books = new ArrayList<Object[]>();
+        for (TTitle_book tTitle_book : getmTitle_books()) {
+            for (TBook tBook : tTitle_book.getBooks()) {
+                Object[] book = new Object[]{
+                  tBook.getmTitle_book().getPublisher()
+                , tBook.getmTitle_book().getPublisher()
+                , tBook.getmTitle_book().getISBN()
+                , tBook.getmTitle_book().getPublisher()
+                , tBook.getNumber()
+                        };
+            }
+        }
+        return books;
+    }
     
 }

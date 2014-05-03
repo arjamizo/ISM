@@ -48,7 +48,7 @@ public class TBase {
         } catch (javax.persistence.PersistenceException e) {
             LOG.warning("Probably EntityManager was not loaded properly.");
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+//            throw new RuntimeException(ex);
         }
     }
     private static final Logger LOG = Logger.getLogger(TBase.class.getName());

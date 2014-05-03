@@ -6,11 +6,13 @@
 package presentation_tier;
 
 import business_tier.FacadeRemote;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import sub_business_tier.entities.TTitle_book;
 
 /**
  *
@@ -23,18 +25,44 @@ public class Managed_Bean1 {
     @EJB
     private FacadeRemote facade;
 
-    private DataModel items;
+    private DataModel items,books;
+    
+    String ISBN,actor;
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
 
     /**
      * Creates a new instance of Managed_Bean1
      */
     public Managed_Bean1() {
     }
+    
+    public String add_title() {
+        String t1[] = {actor.length()>0?"3":"1", "Author1", "Title1", ISBN, "Publisher1", actor};
+        TTitle_book title = facade.add_title_book(t1);
+        LOG.info("title: "+title);
+        return "/faces/presentation_tier_view/Show_data";
+    }
+    private static final Logger LOG = Logger.getLogger(Managed_Bean1.class.getName());
 
     public String store_data() {
         try {
-//            facade.add_titles();
-//            facade.add_books();
+            facade.add_titles();
+            facade.add_books();
         } catch (Exception e) {
         }
         return "/faces/index2";
@@ -64,6 +92,18 @@ public class Managed_Bean1 {
     }
 
     public void setItems(
+            DataModel items) {
+        this.items = items;
+    }
+    public DataModel getBooks() {
+        if (books == null) {
+            System.out.println("Model");
+            books = new ListDataModel(facade.getBooks());
+        }
+        return books;
+    }
+
+    public void setBooks(
             DataModel items) {
         this.items = items;
     }

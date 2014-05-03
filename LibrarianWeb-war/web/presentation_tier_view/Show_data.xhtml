@@ -59,6 +59,60 @@
                             </h:column>
                         </h:dataTable>
                     </h:panelGroup>
+                    
+                    <h1>TBooks</h1>
+                    
+                    <h:outputText
+                        escape="false"
+                        value="Lista_produktow_pusta"
+                        rendered="#{managed_Bean1.books.rowCount ==0}"/>
+                    <h:panelGroup
+                        rendered="#{managed_Bean1.books.rowCount > 0}">
+                        <h:dataTable
+                            value="#{managed_Bean1.books}" var="item" border="0" cellpadding="2" cellspacing="0"
+                            rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all"
+                            style="border:solid1px">
+
+                            <h:column>
+                                <f:facet name="header">
+
+                                    <h:outputText value="Publisher"/>
+                                </f:facet>
+                                <h:outputText value="#{item.get(0)}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="ISBN"/>
+                                </f:facet>
+                                <h:outputText value="#{item.get(1)}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Title"/>
+                                </f:facet>
+                                <h:outputText value="#{item.get(2)}"/>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Author"/>
+                                </f:facet>
+                                <h:outputText value="#{item.get(3)}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Actor"/>
+                                </f:facet>
+                                <h:outputText value="#{item.get(4)}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Number"/>
+                                </f:facet>
+                                <h:outputText value="#{item.get(5)}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
                 </h:form>
             </ui:define>
         </ui:composition>

@@ -61,4 +61,6 @@ public interface FacadeRemote {
 
     public void add_client(String client) throws Exception;
 
+    public List getBooks();
+
 }
