@@ -133,20 +133,26 @@ public class Facade implements FacadeRemote {
     }
 
     @Override
-    public List getBooks() {
-        ArrayList<Object[]> books = new ArrayList<Object[]>();
-        for (TTitle_book tTitle_book : getmTitle_books()) {
-            for (TBook tBook : tTitle_book.getBooks()) {
-                Object[] book = new Object[]{
-                  tBook.getmTitle_book().getPublisher()
-                , tBook.getmTitle_book().getPublisher()
-                , tBook.getmTitle_book().getISBN()
-                , tBook.getmTitle_book().getPublisher()
-                , tBook.getNumber()
-                        };
-            }
-        }
-        return books;
+    public List<Object[]> books() {
+        return facade.books();
+    }
+
+    @Override
+    public String addTitleBook(String[] t1) {
+        add_title_book(t1);
+        return "OK";
+    }
+
+    @Override
+    /**
+     * Searches for particular book. 
+     * 
+     * If given argument is not null, then tries to match it's every not-null parameter with, accordingly, ["2" for TBook, "3" for TBookOnTape, Author, Title, ISBN and Publisher]. 
+     * Example: 
+     * if one looks for only book 
+     */
+    public List<Object[]> booksByTitle(String[] titleForFactory) {
+        return facade.booksByTitle(titleForFactory);
     }
     
 }

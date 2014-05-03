@@ -12,7 +12,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import sub_business_tier.entities.TTitle_book;
 
 /**
  *
@@ -53,7 +52,7 @@ public class Managed_Bean1 {
     
     public String add_title() {
         String t1[] = {actor.length()>0?"3":"1", "Author1", "Title1", ISBN, "Publisher1", actor};
-        TTitle_book title = facade.add_title_book(t1);
+        String title = facade.addTitleBook(t1);
         LOG.info("title: "+title);
         return "/faces/presentation_tier_view/Show_data";
     }
@@ -98,7 +97,7 @@ public class Managed_Bean1 {
     public DataModel getBooks() {
         if (books == null) {
             System.out.println("Model");
-            books = new ListDataModel(facade.getBooks());
+            books = new ListDataModel(facade.books());
         }
         return books;
     }
