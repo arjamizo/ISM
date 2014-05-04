@@ -79,7 +79,7 @@ public class Managed_Bean1 {
     public List<SelectItem> getSelectTitles() throws Exception {
         List<SelectItem> list = new ArrayList<SelectItem>();
         for (ArrayList<String> arrayList : facade.titles()) {
-            list.add(new SelectItem(arrayList.get(1), "ISBN: "+arrayList.get(1)));
+            list.add(new SelectItem(arrayList.get(1), "ISBN: "+arrayList.get(1)+" "+arrayList));
         }
         return list;
     }

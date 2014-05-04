@@ -7,6 +7,9 @@
 package pwr;
 
 import business_tier.FacadeRemote;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Properties;
@@ -14,6 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import tlibrary2_client_ejb.Client;
 
@@ -74,7 +79,7 @@ public class Main extends Client {
         }
     }
         
-    private static void createAndShowGUI(Client demo) {
+    private static void createAndShowGUI(Main demo) {
         //Create and set up the window.
         JFrame frame = new JFrame("MenuDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,11 +87,36 @@ public class Main extends Client {
         //Create and set up the content pane.
         frame.setJMenuBar(demo.createMenuBar());
         frame.setContentPane(demo.createContentPane());
+        
+        JMenu menu = new JMenu("Server");
+        menu.setMnemonic(KeyEvent.VK_R);
+        
+        JMenuItem menuItem = new JMenuItem("Reinitialize connection with remote EJB");
+        menuItem.setMnemonic(KeyEvent.VK_S);
+        menu.add(menuItem);
+        menuItem.addActionListener(new ActionListener() {
+            Main main;
 
+            public ActionListener setMain(Main main) {
+                this.main = main;
+                return this;
+            }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    main.init();
+                } catch (Throwable ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new RuntimeException(ex);
+                }
+            }
+        }.setMain(demo));
+        frame.getJMenuBar().add(menu);
+        
         //Display the window.
         frame.setVisible(true);
     }
-    public void init() throws Throwable {
+    final public void init() throws Throwable {
             Properties props = new Properties();
             props.setProperty("java.naming.factory.initial", "com.sun.enterprise.naming.SerialInitContextFactory");
             props.setProperty("java.naming.factory.url.pkgs", "com.sun.enterprise.naming");

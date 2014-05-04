@@ -49,7 +49,7 @@ public class Client implements ActionListener {
         //Create the menu bar.
         menuBar = new JMenuBar();
 
-        menu = new JMenu("A Menu");
+        menu = new JMenu("Menu");
         menu.setMnemonic(KeyEvent.VK_A);
         menuBar.add(menu);
 
