@@ -8,7 +8,9 @@ package presentation_tier;
 import business_tier.FacadeRemote;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -31,6 +33,15 @@ public class Managed_Bean1 {
     private ArrayList<ArrayList<String>> titles;
     
     String ISBN,actor,publisher,title,author,number;
+    @PostConstruct
+    public void init() {
+        ISBN=Integer.toString((int) (new Random().nextFloat()*Integer.MAX_VALUE));
+        actor=new String[]{"Keanu Reevs", "Jason Statham", "Arnold Achwarzeneger", "Anna Gacek", "Jaroslaw Boberek", "", "", "", ""}[new Random().nextInt(5+4)];
+        publisher=new String[]{"PWM", "Helion", "Gdanski Klub Fantastyki", "OPERON", "Wydawnictwo Solaris"}[new Random().nextInt(5)];
+        title=new String[]{"Czysty Kod", "Folwark Zierzecy", "Sztuka podstepu. Lamalem ludzi, nie hasla", "Orwell 1984", "Haker. Prawdziwa historia przywodcy cybermafii"}[new Random().nextInt(5)];
+        author=new String[]{"Kevin Poulsen", "Kevin Mytnick", "Robert C. Martin", "Geirge Orwell", "Stefan Zeromski"}[new Random().nextInt(5)];
+        number=Integer.toString((int) (new Random().nextFloat()*Integer.MAX_VALUE));
+    }
 
     public String getNumber() {
         return number;
@@ -96,10 +107,11 @@ public class Managed_Bean1 {
     public Managed_Bean1() {
     }
     
-    public String add_title() {
-        String t1[] = {actor.length()>0?"3":"1", "Author1", "Title1", ISBN, "Publisher1", actor};
+    public String add_title() throws Exception {
+        String t1[] = {actor.length()>0?"3":"1", author, title, ISBN, publisher, actor};
         String title = facade.addTitleBook(t1);
         LOG.info("title: "+title);
+        facade.add_titles();
         return "/faces/presentation_tier_view/Show_data";
     }
     private static final Logger LOG = Logger.getLogger(Managed_Bean1.class.getName());
