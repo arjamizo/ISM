@@ -7,6 +7,7 @@ package integration_tier;
 import integration_tier.jpa.TLendJpaController;
 import integration_tier.jpa.TUserJpaController;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -130,4 +131,73 @@ public class TBase {
         }
     }
 
+    public List<Object[]> booksByTitle(String[] titleForFactory) {
+        
+        ArrayList<Object[]> books = new ArrayList<Object[]>();
+        for (TTitle_book tTitle_book : facade.getmTitle_books()) {
+            for (TBook tBook : tTitle_book.getBooks()) {
+                String[] book = new String[]{
+                  (tBook.getmTitle_book().getActor().length()==0)?"2":"3"
+                , tBook.getmTitle_book().getAuthor()
+                , tBook.getmTitle_book().getTitle()
+                , tBook.getmTitle_book().getISBN()
+                , tBook.getmTitle_book().getPublisher()
+                , Integer.toString(tBook.getNumber())
+                };
+                //https://code.google.com/p/functionaljava/source/browse/artifacts/3.0/demo/1.5/
+//                final ArrayList<String> bookList = new ArrayList(Arrays.asList(book));
+//                final ArrayList<String> bookList2 = new ArrayList(Arrays.asList(titleForFactory));
+//                List<P2<String,String>> ret = list();
+//                final fj.data.List<String> l1 = Java.ArrayList_List().f(bookList);
+//                final fj.data.List<String> l2 = Java.ArrayList_List().f(bookList2);
+//                fj.data.List.zip(
+//                        l1, l2, 
+//                        ret
+//                        );
+                if(titleForFactory!=null) {
+                    List<Boolean> equals=new LinkedList();
+                    for (int i = 0; i < book.length; i++) {
+                        if(book[i]!=null) {
+    //                        try {
+    //                            org.apache.commons.lang3.StringUtils.getLevenshteinDistance(book[i], titleForFactory[i]);
+    //                        } catch (Exception e) {
+    //                            System.err.println("Probably there is no Apache Commons Lang library, download it at https://commons.apache.org/proper/commons-lang/download_lang.cgi. Currently using java.lang implementatoin");
+    //                        }
+                            equals.add(book[i].equals(titleForFactory[i]));
+                        }
+                    }
+                    try {
+                        if(com.google.common.collect.Iterables.all(equals, com.google.common.base.Predicates.alwaysTrue()))
+                            books.add(book);
+                    } catch (NoClassDefFoundError ex) {
+                        System.err.println("Probably there is no Guava library, using java.lang implementatoin");
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    books.add(book);
+                }
+            }
+        }
+        return books;
+    }
+    public List<Object[]> books() {
+        return booksByTitle(null);
+    }
+
+    public String[] getTitleByISBN(String ISBN) {
+        try {
+            for (ArrayList<String> title : titles()) {
+                if(title.get(1).equals(ISBN)) {
+                    String[] array = title.toArray(new String[0]);
+                    ArrayList ret = new ArrayList();
+                    ret.add(title.get(4).length()>0?"3":"2");
+                    ret.addAll(title);
+                    return (String[]) ret.toArray(new String[0][0]);
+                }
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        return null;
+    }
 }

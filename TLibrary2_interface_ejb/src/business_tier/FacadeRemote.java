@@ -66,4 +66,6 @@ public interface FacadeRemote {
 
     public String addTitleBook(String[] t1);
 
+    public Object getTitleByISBN(String submittedValue);
+
 }

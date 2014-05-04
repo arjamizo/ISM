@@ -134,7 +134,7 @@ public class Facade implements FacadeRemote {
 
     @Override
     public List<Object[]> books() {
-        return facade.books();
+        return base.books();
     }
 
     @Override
@@ -152,7 +152,11 @@ public class Facade implements FacadeRemote {
      * if one looks for only book 
      */
     public List<Object[]> booksByTitle(String[] titleForFactory) {
-        return facade.booksByTitle(titleForFactory);
+        return base.booksByTitle(titleForFactory);
+    }
+
+    public Object getTitleByISBN(String ISBN) {
+        return base.getTitleByISBN(ISBN);
     }
     
 }

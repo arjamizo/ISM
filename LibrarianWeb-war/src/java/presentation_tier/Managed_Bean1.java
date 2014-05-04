@@ -6,12 +6,15 @@
 package presentation_tier;
 
 import business_tier.FacadeRemote;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.faces.model.SelectItem;
 
 /**
  *
@@ -25,8 +28,52 @@ public class Managed_Bean1 {
     private FacadeRemote facade;
 
     private DataModel items,books;
+    private ArrayList<ArrayList<String>> titles;
+    private List<SelectItem> selectTitles;
     
-    String ISBN,actor;
+    String ISBN,actor,publisher,title,author,number;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public ArrayList<ArrayList<String>> getTitles() throws Exception {
+        titles=facade.titles();
+        return titles;
+    }
+    
+    public List<SelectItem> getSelectTitles() throws Exception {
+        List<SelectItem> list = new ArrayList<SelectItem>();
+        for (ArrayList<String> arrayList : facade.titles()) {
+            list.add(new SelectItem(arrayList.get(1), "ISBN: "+arrayList.get(1)));
+        }
+        return list;
+    }
+    
 
     public String getISBN() {
         return ISBN;

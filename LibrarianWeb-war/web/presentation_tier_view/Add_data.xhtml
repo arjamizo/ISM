@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../template.xhtml">
+
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="left">
+                left
+            </ui:define>
+            
+            <ui:define name="content">
+                <h2>Add book title</h2>
+                <h:form>
+                    Author <h:inputText value="#{managed_Bean1.author}" label="author"/><br/>
+                    Title <h:inputText value="#{managed_Bean1.title}" label="title"/><br/>
+                    ISBN <h:inputText value="#{managed_Bean1.ISBN}" label="ISBN"/><br/>
+                    Publisher <h:inputText value="#{managed_Bean1.publisher}" label="actor"/><br/>
+                    Actor <h:inputText value="#{managed_Bean1.actor}" label="actor"/> (optional, only if audiobook)<br/>
+                    <h:commandButton action="#{managed_Bean1.add_title}" value="Add title"/><br/>
+                </h:form>
+                <h2>Add book</h2>
+                <h:form>
+                    ISBN 
+                    <h:selectOneMenu value="#{managed_Bean1.selectTitles}"><ui:remove>converter="#{userConverter}"></ui:remove>
+                        <f:selectItems value="#{managed_Bean1.selectTitles}"/>
+                    </h:selectOneMenu><br/>
+                    Number <h:inputText value="#{managed_Bean1.number}" label="number"/> (optional, only if book existed in previous library building)<br/>
+                    <h:commandButton action="#{managed_Bean1.add_book}" value="Add book"/><br/>
+                </h:form>
+            </ui:define>
+            
+            <ui:define name="bottom">
+                bottom
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
