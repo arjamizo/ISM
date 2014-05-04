@@ -29,7 +29,6 @@ public class Managed_Bean1 {
 
     private DataModel items,books;
     private ArrayList<ArrayList<String>> titles;
-    private List<SelectItem> selectTitles;
     
     String ISBN,actor,publisher,title,author,number;
 
@@ -153,4 +152,11 @@ public class Managed_Bean1 {
             DataModel items) {
         this.items = items;
     }
+
+    @Override
+    public String toString() {
+        return "Managed_Bean1{" + "facade=" + facade + ", items=" + items + ", books=" + books + ", titles=" + titles + ", ISBN=" + ISBN + ", actor=" + actor + ", publisher=" + publisher + ", title=" + title + ", author=" + author + ", number=" + number + '}';
+    }
+    
+    
 }

@@ -7,15 +7,13 @@ package integration_tier;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import sub_business_tier.entities.TTitle_book;
 
-/**
- *
- * @author azochniak
- */
+
 public class TTitle_bookController {
 
     private EntityManagerFactory emf = null;
@@ -70,8 +68,19 @@ public class TTitle_bookController {
     }
 
     public TTitle_book[] getTTitle_books_() {
-        return (TTitle_book[]) getTTitle_books().toArray(new TTitle_book[0]);
+        final List<TTitle_book> list = getTTitle_books();
+        LOG.info("list contains "+list);
+        TTitle_book[] ret=new TTitle_book[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            ret[i]=list.get(i);
+            
+        }
+        LOG.info("arr contains "+ret);
+        LOG.info("arr[] contains "+list.toArray(new TTitle_book[0]));
+        return ret;
+//        return list.toArray(new TTitle_book[0]);
     }
+    private static final Logger LOG = Logger.getLogger(TTitle_bookController.class.getName());
 
     public List<TTitle_book> getTTitle_books() {
         EntityManager em = getEntityManager();

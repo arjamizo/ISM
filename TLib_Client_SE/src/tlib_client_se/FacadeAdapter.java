@@ -138,4 +138,24 @@ class FacadeAdapter implements FacadeRemote {
         throw new UnsupportedOperationException(String.format("User %s was added.", client)); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public List<Object[]> books() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Object[]> booksByTitle(String[] titleForFactory) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String addTitleBook(String[] t1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getTitleByISBN(String submittedValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

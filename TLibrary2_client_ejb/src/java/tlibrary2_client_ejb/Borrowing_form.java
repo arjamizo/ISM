@@ -41,11 +41,12 @@ public class Borrowing_form extends javax.swing.JPanel {
     public Borrowing_form(Client client) {
         this.client = client;
         initComponents();
+        table.setModel(model);
         
         jComboBox1.setEditable(true);
             // change the editor's document == override IMPLEMENTATION
+        try {
         extendedComboBox = new JComboBoxDemo(jComboBox1);
-        table.setModel(model);
         jButton1.addActionListener(new ActionListener() {
                 
                 private JComboBoxDemo comboBox;
@@ -82,7 +83,9 @@ public class Borrowing_form extends javax.swing.JPanel {
                     return this;
                 }
             }.init(extendedComboBox));
-        
+        } catch (NoClassDefFoundError ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
         table.getSelectionModel().addListSelectionListener(new RowListener(new UnaryOperator() {
 
             @Override
