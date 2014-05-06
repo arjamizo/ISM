@@ -8,11 +8,10 @@ import integration_tier.TBase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TTitle_book;
@@ -33,6 +32,16 @@ public class Facade implements FacadeRemote {
 
     TFacade facade = new TFacade();
     TBase base = new TBase(facade);
+    
+    @PostConstruct
+    public void init() {
+        try {
+//            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        } catch (Throwable ex) {
+            Logger.getLogger(Facade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("There is no JDBC Driver. Copy it to glassfish/lib folder and restart glassfish", ex);
+        }
+    }
     
     public ArrayList<TTitle_book> getmTitle_books() {
         return facade.getmTitle_books();
@@ -133,7 +142,7 @@ public class Facade implements FacadeRemote {
     }
 
     @Override
-    public List<Object[]> books() {
+    public List<ArrayList<String>> books() {
         return base.books();
     }
 
@@ -151,7 +160,7 @@ public class Facade implements FacadeRemote {
      * Example: 
      * if one looks for only book 
      */
-    public List<Object[]> booksByTitle(String[] titleForFactory) {
+    public List<ArrayList<String>> booksByTitle(String[] titleForFactory) {
         return base.booksByTitle(titleForFactory);
     }
 

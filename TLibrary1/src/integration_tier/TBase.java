@@ -9,9 +9,7 @@ import integration_tier.jpa.TUserJpaController;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TLend;
@@ -40,8 +38,8 @@ public class TBase {
 
     public TBase(TFacade facade_) {
         facade = facade_;
-        titleJpaController = new TTitle_bookController();
         bookJpaController = new TBookController();
+        titleJpaController = new TTitle_bookController();
         tLendJpaController = new TLendJpaController();
         tUserJpaController = new TUserJpaController();
         try {
@@ -111,7 +109,9 @@ public class TBase {
             help3.add(t.getAuthor());
             help3.add(t.getActor());
             help2.add(help3);
+            LOG.info("help3="+help3);
         }
+        LOG.info("help2="+help2);
         return help2;
     }
     
@@ -131,9 +131,9 @@ public class TBase {
         }
     }
 
-    public List<Object[]> booksByTitle(String[] titleForFactory) {
+    public List<ArrayList<String>> booksByTitle(String[] titleForFactory) {
         
-        ArrayList<Object[]> books = new ArrayList<Object[]>();
+        ArrayList<ArrayList<String>> books = new ArrayList<ArrayList<String>>();
         for (TTitle_book tTitle_book : facade.getmTitle_books()) {
             for (TBook tBook : tTitle_book.getBooks()) {
                 String[] book = new String[]{
@@ -168,20 +168,22 @@ public class TBase {
                     }
                     try {
                         if(com.google.common.collect.Iterables.all(equals, com.google.common.base.Predicates.alwaysTrue()))
-                            books.add(book);
+                            books.add(new java.util.ArrayList(java.util.Arrays.asList(book)));
                     } catch (NoClassDefFoundError ex) {
                         System.err.println("Probably there is no Guava library, using java.lang implementatoin");
                         throw new RuntimeException(ex);
                     }
                 } else {
-                    books.add(book);
+                    books.add(new java.util.ArrayList(java.util.Arrays.asList(book)));
                 }
             }
         }
         return books;
     }
-    public List<Object[]> books() {
-        return booksByTitle(null);
+    public List<ArrayList<String>> books() {
+        final List<ArrayList<String>> books = booksByTitle(null);
+        LOG.info("books="+books);
+        return books;
     }
 
     public String[] getTitleByISBN(String ISBN) {

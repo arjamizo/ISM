@@ -61,8 +61,8 @@ public interface FacadeRemote {
 
     public void add_client(String client) throws Exception;
 
-    public List<Object[]> books();
-    public List<Object[]> booksByTitle(String[] titleForFactory);
+    public List<ArrayList<String>> books();
+    public List<ArrayList<String>> booksByTitle(String[] titleForFactory);
 
     public String addTitleBook(String[] t1);
 

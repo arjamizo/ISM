@@ -132,11 +132,13 @@ public class Managed_Bean1 {
 
     public DataModel create_DataModel() {
         try {
-            return new ListDataModel(facade.titles());
+            final ListDataModel titles = new ListDataModel(facade.titles());
+            LOG.info("facadetitles="+facade.titles()+" titles="+titles.getRowData());
+//            return new ListDataModel(new ArrayList<>());
+            return titles;
 //            return new ListDataModel(new ArrayList<>());
         } catch (Exception e) {
-            System.out.println("Blad "+e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
     
@@ -144,6 +146,7 @@ public class Managed_Bean1 {
         if (items == null) {
             System.out.println("Model");
             items = create_DataModel();
+            LOG.info("items="+items);
         }
         return items;
     }
