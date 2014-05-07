@@ -92,7 +92,9 @@ public class TFacade implements Serializable {
         LOG.info("searching among: "+getmTitle_books());
         if ((idx = getmTitle_books().indexOf(title_book)) != -1) {
             LOG.info("found at position "+idx);
+            LOG.info("list of books="+getmTitle_books());
             title_book = getmTitle_books().get(idx);
+            LOG.info("interesting book="+title_book);
             return title_book;
         }
         return null;
@@ -276,8 +278,12 @@ public class TFacade implements Serializable {
     }
 
     public void borrowBook(String[] bookTitle, String[] bookNumber, String client) {
+        LOG.info("Borrwing with "+Arrays.asList(bookTitle)+" "+Arrays.asList(bookNumber)+ " "+ client);
         TTitle_book title = search_title_book(new TFactory().create_title_book(bookTitle));
+        LOG.info("Created titleforsearching="+title);
         TBook book = title.search_book(new TFactory().create_book(bookNumber));
+        LOG.info("LISTOFBOOKS="+getBooksByTitle(null).toString());
+        LOG.info("Created book="+book);
         if(book==null) 
             throw new RuntimeException("This book "+ Arrays.asList(bookNumber) + " was not found.");
         for (TLend tLend : borrows) {
@@ -314,15 +320,17 @@ public class TFacade implements Serializable {
         List<Object[]> title_books = new ArrayList();
         for(TTitle_book next2:getmTitle_books()) {
             for(TBook next:next2.getmBooks())
-            {
+            { 
 //                if(filter!=null && !filter.call(next.getmTitle_book()).equals(true)) continue;
-                String[] title = new String[8];
-                title[0]=Integer.toString(next.getNumber());
-                title[1]=next.getmTitle_book().getPublisher();
-                title[2]=next.getmTitle_book().getISBN();
-                title[3]=next.getmTitle_book().getTitle();
-                title[4]=next.getmTitle_book().getAuthor();
-                title[5]=next.getmTitle_book().getActor(); //If Book is not book on tape, then this field has null
+                LOG.info("Parsing book: "+next+ "its title="+next.getmTitle_book());
+                String[] title = new String[8]; 
+                int i=0;
+                title[i++]=next.getmTitle_book().getAuthor();
+                title[i++]=next.getmTitle_book().getTitle();
+                title[i++]=next.getmTitle_book().getISBN();
+                title[i++]=next.getmTitle_book().getPublisher();
+                title[i++]=next.getmTitle_book().getActor(); //If Book is not book on tape, then this field has null
+                title[i++]=Integer.toString(next.getNumber());
                 
                 title[6] = title[7] = "";
                 try {

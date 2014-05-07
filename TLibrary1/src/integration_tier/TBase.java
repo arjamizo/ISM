@@ -142,6 +142,7 @@ public class TBase {
                 , tBook.getmTitle_book().getTitle()
                 , tBook.getmTitle_book().getISBN()
                 , tBook.getmTitle_book().getPublisher()
+                , tBook.getmTitle_book().getActor()
                 , Integer.toString(tBook.getNumber())
                 };
                 //https://code.google.com/p/functionaljava/source/browse/artifacts/3.0/demo/1.5/

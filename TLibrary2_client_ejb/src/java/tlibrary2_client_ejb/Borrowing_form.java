@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -136,13 +137,22 @@ public class Borrowing_form extends javax.swing.JPanel {
     
     static protected class BorrowingTable extends AbstractTableModel {
         
-        private List<String> columnNames = Arrays.asList(new String[]{
+        private List<String> columnNamesInFactory = Arrays.asList(new String[]{
             "Number", 
             "Publisher",
             "ISBN",
             "Title",
             "Author",
             "Actor",
+            "Borrowed by",
+            "Borrowed until"});
+        private List<String> columnNames = Arrays.asList(new String[]{
+            "Author",
+            "Title",
+            "ISBN",
+            "Publisher",
+            "Actor",
+            "Number", 
             "Borrowed by",
             "Borrowed until"});
         private Object[][] data;
@@ -152,7 +162,21 @@ public class Borrowing_form extends javax.swing.JPanel {
         }
 
         public void setData(Object[][] val) {
-            data = val;
+            try {
+                LOG.info("GOT: " + val + " "+ Arrays.asList(val[0]));
+            } catch (Exception e) {
+                LOG.warning("BorrowingForm.java:168 below setData "+ e.getMessage());
+            }
+//            data = new Object[val.length][val[0].length];
+            //Translation between
+            for (int i = 0; i < val.length; i++) {
+                for (int j = 0; j < val[0].length; j++) {
+                    for (String string : columnNames) {
+                        //data[i][columnNames.indexOf(string)] = val[i][columnNamesInFactory.indexOf(string)];
+                    }
+                }
+            }
+            data=val;
             fireTableDataChanged();
         }
 
@@ -180,7 +204,12 @@ public class Borrowing_form extends javax.swing.JPanel {
 
         @Override
         public Class getColumnClass(int c) {
-            return getValueAt(0, c).getClass();
+            try {
+                return getValueAt(0, c).getClass();
+            } catch (Exception e) {
+                LOG.warning(e.getMessage());
+                return String.class;
+            }
         }
 
         @Override
@@ -237,6 +266,7 @@ public class Borrowing_form extends javax.swing.JPanel {
         table.setFillsViewportHeight(true);
         table.repaint();
     }
+    private static final Logger LOG = Logger.getLogger(Borrowing_form.class.getName());
     
     
     
@@ -259,7 +289,6 @@ public class Borrowing_form extends javax.swing.JPanel {
 
         jButton1.setText("Borrow");
 
-        table.setAutoCreateRowSorter(true);
         table.setModel(model);
         jScrollPane1.setViewportView(table);
 

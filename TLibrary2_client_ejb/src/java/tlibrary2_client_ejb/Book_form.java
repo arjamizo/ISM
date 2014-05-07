@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -71,14 +72,14 @@ public class Book_form extends JPanel implements ActionListener {
 
     String[] title() {
         String what, actor;
-        actor = (String) model.getValueAt(row, 4);
+        actor = (String) model.getActor(row);
         if (actor.isEmpty())//what type of title of book
         {
             what = "0";
         } else {
             what = "2";
         }
-        String data[] = {what, (String) model.getValueAt(row, 1), actor};
+        String data[] = {what, (String) model.getISBN(row), actor};
         return data;
     }
 
@@ -118,6 +119,7 @@ public class Book_form extends JPanel implements ActionListener {
             String data2[] = {what_book_type, (String) number.getText(),
                 (String) period.getText()};
             final String[] title = title();
+            LOG.info("title used for creating book="+java.util.Arrays.asList(title));
             FacadeRemote facade = client.getFacade();
             ArrayList<String> help3;
             facade.add_book(title, data2);
@@ -129,6 +131,7 @@ public class Book_form extends JPanel implements ActionListener {
             }
         }
     }
+    private static final Logger LOG = Logger.getLogger(Book_form.class.getName());
 
     void print_books() {
         ArrayList<String> help3 = client.getFacade().Search_title_book(title());
@@ -150,11 +153,13 @@ public class Book_form extends JPanel implements ActionListener {
 
     class MyTableModel extends AbstractTableModel {
 
-        private String[] columnNames = {"Publisher",
-            "ISBN",
-            "Title",
+        private String[] columnNames = {
             "Author",
-            "Actor"};
+            "Title",
+            "ISBN",
+            "Publisher",
+            "Actor"
+        };
         private Object[][] data;
 
         public void setData(Object[][] val) {
@@ -192,6 +197,17 @@ public class Book_form extends JPanel implements ActionListener {
         public void setValueAt(Object value, int row, int col) {
             data[row][col] = value;
             fireTableCellUpdated(row, col);
+        }
+        
+        private String getISBN(int row) {
+            java.util.List cols=java.util.Arrays.asList(columnNames);
+            int idx = cols.indexOf("ISBN");
+            return getValueAt(row, idx).toString();
+        }
+        private String getActor(int row) {
+            java.util.List cols=java.util.Arrays.asList(columnNames);
+            int idx = cols.indexOf("Actor");
+            return getValueAt(row, idx).toString();
         }
     }
 }
