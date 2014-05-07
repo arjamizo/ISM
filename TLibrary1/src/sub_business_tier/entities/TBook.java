@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class TBook implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = new java.util.Random().nextLong();
     private int number;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -77,7 +77,7 @@ public class TBook implements Serializable {
     }
 
     public String toString() {
-        return mTitle_book.toString() + " Number: " + getNumber();
+        return (mTitle_book!=null?mTitle_book.toString():"nullTtitle") + " Number: " + getNumber();
     }
 
     public boolean period_pass(Object data) {

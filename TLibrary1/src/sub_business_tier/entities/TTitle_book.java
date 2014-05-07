@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +23,7 @@ import sub_business_tier.TFactory;
 
 public class TTitle_book implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = new java.util.Random().nextLong();
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
@@ -120,8 +121,8 @@ public class TTitle_book implements Serializable {
     }
 
     public String toString() {
-        return String.format("\nTitle: %s Author: %s ISBN: %s Publisher: %s",
-                getTitle(), getAuthor(), getISBN(), getPublisher());
+        return String.format("\nAuthor: %s Title: %s ISBN: %s Publisher: %s",
+                getAuthor(), getTitle(), getISBN(), getPublisher());
     }
 
     public int hashCode() {
@@ -144,11 +145,13 @@ public class TTitle_book implements Serializable {
     public void add_book(String[] data) {
         TFactory factory = new TFactory();
         TBook newbook = factory.create_book(data);
+        LOG.info("add_book: created book: "+newbook);
         if (search_book(newbook) == null) {
             getBooks().add(newbook);
             newbook.setmTitle_book(this);
         }
     }
+    private static final Logger LOG = Logger.getLogger(TTitle_book.class.getName());
 
     public TBook search_book(TBook book) {
         int idx;
