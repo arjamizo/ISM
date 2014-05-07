@@ -9,6 +9,7 @@ package integration_tier.jpa;
 import integration_tier.jpa.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -161,10 +162,22 @@ public class TLendJpaController implements Serializable {
     }
 
     public void addLends(List<TLend> borrows) {
-        for (TLend tLend : borrows) {
-            addLend(tLend);
+        LOG.info("EXECUTING: addLends");
+        EntityManager em = getEntityManager();
+        try {
+            if(this.em==null) em.getTransaction().begin();
+            for (TLend lend : borrows) {
+                    LOG.info("adding "+lend);
+                    em.persist(lend);
+            }
+            if(this.em==null) em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if(this.em==null) em.close();
         }
     }
+    private static final Logger LOG = Logger.getLogger(TLendJpaController.class.getName());
 
     public boolean addLend(TLend lend) {
         EntityManager em = getEntityManager();

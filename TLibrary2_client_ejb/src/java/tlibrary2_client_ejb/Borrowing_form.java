@@ -62,7 +62,7 @@ public class Borrowing_form extends javax.swing.JPanel {
                             facade.returnBook(title, new String[]{"1",selectedNumber,"0"});
                         } else {
                             getFacade().add_client(client);
-                            getFacade().borrowBook(
+                            getFacade().add_borrow(
                                     new String[]{(actor == null || actor.equals(""))?"0":"2",selectedISBN,actor}
                                     , new String[]{"1",selectedNumber,"0"}
                                     , client);

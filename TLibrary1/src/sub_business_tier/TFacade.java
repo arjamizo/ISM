@@ -58,7 +58,7 @@ public class TFacade implements Serializable {
         add_book(d1, new String[] {"1", "3", "0"});//.getmBooks().listIterator().next();
         book = search_title_book(new TFactory().create_title_book(d1)).getmBooks().get(0);
         
-        getBorrows().add(new TLend().setBook(book).setUser(users.iterator().next()));
+        getBorrows().add(new TLend().setBookNumber(book.getNumber()).setUser(users.iterator().next().getLogin()));
     }
     
     public TFacade() {
@@ -279,7 +279,7 @@ public class TFacade implements Serializable {
         return returnList;
     }
 
-    public void borrowBook(String[] bookTitle, String[] bookNumber, String client) {
+    public void add_borrow(String[] bookTitle, String[] bookNumber, String client) {
         LOG.info("Borrwing with "+Arrays.asList(bookTitle)+" "+Arrays.asList(bookNumber)+ " "+ client);
         TTitle_book title = search_title_book(new TFactory().create_title_book(bookTitle));
         LOG.info("Created titleforsearching="+title);
@@ -289,11 +289,15 @@ public class TFacade implements Serializable {
         if(book==null) 
             throw new RuntimeException("This book "+ Arrays.asList(bookNumber) + " was not found.");
         for (TLend tLend : getBorrows()) {
-            if (tLend.getBook().equals(book)) throw new RuntimeException("Book " + book + " can not be borrowed.");
+            if (tLend.getBookNumber()==(book.getNumber())) 
+                throw new RuntimeException("Book " + book + " can not be borrowed.");
         }
         LOG.info("borrows class: "+ getBorrows().getClass().getName());
-        final TLend lend = new TLend().setUser(new TUser().setLogin(client)).setBook(book);
+        final TLend lend = new TLend().setUser(client).setBookNumber(book.getNumber());
+//        try {
         getBorrows().add(lend);
+//        } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+//        }
         book.startPeriod("7");
     }
 
@@ -301,7 +305,7 @@ public class TFacade implements Serializable {
         TTitle_book title = search_title_book(new TFactory().create_title_book(bookTitle));
         TBook book = title.search_book(new TFactory().create_book(bookNumber));
         for (TLend tLend : getBorrows()) {
-            if (tLend.getBook().equals(book)) {
+            if (tLend.getBookNumber()==(book.getNumber())) {
                 getBorrows().remove(tLend);
                 book.startPeriod("0");
                 break;
@@ -343,9 +347,9 @@ public class TFacade implements Serializable {
                 }
                 for (TLend lend : getBorrows()) {
                     try {
-                        if(lend.getBook().equals(next)) {
-                            title[6] = lend.getUser().getLogin();
-                            title[7] = lend.getBook().getPeriod().toString();
+                        if(lend.getBookNumber()==(next.getNumber())) {
+                            title[6] = lend.getUser();
+                            title[7] = next.getPeriod().toString();
                             break;
                         }
                     } catch (Exception e) {

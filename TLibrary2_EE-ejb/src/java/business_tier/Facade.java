@@ -115,8 +115,13 @@ public class Facade implements FacadeRemote {
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
 
     @Override
-    public void borrowBook(String[] string, String[] string0, String client) {
-        facade.borrowBook(string, string0, client);
+    public void add_borrow(String[] string, String[] string0, String client) {
+        facade.add_borrow(string, string0, client);
+        try {
+            base.add_lends();
+        } catch (Exception ex) {
+            Logger.getLogger(Facade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

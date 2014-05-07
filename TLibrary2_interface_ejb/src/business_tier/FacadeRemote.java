@@ -41,7 +41,7 @@ public interface FacadeRemote {
 
     public void returnBook(String[] string, String[] string0);
 
-    public void borrowBook(String[] string, String[] string0, String client);
+    public void add_borrow(String[] string, String[] string0, String client);
 
     public List<String> getClients();
 

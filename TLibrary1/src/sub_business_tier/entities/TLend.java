@@ -38,32 +38,34 @@ public class TLend implements Serializable {
         this.id = id;
     }
     
-    @ManyToOne
-    private TUser user;
-    @ManyToOne
-    private TBook book;
+//    @ManyToOne
+    @Column(name = "userlogin")
+    private String user;
+//    @ManyToOne
+    @Column(name = "number")
+    private int bookNumber;
 
-    public TBook getBook() {
-        return book;
-    }
-
-    public TLend setBook(TBook book) {
-        this.book = book;
-        return this;
-    }
-
-    public TUser getUser() {
+    public String getUser() {
         return user;
     }
 
-    public TLend setUser(TUser user) {
+    public TLend setUser(String user) {
         this.user = user;
+        return this;
+    }
+
+    public int getBookNumber() {
+        return bookNumber;
+    }
+
+    public TLend setBookNumber(int number) {
+        this.bookNumber = number;
         return this;
     }
 
     @Override
     public String toString() {
-        return "TLend{" + "id=" + id + ", user=" + user + ", book=" + book + '}';
+        return "TLend{" + "id=" + id + ", user=" + user + ", number=" + bookNumber + '}';
     }
-
+    
 }
