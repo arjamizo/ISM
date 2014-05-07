@@ -52,5 +52,22 @@ public class TUser implements Serializable {
     public String toString() {
         return "TUser{" + "id=" + id + ", login=" + login + '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TUser other = (TUser) obj;
+        if ((this.login == null) ? (other.login != null) : !this.login.equals(other.login)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

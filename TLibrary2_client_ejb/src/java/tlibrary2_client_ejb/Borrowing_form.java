@@ -52,7 +52,7 @@ public class Borrowing_form extends javax.swing.JPanel {
                 
                 private JComboBoxDemo comboBox;
                 public void actionPerformed(ActionEvent arg0) {
-                    System.out.println("selected"+comboBox.getSelectedText());
+                    System.out.println("selected="+comboBox.getSelectedText());
                     String client;
                     try {
                         client=comboBox.getSelectedText();

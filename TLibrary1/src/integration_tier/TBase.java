@@ -116,6 +116,8 @@ public class TBase {
     }
     
     public void add_users() throws Exception {
+        LOG.info("adding users: "+facade.getClients());
+        LOG.info("adding users: "+facade.getUsers());
         try {
             tUserJpaController.addUsers(facade.getUsers());
         } catch (Exception e) {

@@ -280,7 +280,7 @@ public class TFacade implements Serializable {
     }
 
     public void add_borrow(String[] bookTitle, String[] bookNumber, String client) {
-        LOG.info("Borrwing with "+Arrays.asList(bookTitle)+" "+Arrays.asList(bookNumber)+ " "+ client);
+        LOG.info("Borrowing with "+Arrays.asList(bookTitle)+" "+Arrays.asList(bookNumber)+ " "+ client);
         TTitle_book title = search_title_book(new TFactory().create_title_book(bookTitle));
         LOG.info("Created titleforsearching="+title);
         TBook book = title.search_book(new TFactory().create_book(bookNumber));
@@ -382,8 +382,9 @@ public class TFacade implements Serializable {
     }
     
     public void add_user(String login) {
-        if(getClients().indexOf(login)!=-1) {
-            getUsers().add(new TUser().setLogin(login));
+        if(getClients().indexOf(login)==-1) {
+            final TUser user = new TUser();
+            getUsers().add(user.setLogin(login));
         }
     }
 
