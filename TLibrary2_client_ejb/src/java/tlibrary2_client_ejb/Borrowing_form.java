@@ -70,8 +70,13 @@ public class Borrowing_form extends javax.swing.JPanel {
                         table_content();
 //                        model.fireTableCellUpdated(row, 6);
                         model.fireTableDataChanged();
-                    }  catch (Exception ex) {
+                    } catch (RuntimeException e) {
+                        System.err.println("some excep, probably book can not be borrowed");
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(jComboBox1, "some excep, probably book can not be borrowed", "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (Exception ex) {
                         //java.rmi.MarshalException
+                        
                         JOptionPane.showMessageDialog(null, "If this is about COBRA, then probably you are using bugged Java version. Search google: 23302314/781312.\nTry running Glassfish with following command:\nJAVA_HOME=/usr/lib/jvm/java-6-oracle ~/glassfish3/glassfish/bin/asadmin start-domain domain1\n\n" + ex.getLocalizedMessage());
                         ex.printStackTrace();
                     } catch (Throwable e) {

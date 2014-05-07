@@ -64,6 +64,7 @@ public class Managed_Bean1 {
     }
     @PostConstruct
     public void init() {
+        System.gc(); //Solution to class A cannot be cast to class A; SEVERE:   The web application [/faces] created a ThreadLocal with key of type [org.glassfish.pfl.dynamic.codegen.impl.CurrentClassLoader$1] (value [org.glassfish.pfl.dynamic.codegen.impl.CurrentClassLoader$1@249ea63a]) and a value of type [org.glassfish.web.loader.WebappClassLoader] (value [WebappClassLoader (delegate=true; repositories=WEB-INF/classes/)]) but failed to remove it when the web application was stopped. Threads are going to be renewed over time to try and avoid a probable memory leak.
         ISBN=Integer.toString((int) (new Random().nextFloat()*Integer.MAX_VALUE));
         actor=new String[]{"Keanu Reevs", "Jason Statham", "Arnold Achwarzeneger", "Anna Gacek", "Jaroslaw Boberek", "", "", "", ""}[new Random().nextInt(5+4)];
         publisher=new String[]{"PWM", "Helion", "Gdanski Klub Fantastyki", "OPERON", "Wydawnictwo Solaris"}[new Random().nextInt(5)];
