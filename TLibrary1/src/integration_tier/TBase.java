@@ -103,10 +103,10 @@ public class TBase {
         ArrayList<ArrayList<String>> help2 = new ArrayList();
         for (TTitle_book t : help1) {
             ArrayList<String> help3 = new ArrayList();
-            help3.add(t.getPublisher());
-            help3.add(t.getISBN());
-            help3.add(t.getTitle());
             help3.add(t.getAuthor());
+            help3.add(t.getTitle());
+            help3.add(t.getISBN());
+            help3.add(t.getPublisher());
             help3.add(t.getActor());
             help2.add(help3);
             LOG.info("help3="+help3);

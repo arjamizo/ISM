@@ -4,9 +4,12 @@
  */
 package business_tier;
 
+import com.google.common.base.Predicate;
 import integration_tier.TBase;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,11 +58,11 @@ public class Facade implements FacadeRemote {
         return facade.search_title_book(title_book);
     }
 
-    public TTitle_book add_title_book(String data[]) {
+    public boolean add_title_book(String data[]) {
         return facade.add_title_book(data);
     }
 
-    public TTitle_book add_book(String data1[], String data2[]) {
+    public boolean add_book(String data1[], String data2[]) {
         return facade.add_book(data1, data2);
     }
 
@@ -166,6 +169,45 @@ public class Facade implements FacadeRemote {
 
     public Object getTitleByISBN(String ISBN) {
         return base.getTitleByISBN(ISBN);
+    }
+
+    @Override
+    public String addBook(final String[] ISBNat3, final String[] numberAt1) {
+        LOG.info("addBook(): "+ISBNat3[2]+" "+Arrays.asList(numberAt1));
+        ArrayList<String> book; 
+//        book = (ArrayList<String>) com.google.common.collect.Iterables.find(getBooksByTitle(null), 
+//                new Predicate() {
+//            @Override
+//            public boolean apply(Object t) {
+//                LOG.info("Object to String[]: "+t);
+//                ArrayList<String> title=(ArrayList<String>) t;
+//                LOG.info("addBook(): "+title+" "+Arrays.asList(numberAt1));
+//                return title.get(2).equals(ISBNat3[2]);
+//            }
+//        }, (String[])null);
+        String[] ttitle = null;
+        LOG.info("lookin for book "+ISBNat3[2]);
+        LOG.info("books: "+gettitle_books().length);
+        for (Object[] e : gettitle_books()) {
+            LOG.info("checking... "+ e);
+            String[] title=(String[]) e;
+            LOG.info("checking... "+ title[2]);
+            
+            if(title[2].equals(ISBNat3[2])) {
+                List<String> list = new ArrayList();
+                list.add(title[4].length()==0?"1":"3");
+                list.addAll(Arrays.asList(title));
+                LOG.info("found1!"+list);
+                ttitle=list.toArray(new String[0]);
+                break;
+            }
+        }
+        LOG.info("found2!"+(ttitle!=null?Arrays.asList(ttitle):"NULL TITLE"));
+        if(ttitle==null) 
+            throw new RuntimeException("did not find title entry for this book "+ ISBNat3[2]);
+//        asList = book.toArray(new String[0]);
+        add_book(ttitle, numberAt1);
+        return "OK";
     }
     
 }
