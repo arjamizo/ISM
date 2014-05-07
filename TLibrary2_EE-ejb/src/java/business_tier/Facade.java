@@ -111,6 +111,7 @@ public class Facade implements FacadeRemote {
     public void returnBook(String[] bookTitle, String[] bookNumber) {
         LOG.info("returning book="+Arrays.asList(bookTitle)+ " number=" + Arrays.asList(bookNumber));
         facade.returnBook(bookTitle, bookNumber);
+        base.delete_borrow(bookNumber[1]);
     }
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
 

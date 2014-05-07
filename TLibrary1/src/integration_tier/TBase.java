@@ -203,4 +203,12 @@ public class TBase {
         }
         return null;
     }
+
+    public void delete_borrow(String bookNumber) {
+        try {
+            tLendJpaController.removeBorrow(bookNumber);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

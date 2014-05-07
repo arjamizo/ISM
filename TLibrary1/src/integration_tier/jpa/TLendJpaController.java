@@ -197,4 +197,13 @@ public class TLendJpaController implements Serializable {
        return findTLendEntities().toArray(new TLend[0]); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void removeBorrow(String bookNumber) throws NonexistentEntityException {
+        for (TLend tLend : findTLendEntities()) {
+            if(tLend.getBookNumber()==Integer.parseInt(bookNumber)) {
+                destroy(tLend.getId());
+                break;
+            }
+        }
+    }
+
 }
