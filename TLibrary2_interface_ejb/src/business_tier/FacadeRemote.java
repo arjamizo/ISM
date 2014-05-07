@@ -7,8 +7,6 @@ package business_tier;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Remote;
-//import sub_business_tier.entities.TBook;
-import sub_business_tier.entities.TTitle_book;
 
 /**
  *
