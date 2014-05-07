@@ -181,6 +181,7 @@ public class TFacade implements Serializable {
                 TTitle_book title1 = book.getmTitle_book();
                 if (title1 != null) {
                     if (title1.equals(title)) {
+                        LOG.info("it looks like "+title1+" is equal to "+title + "BUT sizeof mbooks is "+title.getmBooks());
                         title.getmBooks().add(book);
                     }
                 }
@@ -326,10 +327,11 @@ public class TFacade implements Serializable {
     public synchronized Object[][] getBooksWithBorrowers() {
         List<Object[]> title_books = new ArrayList();
         for(TTitle_book next2:getmTitle_books()) {
+            LOG.info("parsing title: "+next2.getTitle() + " number of books: "+next2.getBooks().size() + "number of mbooks"+next2.getmBooks().size());
             for(TBook next:next2.getmBooks())
             { 
 //                if(filter!=null && !filter.call(next.getmTitle_book()).equals(true)) continue;
-                LOG.info("Parsing book: "+next+ "its title="+next.getmTitle_book());
+                LOG.info("Parsing book: "+next+ " its title="+next.getmTitle_book());
                 String[] title = new String[8]; 
                 int i=0;
                 title[i++]=next.getmTitle_book().getAuthor();
@@ -353,7 +355,7 @@ public class TFacade implements Serializable {
                             break;
                         }
                     } catch (Exception e) {
-                        
+                        LOG.info("there is no book, TFacade:356 line");
                     }
                 }
                 title_books.add(title);
@@ -362,6 +364,7 @@ public class TFacade implements Serializable {
         Object ret[][] = new Object[title_books.size()][];
         //n^2 way of rewriting 1d array. 
         for (Object str[] : title_books) {
+            LOG.severe("adding to ret array " + Arrays.asList(str));
             ret[title_books.indexOf(str)]=str; //inefficient, but short.
         }
         return ret;

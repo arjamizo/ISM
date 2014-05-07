@@ -93,6 +93,7 @@ public class Facade implements FacadeRemote {
 
     public void update_data() throws Exception {
         base.update_data();
+        LOG.info("UPDATEDATA(): books="+base.books());
     }
 
     public void add_titles() throws Exception {

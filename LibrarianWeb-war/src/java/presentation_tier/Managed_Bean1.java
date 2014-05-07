@@ -74,6 +74,7 @@ public class Managed_Bean1 {
         try {
             facade.update_data();
             LOG.info("MANAGEDBEAN::POSTINIT(): titles="+facade.gettitle_books().length);
+            LOG.info("MANAGEDBEAN::POSTINIT(): books="+facade.getBooksWithBorrower().length);
         } catch (Exception ex) {
             Logger.getLogger(Managed_Bean1.class.getName()).log(Level.SEVERE, null, ex);
         }

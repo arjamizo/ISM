@@ -69,13 +69,12 @@ public class TTitle_bookController {
 
     public TTitle_book[] getTTitle_books_() {
         final List<TTitle_book> list = getTTitle_books();
-        LOG.info("list contains "+list);
+        LOG.info("list contains "+list + " size=" + list.size());
         TTitle_book[] ret=new TTitle_book[list.size()];
         for (int i = 0; i < list.size(); i++) {
             ret[i]=list.get(i);
-            
         }
-        LOG.info("arr contains "+ret);
+        LOG.info("list contains "+list);
         LOG.info("arr[] contains "+list.toArray(new TTitle_book[0]));
         return ret;
 //        return list.toArray(new TTitle_book[0]);

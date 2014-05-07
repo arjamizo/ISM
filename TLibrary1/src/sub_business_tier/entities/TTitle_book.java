@@ -23,7 +23,7 @@ import sub_business_tier.TFactory;
 
 public class TTitle_book implements Serializable {
 
-    private static final long serialVersionUID = new java.util.Random().nextLong();
+    //private static final long serialVersionUID = new java.util.Random().nextLong();
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
@@ -50,10 +50,12 @@ public class TTitle_book implements Serializable {
 
     @XmlTransient
     public List<TBook> getBooks() {
+        LOG.info("TTitle_book.books"+this.getTitle()+".size="+books.size());
         return books;
     }
 
     public void setBooks(List<TBook> books) {
+        LOG.info("set.books.size="+books.size());
         this.books = books;
     }
 
@@ -121,8 +123,8 @@ public class TTitle_book implements Serializable {
     }
 
     public String toString() {
-        return String.format("\nAuthor: %s Title: %s ISBN: %s Publisher: %s",
-                getAuthor(), getTitle(), getISBN(), getPublisher());
+        return String.format("\nAuthor: %s Title: %s ISBN: %s Publisher: %s Number of books: %d",
+                getAuthor(), getTitle(), getISBN(), getPublisher(), getBooks().size());
     }
 
     public int hashCode() {

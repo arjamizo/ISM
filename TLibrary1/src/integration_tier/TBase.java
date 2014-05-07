@@ -55,6 +55,7 @@ public class TBase {
     public void update_data() throws Exception {
         update_titles();
         update_books();
+        LOG.info("new size of books in updateddata before facade.update users and borrows="+books.length);
 
         try {
             update_users();
@@ -63,7 +64,9 @@ public class TBase {
             e.printStackTrace();
             LOG.warning("something wrong with TLend or TUser JPA ctrls.");
         }
+        LOG.info("new size of books in updateddata before facade.updateData="+books.length);
         facade.update_data(titles, books, borrows, users);
+        LOG.info("new size of books in updateddata after facade.updateData="+books.length);
     }
 
     public void update_titles() throws Exception {
@@ -72,6 +75,7 @@ public class TBase {
 
     public void update_books() throws Exception {
         books = (TBook[]) bookJpaController.getTBooks_();
+        LOG.info("new size of books="+books.length);
     }
 
     private void update_users() {
