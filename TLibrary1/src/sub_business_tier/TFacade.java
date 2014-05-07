@@ -309,7 +309,7 @@ public class TFacade implements Serializable {
         }
     }
 
-    public List<String> getClients() {
+    public List<String> getClients(){
         final ArrayList<String> cls = new ArrayList<String>();
         for (TUser user : users) {
             cls.add(user.getLogin());
@@ -371,5 +371,15 @@ public class TFacade implements Serializable {
             LOG.warning(ex.getMessage());
         }
         return new ArrayList();
+    }
+
+    public void add_client(String client) {
+        throw new RuntimeException("you can not add clients, use add_user instead");
+    }
+    
+    public void add_user(String login) {
+        if(getClients().indexOf(login)!=-1) {
+            getUsers().add(new TUser().setLogin(login));
+        }
     }
 }

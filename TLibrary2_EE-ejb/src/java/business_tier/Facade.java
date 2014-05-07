@@ -141,6 +141,8 @@ public class Facade implements FacadeRemote {
 
     @Override
     public void add_client(String client) throws Exception {
+        facade.add_user(client);
+        LOG.info("new list of clients: "+facade.getUsers());
         base.add_users();
     }
 
