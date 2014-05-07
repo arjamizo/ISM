@@ -182,7 +182,7 @@ public class TFacade implements Serializable {
                 if (title1 != null) {
                     if (title1.equals(title)) {
                         LOG.info("it looks like "+title1+" is equal to "+title + "BUT sizeof mbooks is "+title.getmBooks());
-                        title.getmBooks().add(book);
+                        //title.getmBooks().add(book);
                     }
                 }
             }
