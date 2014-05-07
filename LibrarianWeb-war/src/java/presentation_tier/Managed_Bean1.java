@@ -9,14 +9,17 @@ import business_tier.FacadeRemote;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.FacesException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.faces.view.facelets.FaceletException;
 
 /**
  *
@@ -26,13 +29,39 @@ import javax.faces.model.SelectItem;
 @RequestScoped
 public class Managed_Bean1 {
 
-    @EJB
+    @EJB//(lookup = "java:global/TLibrary2_EE/TLibrary2_EE-ejb/Facade")
     private FacadeRemote facade;
 
     private DataModel items,books;
     private ArrayList<ArrayList<String>> titles;
     
     String ISBN,actor,publisher,title,author,number;
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+    
+    //how to fill: https://stackoverflow.com/tags/selectonemenu/info
+    String selectedISBN;
+    
+
+    boolean borrowable;
+
+    public boolean isBorrowable() {
+        return borrowable;
+    }
+
+    public void setBorrowable(boolean borrowable) {
+        this.borrowable = borrowable;
+    }
+
+    public String getSelectedISBN() {
+        return selectedISBN;
+    }
+
+    public void setSelectedISBN(String selectedISBN) {
+        this.selectedISBN = selectedISBN;
+    }
     @PostConstruct
     public void init() {
         ISBN=Integer.toString((int) (new Random().nextFloat()*Integer.MAX_VALUE));
@@ -41,6 +70,12 @@ public class Managed_Bean1 {
         title=new String[]{"Czysty Kod", "Folwark Zierzecy", "Sztuka podstepu. Lamalem ludzi, nie hasla", "Orwell 1984", "Haker. Prawdziwa historia przywodcy cybermafii"}[new Random().nextInt(5)];
         author=new String[]{"Kevin Poulsen", "Kevin Mytnick", "Robert C. Martin", "Geirge Orwell", "Stefan Zeromski"}[new Random().nextInt(5)];
         number=Integer.toString((int) (new Random().nextFloat()*Integer.MAX_VALUE));
+        try {
+            facade.update_data();
+            LOG.info("MANAGEDBEAN::POSTINIT(): titles="+facade.gettitle_books().length);
+        } catch (Exception ex) {
+            Logger.getLogger(Managed_Bean1.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public String getNumber() {
@@ -76,10 +111,10 @@ public class Managed_Bean1 {
         return titles;
     }
     
-    public List<SelectItem> getSelectTitles() throws Exception {
+    public List<SelectItem> getTitlesArr() throws Exception {
         List<SelectItem> list = new ArrayList<SelectItem>();
         for (ArrayList<String> arrayList : facade.titles()) {
-            list.add(new SelectItem(arrayList.get(1), "ISBN: "+arrayList.get(1)+" "+arrayList));
+            list.add(new SelectItem(arrayList.get(2), "ISBN: "+arrayList.get(2)+" "+arrayList));
         }
         return list;
     }
@@ -105,6 +140,7 @@ public class Managed_Bean1 {
      * Creates a new instance of Managed_Bean1
      */
     public Managed_Bean1() {
+        
     }
     
     public String add_title() throws Exception {
@@ -114,6 +150,19 @@ public class Managed_Bean1 {
         facade.add_titles();
         return "/faces/presentation_tier_view/Show_data";
     }
+    public String add_book() throws Throwable {
+        LOG.info("Selected ISBN="+selectedISBN);
+        assert selectedISBN!=null;
+        facade.addBook(new String[]{null, null, selectedISBN, null, null, null}, new String[]{borrowable?"1":"0", number, "0"});
+        try {
+            facade.add_books();
+        } catch (Throwable e) {
+            throw new FacesException(e.getMessage());
+        }
+        LOG.warning("list of books.size()="+facade.getBooksWithBorrower().length);
+        return "/faces/presentation_tier_view/Add_data";
+    }
+    
     private static final Logger LOG = Logger.getLogger(Managed_Bean1.class.getName());
 
     public String store_data() {
@@ -137,6 +186,8 @@ public class Managed_Bean1 {
 //            return new ListDataModel(new ArrayList<>());
             return titles;
 //            return new ListDataModel(new ArrayList<>());
+        } catch (IllegalArgumentException e) {
+            return new ListDataModel();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

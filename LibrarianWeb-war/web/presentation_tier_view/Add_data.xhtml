@@ -29,11 +29,11 @@
                 </h:form>
                 <h2>Add book</h2>
                 <h:form>
-                    ISBN 
-                    <h:selectOneMenu value="#{managed_Bean1.selectTitles}"><ui:remove>converter="#{userConverter}"></ui:remove>
-                        <f:selectItems value="#{managed_Bean1.selectTitles}"/>
+                    ISBN <h:selectOneMenu value="#{managed_Bean1.selectedISBN}"><ui:remove>converter="#{userConverter}"></ui:remove>
+                        <f:selectItems value="#{managed_Bean1.titlesArr}"/>
                     </h:selectOneMenu><br/>
                     Number <h:inputText value="#{managed_Bean1.number}" label="number"/> (optional, only if book existed in previous library building)<br/>
+                    Borrowable <h:selectBooleanCheckbox value="#{managed_Bean1.borrowable}"/><br/>
                     <h:commandButton action="#{managed_Bean1.add_book}" value="Add book"/><br/>
                 </h:form>
             </ui:define>
