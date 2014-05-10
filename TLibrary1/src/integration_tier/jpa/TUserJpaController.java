@@ -112,6 +112,7 @@ public class TUserJpaController implements Serializable {
 
     private List<TUser> findTUserEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
+        em.getEntityManagerFactory().getCache().evictAll();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(TUser.class));

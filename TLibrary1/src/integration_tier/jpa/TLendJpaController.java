@@ -119,6 +119,7 @@ public class TLendJpaController implements Serializable {
 
     private List<TLend> findTLendEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
+        em.getEntityManagerFactory().getCache().evictAll();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(TLend.class));

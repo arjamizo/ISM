@@ -41,6 +41,7 @@ public class TBookController {
 
     public List<TBook> getTBooks() {
         EntityManager em = getEntityManager();
+        em.getEntityManagerFactory().getCache().evictAll();
         try {
             javax.persistence.Query q = em.createQuery("select c from TBook as c");
             return q.getResultList();

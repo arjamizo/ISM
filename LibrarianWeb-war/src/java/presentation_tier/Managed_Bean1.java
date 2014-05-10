@@ -158,6 +158,7 @@ public class Managed_Bean1 {
         facade.addBook(new String[]{null, null, selectedISBN, null, null, null}, new String[]{borrowable?"1":"0", number, "0"});
         try {
             facade.add_books();
+            facade.update_data();
         } catch (Throwable e) {
             throw new FacesException(e.getMessage());
         }
@@ -171,10 +172,20 @@ public class Managed_Bean1 {
         try {
             facade.add_titles();
             facade.add_books();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(Managed_Bean1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "/faces/index2";
+        return "/faces/index";
     }
+    public String refresh_data() {
+        try {
+            facade.update_data();
+        } catch (Exception ex) {
+            Logger.getLogger(Managed_Bean1.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return "/faces/presentation_tier_view/Show_data";
+    }
+    
 
     public String show_data() {
         create_DataModel();

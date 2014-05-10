@@ -84,6 +84,7 @@ public class TTitle_bookController {
     public List<TTitle_book> getTTitle_books() {
         EntityManager em = getEntityManager();
         try {
+            em.getEntityManagerFactory().getCache().evictAll();
             javax.persistence.Query q
                     = em.createQuery("select c from TTitle_book as c");
             return q.getResultList();

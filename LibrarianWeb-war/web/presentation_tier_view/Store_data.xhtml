@@ -18,8 +18,16 @@
             
             <ui:define name="content">
                 <h:form>
+                    <p>
                     <h:commandButton action="#{managed_Bean1.store_data}"
-                                     value="Store data"/><br/>
+                                     value="Store data"/>
+                    </p>
+                </h:form>
+                <h:form>
+                    <p>
+                    <h:commandButton action="#{managed_Bean1.refresh_data}"
+                                     value="Refresh"/>
+                    </p>
                 </h:form>
             </ui:define>
             
