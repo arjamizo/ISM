@@ -43,11 +43,12 @@ public class TFacade implements Serializable {
         this.borrows = borrows;
     }
 
-    public void exampleData() {
-        users.add(new TUser().setLogin("Madzia")); 
+    public void exampleData() {//<editor-fold defaultstate="collapsed" desc="comment">
+        
+        users.add(new TUser().setLogin("Madzia"));
         String t1[] = {"1", "Author1", "Title1", "ISBN1", "Publisher1"};
-        //TTitle_book title = 
-                add_title_book(t1);
+        //TTitle_book title =
+        add_title_book(t1);
         
         String d1[] = {"0", "ISBN1"};
         String tr1[] = {"1", "1", "0"}; //1x0 oznacza, ze ksiazka jest do wypozyczenia (1) oraz dostepna od teraz (0)
@@ -58,9 +59,10 @@ public class TFacade implements Serializable {
         add_book(d1, new String[] {"1", "3", "0"});//.getmBooks().listIterator().next();
         book = search_title_book(new TFactory().create_title_book(d1)).getmBooks().get(0);
         
-        getBorrows().add(new TLend().setBookNumber(book.getNumber()).setUser(users.iterator().next().getLogin()));
+        getBorrows().add(new TLend().setBook(book).setUser(users.iterator().next()));
+//</editor-fold>
     }
-    
+
     public TFacade() {
         this.users = new ArrayList<TUser>();
         this.borrows = new ArrayList<TLend>();
@@ -196,6 +198,7 @@ public class TFacade implements Serializable {
     }
 
     public static void main(String args[]) {
+        //<editor-fold defaultstate="collapsed" desc="comment">
         TFacade ap = new TFacade();
         String t1[] = {"1", "Author1", "Title1", "ISBN1", "Publisher1"};
         String t2[] = {"1", "Author2", "Title2", "ISBN2", "Publisher2"};
@@ -266,6 +269,7 @@ public class TFacade implements Serializable {
         System.out.print("\nSearching of an accessible book of a select title");
         System.out.println(ap.Search_accessible_book(d4, "2").toString());
         System.out.println();
+//</editor-fold>
     }
 
     public synchronized ArrayList<String> Search_title_books(String[] data) {
@@ -280,38 +284,37 @@ public class TFacade implements Serializable {
         return returnList;
     }
 
-    public void add_borrow(String[] bookTitle, String[] bookNumber, String client) {
-        LOG.info("Borrowing with "+Arrays.asList(bookTitle)+" "+Arrays.asList(bookNumber)+ " "+ client);
+    public String add_borrow(String[] bookTitle, String[] bookNumber, String client) {
         TTitle_book title = search_title_book(new TFactory().create_title_book(bookTitle));
-        LOG.info("Created titleforsearching="+title);
         TBook book = title.search_book(new TFactory().create_book(bookNumber));
-        LOG.info("LISTOFBOOKS="+getBooksByTitle(null).toString());
-        LOG.info("Created book="+book);
         if(book==null) 
             throw new RuntimeException("This book "+ Arrays.asList(bookNumber) + " was not found.");
-        for (TLend tLend : getBorrows()) {
-            if (tLend.getBookNumber()==(book.getNumber())) 
-                throw new RuntimeException("Book " + book + " can not be borrowed.");
+        TUser user = search_client(client); 
+        if(user==null) {
+            user = add_client(client);
+            LOG.info("created client "+client);
         }
-        LOG.info("borrows class: "+ getBorrows().getClass().getName());
-        final TLend lend = new TLend().setUser(client).setBookNumber(book.getNumber());
-//        try {
-        getBorrows().add(lend);
-//        } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
-//        }
+        TLend lend; 
         book.startPeriod("7");
+        if(book.getLend()==null) {
+            lend = user.borrow(book); 
+            book.setLend(lend);
+            getBorrows().add(lend);
+            LOG.info("borrowed book "+" with "+lend);
+            return "borrowed";
+        } else {
+            book.getLend().setUser(user);
+            LOG.info("exchanged book to "+user);
+            return "exchanged";
+        }
     }
 
-    public void returnBook(String[] bookTitle, String[] bookNumber) {
+    public void return_book(String[] bookTitle, String[] bookNumber) {
         TTitle_book title = search_title_book(new TFactory().create_title_book(bookTitle));
         TBook book = title.search_book(new TFactory().create_book(bookNumber));
-        for (TLend tLend : getBorrows()) {
-            if (tLend.getBookNumber()==(book.getNumber())) {
-                getBorrows().remove(tLend);
-                book.startPeriod("0");
-                break;
-            }
-        }
+        getBorrows().remove(book.getLend());
+        book.setLend(null);
+        book.startPeriod("0");
     }
 
     public List<String> getClients(){
@@ -329,10 +332,10 @@ public class TFacade implements Serializable {
         for(TTitle_book next2:getmTitle_books()) {
             LOG.info("parsing title: "+next2.getTitle() + " number of books: "+next2.getBooks().size() + "number of mbooks"+next2.getmBooks().size());
             for(TBook next:next2.getmBooks())
-            { 
+            {
 //                if(filter!=null && !filter.call(next.getmTitle_book()).equals(true)) continue;
                 LOG.info("Parsing book: "+next+ " its title="+next.getmTitle_book());
-                String[] title = new String[8]; 
+                String[] title = new String[8];
                 int i=0;
                 title[i++]=next.getmTitle_book().getAuthor();
                 title[i++]=next.getmTitle_book().getTitle();
@@ -340,29 +343,14 @@ public class TFacade implements Serializable {
                 title[i++]=next.getmTitle_book().getPublisher();
                 title[i++]=next.getmTitle_book().getActor(); //If Book is not book on tape, then this field has null
                 title[i++]=Integer.toString(next.getNumber());
-                
-                title[6] = title[7] = "";
-                try {
-                    title[7] = next.getPeriod().toString();
-                } catch (Exception e) {
-                    //Intentionally left empty. If date can not be obtained, then there is no date. 
-                }
-                for (TLend lend : getBorrows()) {
-                    try {
-                        if(lend.getBookNumber()==(next.getNumber())) {
-                            title[6] = lend.getUser();
-                            title[7] = next.getPeriod().toString();
-                            break;
-                        }
-                    } catch (Exception e) {
-                        LOG.info("there is no book, TFacade:356 line");
-                    }
-                }
+
+                title[6] = next.getLend()!=null?next.getLend().getUser().getLogin():"";
+                title[7] = next.getPeriod()!=null?next.getPeriod().toString():"";
                 title_books.add(title);
             }
         }
         Object ret[][] = new Object[title_books.size()][];
-        //n^2 way of rewriting 1d array. 
+        //n^2 way of rewriting 1d array.
         for (Object str[] : title_books) {
             LOG.severe("adding to ret array " + Arrays.asList(str));
             ret[title_books.indexOf(str)]=str; //inefficient, but short.
@@ -380,10 +368,12 @@ public class TFacade implements Serializable {
         return new ArrayList();
     }
 
-    public void add_client(String client) {
-        throw new RuntimeException("you can not add clients, use add_user instead");
+    public TUser add_client(String client) {
+        TUser user = new TUser();
+        user.setLogin(client);
+        return user;
     }
-    
+
     public void add_user(String login) {
         if(getClients().indexOf(login)==-1) {
             final TUser user = new TUser();
@@ -393,8 +383,8 @@ public class TFacade implements Serializable {
 
     public String addBook(String[] ISBNat3, String[] numberAt1) {
         LOG.info("addBook(): "+ISBNat3[2]+" "+Arrays.asList(numberAt1));
-        ArrayList<String> book; 
-//        book = (ArrayList<String>) com.google.common.collect.Iterables.find(getBooksByTitle(null), 
+        ArrayList<String> book;
+//        book = (ArrayList<String>) com.google.common.collect.Iterables.find(getBooksByTitle(null),
 //                new Predicate() {
 //            @Override
 //            public boolean apply(Object t) {
@@ -411,7 +401,7 @@ public class TFacade implements Serializable {
             LOG.info("checking... "+ e);
             String[] title=(String[]) e;
             LOG.info("checking... "+ title[2]);
-            
+
             if(title[2].equals(ISBNat3[2])) {
                 List<String> list = new ArrayList();
                 list.add(title[4].length()==0?"1":"3");
@@ -422,10 +412,18 @@ public class TFacade implements Serializable {
             }
         }
         LOG.info("found2!"+(ttitle!=null?Arrays.asList(ttitle):"NULL TITLE"));
-        if(ttitle==null) 
+        if(ttitle==null)
             throw new RuntimeException("did not find title entry for this book "+ ISBNat3[2]);
 //        asList = book.toArray(new String[0]);
         add_book(ttitle, numberAt1);
         return "OK";
+    }
+
+    private TUser search_client(String client) {
+        for (TUser user : getUsers()) {
+            if(user.getLogin().equals(client))
+                return user;
+        }
+        return null;
     }
 }

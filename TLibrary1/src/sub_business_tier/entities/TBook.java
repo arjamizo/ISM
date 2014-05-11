@@ -3,10 +3,12 @@ package sub_business_tier.entities;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class TBook implements Serializable {
@@ -26,6 +28,17 @@ public class TBook implements Serializable {
     }
     @ManyToOne
     private TTitle_book mTitle_book;
+    
+//    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY)
+    private TLend lend;//=new TLend();
+
+    public TLend getLend() {
+        return lend;
+    }
+
+    public void setLend(TLend lend) {
+        this.lend = lend;
+    }
 
     public TBook() {
         id = null;

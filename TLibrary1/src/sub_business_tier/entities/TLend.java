@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,7 +28,7 @@ public class TLend implements Serializable {
     
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public Long getId() {
@@ -38,34 +39,35 @@ public class TLend implements Serializable {
         this.id = id;
     }
     
-//    @ManyToOne
-    @Column(name = "userlogin")
-    private String user;
-//    @ManyToOne
-    @Column(name = "number")
-    private int bookNumber;
+    @ManyToOne
+    @JoinColumn(name = "login")
+    private TUser user;
+    
+    @OneToOne
+    @JoinColumn(name = "book")
+    private TBook book;
 
-    public String getUser() {
+    public TUser getUser() {
         return user;
     }
 
-    public TLend setUser(String user) {
+    public TLend setUser(TUser user) {
         this.user = user;
         return this;
     }
 
-    public int getBookNumber() {
-        return bookNumber;
+    public TBook getBook() {
+        return book;
     }
 
-    public TLend setBookNumber(int number) {
-        this.bookNumber = number;
+    public TLend setBook(TBook book) {
+        this.book = book;
         return this;
-    }
+    }    
 
     @Override
     public String toString() {
-        return "TLend{" + "id=" + id + ", user=" + user + ", number=" + bookNumber + '}';
+        return "TLend{" + "id=" + id + ", user=" + user + ", number=" + book + '}';
     }
     
 }

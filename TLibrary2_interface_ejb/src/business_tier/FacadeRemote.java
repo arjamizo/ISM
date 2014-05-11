@@ -39,7 +39,7 @@ public interface FacadeRemote {
 
     public ArrayList<ArrayList<String>> titles() throws Exception;
 
-    public void returnBook(String[] string, String[] string0);
+    public void return_book(String[] string, String[] string0);
 
     public void add_borrow(String[] string, String[] string0, String client);
 

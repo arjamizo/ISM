@@ -210,9 +210,9 @@ public class TBase {
         return null;
     }
 
-    public void delete_borrow(String bookNumber) {
+    public void delete_borrow(TLend lend) {
         try {
-            tLendJpaController.removeBorrow(bookNumber);
+            tLendJpaController.removeLend(lend);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

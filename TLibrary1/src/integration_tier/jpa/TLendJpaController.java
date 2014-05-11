@@ -39,6 +39,7 @@ public class TLendJpaController implements Serializable {
             return em;
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("Library1PU");
+//            create(new TLend());
         }
         return emf.createEntityManager();
     }
@@ -198,13 +199,8 @@ public class TLendJpaController implements Serializable {
        return findTLendEntities().toArray(new TLend[0]); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void removeBorrow(String bookNumber) throws NonexistentEntityException {
-        for (TLend tLend : findTLendEntities()) {
-            if(tLend.getBookNumber()==Integer.parseInt(bookNumber)) {
-                destroy(tLend.getId());
-                break;
-            }
-        }
+    public void removeLend(TLend lend) throws NonexistentEntityException {
+        destroy(lend.getId());
     }
 
 }

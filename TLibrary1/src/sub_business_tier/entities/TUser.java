@@ -7,11 +7,14 @@
 package sub_business_tier.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -38,6 +41,18 @@ public class TUser implements Serializable {
     
     @Column (name = "login")
     private String login;
+    
+//    @OneToMany
+//    private java.util.List<TLend> lends;
+
+    public List<TLend> getLends() {
+        List<TLend> lends=null;
+        return lends;
+    }
+
+    public void setLends(List<TLend> lends) {
+//        this.lends = lends;
+    }
 
     public String getLogin() {
         return login;
@@ -66,6 +81,13 @@ public class TUser implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public TLend borrow(TBook book) {
+        TLend lend = new TLend();
+        lend.setUser(this);
+        lend.setBook(book);
+        return lend;
     }
     
     

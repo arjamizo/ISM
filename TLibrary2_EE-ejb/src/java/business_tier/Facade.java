@@ -105,25 +105,21 @@ public class Facade implements FacadeRemote {
     }
 
     public ArrayList<ArrayList<String>> titles() throws Exception {
-        return base.titles();
+        final ArrayList<ArrayList<String>> titles = base.titles();
+        return titles;
     }
 
     @Override
-    public void returnBook(String[] bookTitle, String[] bookNumber) {
+    public void return_book(String[] bookTitle, String[] bookNumber) {
         LOG.info("returning book="+Arrays.asList(bookTitle)+ " number=" + Arrays.asList(bookNumber));
-        facade.returnBook(bookTitle, bookNumber);
-        base.delete_borrow(bookNumber[1]);
+        facade.return_book(bookTitle, bookNumber);
     }
+    
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
 
     @Override
     public void add_borrow(String[] string, String[] string0, String client) {
         facade.add_borrow(string, string0, client);
-        try {
-            base.add_lends();
-        } catch (Exception ex) {
-            Logger.getLogger(Facade.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override
@@ -149,8 +145,6 @@ public class Facade implements FacadeRemote {
     @Override
     public void add_client(String client) throws Exception {
         facade.add_user(client);
-        LOG.info("new list of clients: "+facade.getUsers());
-        base.add_users();
     }
 
     @Override

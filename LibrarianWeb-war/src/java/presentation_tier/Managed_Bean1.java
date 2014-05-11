@@ -20,6 +20,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.view.facelets.FaceletException;
+import javax.inject.Inject;
 
 /**
  *
@@ -29,7 +30,7 @@ import javax.faces.view.facelets.FaceletException;
 @RequestScoped
 public class Managed_Bean1 {
 
-    @EJB//(lookup = "java:global/TLibrary2_EE/TLibrary2_EE-ejb/Facade")
+    @EJB(lookup = "java:global/TLibrary2_EE/TLibrary2_EE-ejb/Facade")
     private FacadeRemote facade;
 
     private DataModel items,books;
@@ -71,13 +72,6 @@ public class Managed_Bean1 {
         title=new String[]{"Czysty Kod", "Folwark Zierzecy", "Sztuka podstepu. Lamalem ludzi, nie hasla", "Orwell 1984", "Haker. Prawdziwa historia przywodcy cybermafii"}[new Random().nextInt(5)];
         author=new String[]{"Kevin Poulsen", "Kevin Mytnick", "Robert C. Martin", "Geirge Orwell", "Stefan Zeromski"}[new Random().nextInt(5)];
         number=Integer.toString((int) (new Random().nextFloat()*Integer.MAX_VALUE));
-        try {
-            facade.update_data();
-            LOG.info("MANAGEDBEAN::POSTINIT(): titles="+facade.gettitle_books().length);
-            LOG.info("MANAGEDBEAN::POSTINIT(): books="+facade.getBooksWithBorrower().length);
-        } catch (Exception ex) {
-            Logger.getLogger(Managed_Bean1.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public String getNumber() {
@@ -117,6 +111,7 @@ public class Managed_Bean1 {
         List<SelectItem> list = new ArrayList<SelectItem>();
         for (ArrayList<String> arrayList : facade.titles()) {
             list.add(new SelectItem(arrayList.get(2), "ISBN: "+arrayList.get(2)+" "+arrayList));
+            LOG.info("parsing "+arrayList+" titles"+list.listIterator().next().getValue());
         }
         return list;
     }
@@ -158,7 +153,6 @@ public class Managed_Bean1 {
         facade.addBook(new String[]{null, null, selectedISBN, null, null, null}, new String[]{borrowable?"1":"0", number, "0"});
         try {
             facade.add_books();
-            facade.update_data();
         } catch (Throwable e) {
             throw new FacesException(e.getMessage());
         }
