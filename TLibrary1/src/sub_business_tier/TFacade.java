@@ -297,6 +297,7 @@ public class TFacade implements Serializable {
         TUser user = search_client(client); 
         if(user==null) {
             user = add_client(client);
+            getUsers().add(user);
             LOG.info("created client "+client);
         } else {
             LOG.info("found user "+client);

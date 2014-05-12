@@ -24,16 +24,14 @@ public class Facade implements FacadeRemote {
 //    @javax.persistence.PersistenceContext
 //    private javax.persistence.EntityManager em;
 
-    TFacade facade;
-    TBase base;
+    private TFacade facade;
+    private TBase base;
     
     @PostConstruct
     public void init() {
         /**
          * Initializing here might be walkaround for class A cannot be cast to class A.
          */
-        facade = new TFacade();
-        base = new TBase(facade);
 //        base.setEm(em);
         try {
 //            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -44,97 +42,97 @@ public class Facade implements FacadeRemote {
     }
 
     public Object[][] gettitle_books() {
-        return facade.gettitle_books();
+        return getFacade().gettitle_books();
     }
 
     public boolean add_title_book(String data[]) {
-        return facade.add_title_book(data);
+        return getFacade().add_title_book(data);
     }
 
     public boolean add_book(String data1[], String data2[]) {
-        return facade.add_book(data1, data2);
+        return getFacade().add_book(data1, data2);
     }
 
     public ArrayList<String> Search_title_book(String data[]) {
-        return facade.Search_title_book(data);
+        return getFacade().Search_title_book(data);
     }
 
     public void Print_books() {
-        facade.Print_books();
+        getFacade().Print_books();
     }
 
     public void Print_title_books() {
-        facade.Print_title_books();
+        getFacade().Print_title_books();
     }
 
     // definition of methods for database service
     public void update_titles() throws Exception {
-        base.update_titles();
+        getBase().update_titles();
     }
 
     public void update_books() throws Exception {
-        base.update_books();
+        getBase().update_books();
     }
 
     public void update_data() throws Exception {
-        base.update_data();
-        LOG.info("UPDATEDATA(): books="+base.books());
+        getBase().update_data();
+        LOG.info("UPDATEDATA(): books="+getBase().books());
     }
 
     public void add_titles() throws Exception {
-        base.add_titles();
+        getBase().add_titles();
     }
 
     public void add_books() throws Exception {
-        base.add_books();
+        getBase().add_books();
     }
 
     public ArrayList<ArrayList<String>> titles() throws Exception {
-        final ArrayList<ArrayList<String>> titles = base.titles();
+        final ArrayList<ArrayList<String>> titles = getBase().titles();
         return titles;
     }
 
     @Override
     public void return_book(String[] bookTitle, String[] bookNumber) {
         LOG.info("returning book="+Arrays.asList(bookTitle)+ " number=" + Arrays.asList(bookNumber));
-        facade.return_book(bookTitle, bookNumber);
+        getFacade().return_book(bookTitle, bookNumber);
     }
     
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
 
     @Override
     public void add_borrow(String[] string, String[] string0, String client) {
-        facade.add_borrow(string, string0, client);
+        getFacade().add_borrow(string, string0, client);
     }
 
     @Override
     public List<String> getClients() {
-        return facade.getClients();
+        return getFacade().getClients();
     }
 
     @Override
     public Object[][] getBooksWithBorrower() {
-        return facade.getBooksWithBorrowers();
+        return getFacade().getBooksWithBorrowers();
     }
 
     @Override
     public void exampleData() {
-        facade.exampleData();
+        getFacade().exampleData();
     }
 
     @Override
     public ArrayList<String> getBooksByTitle(String[] title) {
-        return facade.getBooksByTitle(title);
+        return getFacade().getBooksByTitle(title);
     }
 
     @Override
     public void add_client(String client) throws Exception {
-        facade.add_client(client);
+        getFacade().add_client(client);
     }
 
     @Override
     public List<ArrayList<String>> books() {
-        return base.books();
+        return getBase().books();
     }
 
     @Override
@@ -152,21 +150,39 @@ public class Facade implements FacadeRemote {
      * if one looks for only book 
      */
     public List<ArrayList<String>> booksByTitle(String[] titleForFactory) {
-        return base.booksByTitle(titleForFactory);
+        return getBase().booksByTitle(titleForFactory);
     }
 
     public Object getTitleByISBN(String ISBN) {
-        return base.getTitleByISBN(ISBN);
+        return getBase().getTitleByISBN(ISBN);
     }
 
     @Override
     public String addBook(final String[] ISBNat3, final String[] numberAt1) {
-        return facade.addBook(ISBNat3, numberAt1);
+        return getFacade().addBook(ISBNat3, numberAt1);
     }
 
     @Override
     public void store_data() {
-        base.store_data();
+        getBase().store_data();
+    }
+
+    public TFacade getFacade() {
+        if(this.facade==null) setFacade(new TFacade());
+        return facade;
+    }
+
+    public void setFacade(TFacade facade) {
+        this.facade = facade;
+    }
+
+    public TBase getBase() {
+        if(base==null) setBase(new TBase(getFacade()));
+        return base;
+    }
+
+    public void setBase(TBase base) {
+        this.base = base;
     }
     
 }
