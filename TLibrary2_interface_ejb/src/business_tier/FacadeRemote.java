@@ -62,4 +62,6 @@ public interface FacadeRemote {
 
     public String addBook(String[] string, String[] string0);
 
+    public void store_data();
+
 }

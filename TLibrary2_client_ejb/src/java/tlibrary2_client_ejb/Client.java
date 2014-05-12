@@ -152,10 +152,7 @@ public class Client implements ActionListener {
             getFacade().exampleData();
         } else if (source.getText().equals(SAVE)) {
             LOG.info("Saving to DB...");
-            getFacade().add_titles();
-            getFacade().add_books();
-            getFacade().Print_books();
-            getFacade().Print_title_books();
+            getFacade().store_data();
         } else if (source.getText().equals(LOAD)) {
             LOG.info("Loading from DB...");
             getFacade().update_data();

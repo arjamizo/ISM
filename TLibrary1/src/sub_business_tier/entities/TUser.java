@@ -8,6 +8,7 @@ package sub_business_tier.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,19 +42,18 @@ public class TUser implements Serializable {
     
     @Column (name = "login")
     private String login;
-    
-//    @OneToMany
-//    private java.util.List<TLend> lends;
+    /*
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private java.util.List<TLend> lends;
 
     public List<TLend> getLends() {
-        List<TLend> lends=null;
         return lends;
     }
 
     public void setLends(List<TLend> lends) {
-//        this.lends = lends;
+        this.lends = lends;
     }
-
+    */
     public String getLogin() {
         return login;
     }

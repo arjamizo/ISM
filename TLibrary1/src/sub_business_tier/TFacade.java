@@ -190,8 +190,13 @@ public class TFacade implements Serializable {
             }
         }
         try {
-            setUsers(new ArrayList(Arrays.asList(users)));
-            setBorrows(new ArrayList(Arrays.asList(borrows)));
+            getUsers().clear();
+            for(TUser user : users)
+                getUsers().add(user);
+            getBorrows().clear();
+            for(TLend lend : borrows)
+                getBorrows().add(lend);
+            LOG.info("UPDATED USERS: "+getUsers());
         } catch (Exception e) {
             LOG.warning("something wrong with setting users and/or borrows");
         }
@@ -289,6 +294,7 @@ public class TFacade implements Serializable {
         TBook book = title.search_book(new TFactory().create_book(bookNumber));
         if(book==null) 
             throw new RuntimeException("This book "+ Arrays.asList(bookNumber) + " was not found.");
+        LOG.info("Looking for "+client+" among "+getUsers());
         TUser user = search_client(client); 
         if(user==null) {
             user = add_client(client);
@@ -319,7 +325,7 @@ public class TFacade implements Serializable {
 
     public List<String> getClients(){
         final ArrayList<String> cls = new ArrayList<String>();
-        for (TUser user : users) {
+        for (TUser user : getUsers()) {
             cls.add(user.getLogin());
         }
         if (!cls.contains("Artur")) cls.add("Artur");
@@ -330,11 +336,11 @@ public class TFacade implements Serializable {
     public synchronized Object[][] getBooksWithBorrowers() {
         List<Object[]> title_books = new ArrayList();
         for(TTitle_book next2:getmTitle_books()) {
-            LOG.info("parsing title: "+next2.getTitle() + " number of books: "+next2.getBooks().size() + "number of mbooks"+next2.getmBooks().size());
+//            LOG.info("parsing title: "+next2.getTitle() + " number of books: "+next2.getBooks().size() + "number of mbooks"+next2.getmBooks().size());
             for(TBook next:next2.getmBooks())
             {
 //                if(filter!=null && !filter.call(next.getmTitle_book()).equals(true)) continue;
-                LOG.info("Parsing book: "+next+ " its title="+next.getmTitle_book());
+//                LOG.info("Parsing book: "+next+ " its title="+next.getmTitle_book());
                 String[] title = new String[8];
                 int i=0;
                 title[i++]=next.getmTitle_book().getAuthor();
@@ -352,7 +358,7 @@ public class TFacade implements Serializable {
         Object ret[][] = new Object[title_books.size()][];
         //n^2 way of rewriting 1d array.
         for (Object str[] : title_books) {
-            LOG.severe("adding to ret array " + Arrays.asList(str));
+//            LOG.severe("adding to ret array " + Arrays.asList(str));
             ret[title_books.indexOf(str)]=str; //inefficient, but short.
         }
         return ret;
@@ -372,13 +378,6 @@ public class TFacade implements Serializable {
         TUser user = new TUser();
         user.setLogin(client);
         return user;
-    }
-
-    public void add_user(String login) {
-        if(getClients().indexOf(login)==-1) {
-            final TUser user = new TUser();
-            getUsers().add(user.setLogin(login));
-        }
     }
 
     public String addBook(String[] ISBNat3, String[] numberAt1) {

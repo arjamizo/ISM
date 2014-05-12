@@ -9,6 +9,7 @@ import integration_tier.jpa.TUserJpaController;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import sub_business_tier.TFacade;
 import sub_business_tier.entities.TBook;
@@ -55,18 +56,14 @@ public class TBase {
     public void update_data() throws Exception {
         update_titles();
         update_books();
-        LOG.info("new size of books in updateddata before facade.update users and borrows="+books.length);
 
         try {
             update_users();
             update_borrows();
         } catch (Exception e) {
             e.printStackTrace();
-            LOG.warning("something wrong with TLend or TUser JPA ctrls.");
         }
-        LOG.info("new size of books in updateddata before facade.updateData="+books.length);
         facade.update_data(titles, books, borrows, users);
-        LOG.info("new size of books in updateddata after facade.updateData="+books.length);
     }
 
     public void update_titles() throws Exception {
@@ -113,9 +110,9 @@ public class TBase {
             help3.add(t.getPublisher());
             help3.add(t.getActor());
             help2.add(help3);
-            LOG.info("help3="+help3);
+//            LOG.info("help3="+help3);
         }
-        LOG.info("help2="+help2);
+//        LOG.info("help2="+help2);
         return help2;
     }
     
@@ -215,6 +212,18 @@ public class TBase {
             tLendJpaController.removeLend(lend);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void store_data() {
+        try {
+            add_books();
+            add_titles();
+            add_users();
+            add_lends();
+        } catch (Exception ex) {
+            Logger.getLogger(TBase.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
     }
 }

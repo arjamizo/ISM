@@ -39,7 +39,6 @@ public class TLendJpaController implements Serializable {
             return em;
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("Library1PU");
-//            create(new TLend());
         }
         return emf.createEntityManager();
     }
@@ -170,7 +169,7 @@ public class TLendJpaController implements Serializable {
             if(this.em==null) em.getTransaction().begin();
             for (TLend lend : borrows) {
                     LOG.info("adding "+lend);
-                    em.persist(lend);
+                    em.merge(lend);
             }
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
@@ -185,7 +184,7 @@ public class TLendJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             if(this.em==null) em.getTransaction().begin();
-            em.persist(lend);
+            em.merge(lend);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);

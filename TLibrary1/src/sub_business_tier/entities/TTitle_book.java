@@ -50,12 +50,12 @@ public class TTitle_book implements Serializable {
 
     @XmlTransient
     public List<TBook> getBooks() {
-        LOG.info("TTitle_book.books"+this.getTitle()+".size="+books.size());
+//        LOG.info("TTitle_book.books"+this.getTitle()+".size="+books.size());
         return books;
     }
 
     public void setBooks(List<TBook> books) {
-        LOG.info("set.books.size="+books.size());
+//        LOG.info("set.books.size="+books.size());
         this.books = books;
     }
 

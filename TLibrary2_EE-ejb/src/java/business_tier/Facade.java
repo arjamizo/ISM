@@ -144,7 +144,7 @@ public class Facade implements FacadeRemote {
 
     @Override
     public void add_client(String client) throws Exception {
-        facade.add_user(client);
+        facade.add_client(client);
     }
 
     @Override
@@ -177,6 +177,11 @@ public class Facade implements FacadeRemote {
     @Override
     public String addBook(final String[] ISBNat3, final String[] numberAt1) {
         return facade.addBook(ISBNat3, numberAt1);
+    }
+
+    @Override
+    public void store_data() {
+        base.store_data();
     }
     
 }

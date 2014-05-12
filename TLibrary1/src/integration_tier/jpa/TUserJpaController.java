@@ -165,7 +165,7 @@ public class TUserJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             if(this.em==null) em.getTransaction().begin();
-            em.persist(user);
+            em.merge(user);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
