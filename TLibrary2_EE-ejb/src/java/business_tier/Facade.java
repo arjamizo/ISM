@@ -4,20 +4,15 @@
  */
 package business_tier;
 
-import com.google.common.base.Predicate;
 import integration_tier.TBase;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import sub_business_tier.TFacade;
-import sub_business_tier.entities.TBook;
-import sub_business_tier.entities.TTitle_book;
 
 /**
  *
@@ -26,18 +21,20 @@ import sub_business_tier.entities.TTitle_book;
 @Stateless
 public class Facade implements FacadeRemote {
     
-//    @PersistenceContext
-//    private EntityManager em;
-//    @PostConstruct
-//    public void init() {
-//        base.setEm(em);
-//    } 
+//    @javax.persistence.PersistenceContext
+//    private javax.persistence.EntityManager em;
 
-    TFacade facade = new TFacade();
-    TBase base = new TBase(facade);
+    TFacade facade;
+    TBase base;
     
     @PostConstruct
     public void init() {
+        /**
+         * Initializing here might be walkaround for class A cannot be cast to class A.
+         */
+        facade = new TFacade();
+        base = new TBase(facade);
+//        base.setEm(em);
         try {
 //            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         } catch (Throwable ex) {
@@ -45,17 +42,9 @@ public class Facade implements FacadeRemote {
             throw new RuntimeException("There is no JDBC Driver. Copy it to glassfish/lib folder and restart glassfish", ex);
         }
     }
-    
-    public ArrayList<TTitle_book> getmTitle_books() {
-        return facade.getmTitle_books();
-    }
 
     public Object[][] gettitle_books() {
         return facade.gettitle_books();
-    }
-
-    public TTitle_book search_title_book(TTitle_book title_book) {
-        return facade.search_title_book(title_book);
     }
 
     public boolean add_title_book(String data[]) {
@@ -68,10 +57,6 @@ public class Facade implements FacadeRemote {
 
     public ArrayList<String> Search_title_book(String data[]) {
         return facade.Search_title_book(data);
-    }
-
-    public TBook Search_accessible_book(String data1[], String data2) {
-        return facade.Search_accessible_book(data1, data2);
     }
 
     public void Print_books() {

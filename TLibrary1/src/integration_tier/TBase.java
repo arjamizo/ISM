@@ -7,6 +7,7 @@ package integration_tier;
 import integration_tier.jpa.TLendJpaController;
 import integration_tier.jpa.TUserJpaController;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -44,7 +45,7 @@ public class TBase {
         tLendJpaController = new TLendJpaController();
         tUserJpaController = new TUserJpaController();
         try {
-            update_data();
+//            update_data();
         } catch (javax.persistence.PersistenceException e) {
             LOG.warning("Probably EntityManager was not loaded properly.");
         } catch (Exception ex) {
@@ -57,12 +58,12 @@ public class TBase {
         update_titles();
         update_books();
 
-        try {
+//        try {
             update_users();
             update_borrows();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         facade.update_data(titles, books, borrows, users);
     }
 
@@ -81,6 +82,7 @@ public class TBase {
 
     private void update_borrows() {
         borrows = tLendJpaController.getTLends_();
+        LOG.severe("NEW books="+Arrays.asList(borrows));
     }
 
     public void add_titles() throws Exception {
