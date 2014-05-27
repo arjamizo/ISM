@@ -56,7 +56,7 @@ public class TBookController {
         EntityManager em = getEntityManager();
         try {
             if(this.em==null) em.getTransaction().begin();
-            em.merge(book);
+            em.persist(book);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -81,7 +81,7 @@ public class TBookController {
                 while (it_.hasNext()) {
                     newBook = (TBook) it_.next();
                     if (newBook.getId() == null) {
-                        em.merge(newBook);
+                        em.persist(newBook);
                     }
                 }
             }

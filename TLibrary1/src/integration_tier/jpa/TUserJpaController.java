@@ -61,7 +61,7 @@ public class TUserJpaController implements Serializable {
         try {
             em = getEntityManager();
             if(this.em==null) em.getTransaction().begin();
-            TUser = em.merge(TUser);
+            em.persist(TUser);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -165,7 +165,7 @@ public class TUserJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             if(this.em==null) em.getTransaction().begin();
-            em.merge(user);
+            em.persist(user);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);

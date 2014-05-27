@@ -36,7 +36,7 @@ public class TTitle_bookController {
         EntityManager em = getEntityManager();
         try {
             if(this.em==null) em.getTransaction().begin();
-            em.merge(title_book);
+            em.persist(title_book);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -55,7 +55,7 @@ public class TTitle_bookController {
             while (it.hasNext()) {
                 newTTitle_book = (TTitle_book) it.next();
                 if (newTTitle_book.getId() == null) {
-                    em.merge(newTTitle_book);
+                    em.persist(newTTitle_book);
                 }
             }
             if(this.em==null) em.getTransaction().commit();

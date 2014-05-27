@@ -68,7 +68,7 @@ public class TLendJpaController implements Serializable {
         try {
             em = getEntityManager();
             if(this.em==null) em.getTransaction().begin();
-            TLend = em.merge(TLend);
+            em.persist(TLend);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -169,7 +169,7 @@ public class TLendJpaController implements Serializable {
             if(this.em==null) em.getTransaction().begin();
             for (TLend lend : borrows) {
                     LOG.info("adding "+lend);
-                    em.merge(lend);
+                    em.persist(lend);
             }
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
@@ -184,7 +184,7 @@ public class TLendJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             if(this.em==null) em.getTransaction().begin();
-            em.merge(lend);
+            em.persist(lend);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
