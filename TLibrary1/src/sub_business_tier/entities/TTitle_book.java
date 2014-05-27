@@ -45,7 +45,7 @@ public class TTitle_book implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    @OneToMany(mappedBy = "mTitle_book", cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "mTitle_book", cascade = CascadeType.PERSIST)
     private List<TBook> books = new ArrayList<TBook>();
 
     @XmlTransient

@@ -30,7 +30,7 @@ public class TBook implements Serializable {
     @ManyToOne
     private TTitle_book mTitle_book;
     
-    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY/*, cascade = CascadeType.PERSIST*/)
     private TLend lend;//=new TLend();
 
     public TLend getLend() {

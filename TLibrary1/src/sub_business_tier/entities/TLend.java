@@ -40,12 +40,10 @@ public class TLend implements Serializable {
         this.id = id;
     }
     
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "login")
+    @ManyToOne//(cascade = CascadeType.PERSIST)
     private TUser user;
     
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "book")
+    @OneToOne//(cascade = CascadeType.PERSIST)
     private TBook book;
 
     public TUser getUser() {

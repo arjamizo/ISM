@@ -43,7 +43,7 @@ public class TUser implements Serializable {
     @Column (name = "login")
     private String login;
     
-    @OneToMany(cascade = CascadeType.REFRESH)
+    @OneToMany(/*cascade = CascadeType.PERSIST, */mappedBy = "user")
     private java.util.List<TLend> lends = new java.util.ArrayList();
 
     public List<TLend> getLends() {
@@ -56,7 +56,8 @@ public class TUser implements Serializable {
     
     public boolean borrow_book(TBook book) {
         if (getLends().size()>5) return false;
-        TLend lend = new TLend();
+        TLend lend = find_lend_of_book(book); 
+        if(lend==null) lend = new TLend();
         lend.setBook(book);
         lend.setUser(this);
         getLends().add(lend);
