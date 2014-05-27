@@ -155,34 +155,12 @@ public class TBase {
                 , tBook.getmTitle_book().getActor()
                 , Integer.toString(tBook.getNumber())
                 };
-                //https://code.google.com/p/functionaljava/source/browse/artifacts/3.0/demo/1.5/
-//                final ArrayList<String> bookList = new ArrayList(Arrays.asList(book));
-//                final ArrayList<String> bookList2 = new ArrayList(Arrays.asList(titleForFactory));
-//                List<P2<String,String>> ret = list();
-//                final fj.data.List<String> l1 = Java.ArrayList_List().f(bookList);
-//                final fj.data.List<String> l2 = Java.ArrayList_List().f(bookList2);
-//                fj.data.List.zip(
-//                        l1, l2, 
-//                        ret
-//                        );
                 if(titleForFactory!=null) {
                     List<Boolean> equals=new LinkedList();
                     for (int i = 0; i < book.length; i++) {
                         if(book[i]!=null) {
-    //                        try {
-    //                            org.apache.commons.lang3.StringUtils.getLevenshteinDistance(book[i], titleForFactory[i]);
-    //                        } catch (Exception e) {
-    //                            System.err.println("Probably there is no Apache Commons Lang library, download it at https://commons.apache.org/proper/commons-lang/download_lang.cgi. Currently using java.lang implementatoin");
-    //                        }
                             equals.add(book[i].equals(titleForFactory[i]));
                         }
-                    }
-                    try {
-                        if(com.google.common.collect.Iterables.all(equals, com.google.common.base.Predicates.alwaysTrue()))
-                            books.add(new java.util.ArrayList(java.util.Arrays.asList(book)));
-                    } catch (NoClassDefFoundError ex) {
-                        System.err.println("Probably there is no Guava library, using java.lang implementatoin");
-                        throw new RuntimeException(ex);
                     }
                 } else {
                     books.add(new java.util.ArrayList(java.util.Arrays.asList(book)));
