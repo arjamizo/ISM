@@ -30,7 +30,7 @@ import javax.inject.Inject;
 @RequestScoped
 public class Managed_Bean1 {
 
-    @EJB(lookup = "java:global/TLibrary2_EE/TLibrary2_EE-ejb/Facade")
+    @EJB//(lookup = "java:global/TLibrary2_EE/TLibrary2_EE-ejb/Facade")
     private FacadeRemote facade;
 
     private DataModel items,books;
@@ -110,7 +110,7 @@ public class Managed_Bean1 {
     public List<SelectItem> getTitlesArr() throws Exception {
         List<SelectItem> list = new ArrayList<SelectItem>();
         for (ArrayList<String> arrayList : facade.titles()) {
-            list.add(new SelectItem(arrayList.get(2), "ISBN: "+arrayList.get(2)+" "+arrayList));
+            list.add(new SelectItem(arrayList.get(2)+","+arrayList.get(4), "ISBN: "+arrayList.get(2)+" "+arrayList));
             LOG.info("parsing "+arrayList+" titles"+list.listIterator().next().getValue());
         }
         return list;
@@ -150,7 +150,11 @@ public class Managed_Bean1 {
     public String add_book() throws Throwable {
         LOG.info("Selected ISBN="+selectedISBN);
         assert selectedISBN!=null;
-        facade.addBook(new String[]{null, null, selectedISBN, null, null, null}, new String[]{borrowable?"1":"0", number, "0"});
+        String[] split = selectedISBN.split(",");
+        String ISBN = split[0];
+        String actor = split.length>1?split[1]:"";
+        
+        facade.addBook(new String[]{actor.length()==0?"0":"2", ISBN, actor}, new String[]{borrowable?"1":"0", number, "0"});
         try {
             facade.add_books();
         } catch (Throwable e) {
@@ -164,8 +168,7 @@ public class Managed_Bean1 {
 
     public String store_data() {
         try {
-            facade.add_titles();
-            facade.add_books();
+            facade.store_data();
         } catch (Exception ex) {
             Logger.getLogger(Managed_Bean1.class.getName()).log(Level.SEVERE, null, ex);
         }

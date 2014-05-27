@@ -64,6 +64,11 @@ public class TBase {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        LOG.info(String.format("fetched %d titles, %d books, %d borrows and %d users",
+                titles.length
+                , books.length
+                , borrows.length
+                , users.length));
         facade.update_data(titles, books, borrows, users);
     }
 

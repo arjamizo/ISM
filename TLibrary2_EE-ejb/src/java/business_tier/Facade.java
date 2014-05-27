@@ -76,7 +76,7 @@ public class Facade implements FacadeRemote {
 
     public void update_data() throws Exception {
         getBase().update_data();
-        LOG.info("UPDATEDATA(): books="+getBase().books());
+        LOG.info("UPDATEDATA(): titles: "+getFacade().getmTitle_books().size()+" books="+getBase().books());
     }
 
     public void add_titles() throws Exception {
@@ -93,9 +93,8 @@ public class Facade implements FacadeRemote {
     }
 
     @Override
-    public void return_book(String[] bookTitle, String[] bookNumber) {
-        LOG.info("returning book="+Arrays.asList(bookTitle)+ " number=" + Arrays.asList(bookNumber));
-        getFacade().return_book(bookTitle, bookNumber);
+    public void return_book(String[] bookTitle, String[] bookNumber, String client) {
+        getFacade().return_book(bookTitle, bookNumber, client);
     }
     
     private static final Logger LOG = Logger.getLogger(Facade.class.getName());
@@ -123,11 +122,6 @@ public class Facade implements FacadeRemote {
     @Override
     public ArrayList<String> getBooksByTitle(String[] title) {
         return getFacade().getBooksByTitle(title);
-    }
-
-    @Override
-    public void add_client(String client) throws Exception {
-        getFacade().add_client(client);
     }
 
     @Override

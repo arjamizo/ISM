@@ -153,7 +153,6 @@ public class Client implements ActionListener {
         } else if (source.getText().equals(SAVE)) {
             LOG.info("Saving to DB...");
             getFacade().store_data();
-            getFacade().update_data();
         } else if (source.getText().equals(LOAD)) {
             LOG.info("Loading from DB...");
             getFacade().update_data();

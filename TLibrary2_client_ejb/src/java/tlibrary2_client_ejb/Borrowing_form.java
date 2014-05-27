@@ -58,7 +58,7 @@ public class Borrowing_form extends javax.swing.JPanel {
                         client=comboBox.getSelectedText();
                         if(client.equals(AVAILABLE)) {
                             String[] title = new String[]{(actor == null || actor.equals(""))?"0":"2",selectedISBN,actor};
-                            getFacade().return_book(title, new String[]{"1",selectedNumber,"0"});
+                            getFacade().return_book(title, new String[]{"1",selectedNumber,"0"}, "");
                         } else {
                             getFacade().add_borrow(
                                     new String[]{(actor == null || actor.equals(""))?"0":"2",selectedISBN,actor}

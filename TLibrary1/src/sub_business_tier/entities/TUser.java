@@ -42,9 +42,9 @@ public class TUser implements Serializable {
     
     @Column (name = "login")
     private String login;
-    /*
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private java.util.List<TLend> lends;
+    
+    @OneToMany(cascade = CascadeType.REFRESH)
+    private java.util.List<TLend> lends = new java.util.ArrayList();
 
     public List<TLend> getLends() {
         return lends;
@@ -53,7 +53,16 @@ public class TUser implements Serializable {
     public void setLends(List<TLend> lends) {
         this.lends = lends;
     }
-    */
+    
+    public boolean borrow_book(TBook book) {
+        if (getLends().size()>5) return false;
+        TLend lend = new TLend();
+        lend.setBook(book);
+        lend.setUser(this);
+        getLends().add(lend);
+        book.setLend(lend);
+        return true;
+    }
     public String getLogin() {
         return login;
     }
@@ -87,9 +96,26 @@ public class TUser implements Serializable {
         TLend lend = new TLend();
         lend.setUser(this);
         lend.setBook(book);
+        getLends().add(lend);
         return lend;
     }
-    
-    
+
+    public boolean return_book(TBook book) {
+        TLend lend = find_lend_of_book(book);
+        if(lend!=null)
+            getLends().remove(lend);
+        else 
+            throw new RuntimeException("no such a lend for book "+book);
+        return true;
+    }
+
+    private TLend find_lend_of_book(TBook book) {
+        for (TLend tLend : lends) {
+            if(tLend.getBook().equals(book)) {
+                return tLend;
+            }
+        }
+        return null;
+    }
     
 }

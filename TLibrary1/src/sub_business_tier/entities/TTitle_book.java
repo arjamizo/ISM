@@ -45,7 +45,7 @@ public class TTitle_book implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    @OneToMany(mappedBy = "mTitle_book", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "mTitle_book", cascade = CascadeType.REFRESH)
     private List<TBook> books = new ArrayList<TBook>();
 
     @XmlTransient
@@ -134,7 +134,9 @@ public class TTitle_book implements Serializable {
     @Override
     public boolean equals(Object obj) {
         TTitle_book title_book = (TTitle_book) obj;
+        LOG.info("Comparing >"+getISBN()+"< with >"+title_book.getISBN()+"<");
         if (getISBN().equals(title_book.getISBN())) {
+            LOG.info("Comparing >"+getActor()+"< with >"+title_book.getActor()+"<");
             if (getActor().equals(title_book.getActor())) {
                 return true;
             } else {
@@ -175,14 +177,19 @@ public class TTitle_book implements Serializable {
         return null;
     }
 
-    public TBook search_accessible_book(Object data) {
+    public TBook search_accessible_book(String data) {
         for (Iterator<TBook> help = getBooks().iterator(); help.hasNext();) {
             TBook help_book = (TBook) help.next();
+            LOG.info("checking date "+data+" with "+help_book.getPeriod());
             if (!help_book.period_pass(data)) {
                 return help_book;
             }
         }
         return null;
+    }
+
+    public TBook search_loan_book(TTitle_book title) {
+        return search_accessible_book("0");
     }
 
 }

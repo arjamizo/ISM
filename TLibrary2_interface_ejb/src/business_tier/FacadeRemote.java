@@ -39,7 +39,7 @@ public interface FacadeRemote {
 
     public ArrayList<ArrayList<String>> titles() throws Exception;
 
-    public void return_book(String[] string, String[] string0);
+    public void return_book(String[] string, String[] string0, String client);
 
     public void add_borrow(String[] string, String[] string0, String client);
 
@@ -50,8 +50,6 @@ public interface FacadeRemote {
     public void exampleData();
 
     public ArrayList<String> getBooksByTitle(String[] title);
-
-    public void add_client(String client) throws Exception;
 
     public List<ArrayList<String>> books();
     public List<ArrayList<String>> booksByTitle(String[] titleForFactory);

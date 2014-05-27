@@ -30,7 +30,7 @@ public class TBook implements Serializable {
     @ManyToOne
     private TTitle_book mTitle_book;
     
-    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private TLend lend;//=new TLend();
 
     public TLend getLend() {
@@ -94,7 +94,7 @@ public class TBook implements Serializable {
         return (mTitle_book!=null?mTitle_book.toString():"nullTtitle") + " Number: " + getNumber();
     }
 
-    public boolean period_pass(Object data) {
+    public boolean period_pass(String data) {
         return true;
     }
 

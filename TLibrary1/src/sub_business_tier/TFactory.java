@@ -5,6 +5,7 @@ import sub_business_tier.entities.TBook;
 import sub_business_tier.entities.TBook_period;
 import sub_business_tier.entities.TTitle_book;
 import sub_business_tier.entities.TTitle_book_on_tape;
+import sub_business_tier.entities.TUser;
 
 public class TFactory {
 
@@ -14,6 +15,12 @@ public class TFactory {
         int daysAgo = Integer.parseInt(data);
         long initDate = new Date().getTime();
         return new Date(initDate + daysAgo * day);
+    }
+
+    static TUser create_user(String client) {
+        TUser user = new TUser();
+        user.setLogin(client);
+        return user;
     }
 
     public TTitle_book create_title_book(String[] data) {
