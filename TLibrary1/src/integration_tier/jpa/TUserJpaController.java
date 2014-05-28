@@ -26,15 +26,8 @@ import sub_business_tier.entities.TUser;
 public class TUserJpaController implements Serializable {
 
     private EntityManagerFactory emf = null;
-    private EntityManager em = null;
-
-    public void setEm(Object em) {
-        this.em = (EntityManager) em;
-    }
 
     private EntityManager getEntityManager() {
-        if(em!=null) 
-            return em;
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("Library1PU");
         }
@@ -45,9 +38,9 @@ public class TUserJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            if(this.em==null) em.getTransaction().begin();
+            em.getTransaction().begin();
             em.persist(TUser);
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
@@ -61,9 +54,9 @@ public class TUserJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            if(this.em==null) em.getTransaction().begin();
+            em.getTransaction().begin();
             em.persist(TUser);
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -75,7 +68,7 @@ public class TUserJpaController implements Serializable {
             throw ex;
         } finally {
             if (em != null) {
-                if(this.em==null) em.close();
+                em.close();
             }
         }
     }
@@ -84,7 +77,7 @@ public class TUserJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            if(this.em==null) em.getTransaction().begin();
+            em.getTransaction().begin();
             TUser TUser;
             try {
                 TUser = em.getReference(TUser.class, id);
@@ -93,12 +86,12 @@ public class TUserJpaController implements Serializable {
                 throw new NonexistentEntityException("The TUser with id " + id + " no longer exists.", enfe);
             }
             em.remove(TUser);
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             if (em != null) {
-                if(this.em==null) em.close();
+                em.close();
             }
         }
     }
@@ -126,7 +119,7 @@ public class TUserJpaController implements Serializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
         }
     }
 
@@ -137,7 +130,7 @@ public class TUserJpaController implements Serializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
         }
     }
 
@@ -152,7 +145,7 @@ public class TUserJpaController implements Serializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
         }
     }
 
@@ -165,14 +158,14 @@ public class TUserJpaController implements Serializable {
     public boolean addUser(TUser user) {
         EntityManager em = getEntityManager();
         try {
-            if(this.em==null) em.getTransaction().begin();
+            em.getTransaction().begin();
             if(user.getId()==null) 
                 em.persist(user);
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
             return false;
         }
     }

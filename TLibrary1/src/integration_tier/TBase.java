@@ -30,13 +30,6 @@ public class TBase {
     private TBook books[];
     private TLend borrows[];
     private TUser users[];
-    
-    public void setEm(Object em) {
-        titleJpaController.setEm(em);
-        bookJpaController.setEm(em);
-        tLendJpaController.setEm(em);
-        tUserJpaController.setEm(em);
-    }
 
     public TBase(TFacade facade_) {
         facade = facade_;

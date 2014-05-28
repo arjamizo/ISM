@@ -21,15 +21,8 @@ import sub_business_tier.entities.TTitle_book;
 public class TBookController {
 
     private EntityManagerFactory emf = null;
-    private EntityManager em = null;
-
-    public void setEm(Object em) {
-        this.em = (EntityManager) em;
-    }
 
     private EntityManager getEntityManager() {
-        if(em!=null) 
-            return em;
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("Library1PU");
         }
@@ -49,22 +42,21 @@ public class TBookController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
         }
     }
 
     public boolean addTBook(TBook book) {
         EntityManager em = getEntityManager();
         try {
-            if(this.em==null) em.getTransaction().begin();
-            LOG.info("persisting book "+book);
+            em.getTransaction().begin();
             if(book.getId()==null)
                 em.persist(book);
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
             return false;
         }
     }
@@ -74,7 +66,7 @@ public class TBookController {
         EntityManager em = getEntityManager();
         TBook newBook = null;
         Iterator it = titles.iterator();
-        if(this.em==null) em.getTransaction().begin();
+        em.getTransaction().begin();
         try {
             while (it.hasNext()) {
                 TTitle_book newTitle_book = (TTitle_book) it.next();
@@ -89,11 +81,11 @@ public class TBookController {
                     }
                 }
             }
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
             return false;
         }
     }

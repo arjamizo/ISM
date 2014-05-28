@@ -28,15 +28,8 @@ import sub_business_tier.entities.TUser;
 public class TLendJpaController implements Serializable {
 
     private EntityManagerFactory emf = null;
-    private EntityManager em = null;
-
-    public void setEm(Object em) {
-        this.em = (EntityManager) em;
-    }
 
     private EntityManager getEntityManager() {
-        if(em!=null) 
-            return em;
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("Library1PU");
         }
@@ -51,14 +44,14 @@ public class TLendJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            if(this.em==null) em.getTransaction().begin();
+            em.getTransaction().begin();
             em.persist(tLend);
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             if (em != null) {
-                if(this.em==null) em.close();
+                em.close();
             }
         }
     }
@@ -67,9 +60,9 @@ public class TLendJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            if(this.em==null) em.getTransaction().begin();
+            em.getTransaction().begin();
             em.persist(TLend);
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -81,7 +74,7 @@ public class TLendJpaController implements Serializable {
             throw ex;
         } finally {
             if (em != null) {
-                if(this.em==null) em.close();
+                em.close();
             }
         }
     }
@@ -90,7 +83,7 @@ public class TLendJpaController implements Serializable {
         EntityManager em = null;
         try {
             em = getEntityManager();
-            if(this.em==null) em.getTransaction().begin();
+            em.getTransaction().begin();
             TLend TLend;
             try {
                 TLend = em.getReference(TLend.class, id);
@@ -99,12 +92,12 @@ public class TLendJpaController implements Serializable {
                 throw new NonexistentEntityException("The TLend with id " + id + " no longer exists.", enfe);
             }
             em.remove(TLend);
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             if (em != null) {
-                if(this.em==null) em.close();
+                em.close();
             }
         }
     }
@@ -132,7 +125,7 @@ public class TLendJpaController implements Serializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
         }
     }
 
@@ -143,7 +136,7 @@ public class TLendJpaController implements Serializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
         }
     }
 
@@ -158,7 +151,7 @@ public class TLendJpaController implements Serializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
         }
     }
 
@@ -172,16 +165,16 @@ public class TLendJpaController implements Serializable {
     public boolean addLend(TLend lend) {
         EntityManager em = getEntityManager();
         try {
-            if(this.em==null) em.getTransaction().begin();
+            em.getTransaction().begin();
             if(lend.getId()==null) {
                 LOG.info("adding "+lend);
                 em.persist(lend);
             }
-            if(this.em==null) em.getTransaction().commit();
+            em.getTransaction().commit();
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
         } finally {
-            if(this.em==null) em.close();
+            em.close();
             return false;
         }
     }
