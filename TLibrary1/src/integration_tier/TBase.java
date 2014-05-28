@@ -135,6 +135,7 @@ public class TBase {
     
     public void add_lends() throws Exception {
         try {
+//            LOG.info("persisting lends: "+facade.getBorrows());
             tLendJpaController.addLends(facade.getBorrows());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -202,13 +203,29 @@ public class TBase {
 
     public void store_data() {
         try {
+            LOG.info(String.format("Saving titles=%d books=%d users=%d lends=%d"
+                    , facade.getmTitle_books().size()
+                    , books().size()
+                    , facade.getUsers().size()
+                    , facade.getBorrows().size()
+            ));
             add_books();
             add_titles();
             add_users();
             add_lends();
+            remove_lends();
         } catch (Exception ex) {
             Logger.getLogger(TBase.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException(ex);
         }
+    }
+
+    private void remove_lends() {
+        for (TLend lend : facade.getToDelete()) {
+            LOG.info("DELETING "+lend);
+            if(lend!=null) 
+                delete_borrow(lend);
+        }
+        facade.getToDelete().clear();
     }
 }

@@ -8,6 +8,7 @@ package sub_business_tier.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import sub_business_tier.TFactory;
 
 /**
  *
@@ -43,7 +45,7 @@ public class TUser implements Serializable {
     @Column (name = "login")
     private String login;
     
-    @OneToMany(/*cascade = CascadeType.PERSIST, */mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private java.util.List<TLend> lends = new java.util.ArrayList();
 
     public List<TLend> getLends() {
@@ -57,13 +59,20 @@ public class TUser implements Serializable {
     public boolean borrow_book(TBook book) {
         if (getLends().size()>5) return false;
         TLend lend = find_lend_of_book(book); 
-        if(lend==null) lend = new TLend();
+        if(lend!=null) {
+            getLends().remove(lend);
+            lend.setUser(null);
+        }
+        lend = new TLend();
         lend.setBook(book);
         lend.setUser(this);
         getLends().add(lend);
         book.setLend(lend);
+        LOG.info("lend after borrowing="+book.getLend());
+        book.setPeriod(TFactory.mdays("7"));
         return true;
     }
+    private static final Logger LOG = Logger.getLogger(TUser.class.getName());
     public String getLogin() {
         return login;
     }
@@ -103,10 +112,13 @@ public class TUser implements Serializable {
 
     public boolean return_book(TBook book) {
         TLend lend = find_lend_of_book(book);
-        if(lend!=null)
+        if(lend!=null) {
+            lend.setUser(null);
+            LOG.info("set lend to "+lend);
             getLends().remove(lend);
-        else 
+        } else {
             throw new RuntimeException("no such a lend for book "+book);
+        }
         return true;
     }
 

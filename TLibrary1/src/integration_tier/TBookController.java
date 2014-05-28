@@ -7,6 +7,7 @@ package integration_tier;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -56,7 +57,9 @@ public class TBookController {
         EntityManager em = getEntityManager();
         try {
             if(this.em==null) em.getTransaction().begin();
-            em.persist(book);
+            LOG.info("persisting book "+book);
+            if(book.getId()==null)
+                em.persist(book);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -65,6 +68,7 @@ public class TBookController {
             return false;
         }
     }
+    private static final Logger LOG = Logger.getLogger(TBookController.class.getName());
 
     public boolean addTBooks(ArrayList<TTitle_book> titles) {
         EntityManager em = getEntityManager();

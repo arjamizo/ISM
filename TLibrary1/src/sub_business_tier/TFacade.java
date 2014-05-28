@@ -26,6 +26,15 @@ public class TFacade implements Serializable {
     private ArrayList<TTitle_book> mTitle_books = new ArrayList<TTitle_book>();
     private List<TUser> users;
     private List<TLend> borrows;
+    private List<TLend> toDelete = new LinkedList();
+
+    public List<TLend> getToDelete() {
+        return toDelete;
+    }
+
+    public void setToDelete(List<TLend> toDelete) {
+        this.toDelete = toDelete;
+    }
 
     public List<TUser> getUsers() {
         return users;
@@ -180,12 +189,13 @@ public class TFacade implements Serializable {
             getmTitle_books().add(t);
         }
         for (TTitle_book title : getmTitle_books()) {
+            title.getmBooks().clear();//ignore CascadeType.ALL
             for (TBook book : books) {
                 TTitle_book title1 = book.getmTitle_book();
                 if (title1 != null) {
                     if (title1.equals(title)) {
 //                        LOG.info("it looks like "+title1+" is equal to "+title + "BUT sizeof mbooks is "+title.getmBooks());
-                        //LOG.info("adding "+book+ " to "+title);
+                        LOG.info("adding "+book+ " to "+title);
                         title.getmBooks().add(book);
                     }
                 }
@@ -293,25 +303,37 @@ public class TFacade implements Serializable {
 
     public String add_borrow(String[] bookTitle, String[] bookNumber, String client) {
         TTitle_book title = search_title_book(new TFactory().create_title_book(bookTitle));
-        TBook book = title.search_loan_book(title); //first null in borrow's field in book
+        LOG.warning("borrows before borrowing: "+getBorrows());
+//        TBook book = title.search_loan_book(title); //first null in borrow's field in book
+        TBook book = search_book(bookNumber);
         if(book==null) 
             throw new RuntimeException("This book "+ Arrays.asList(bookNumber) + " was not found.");
-        TUser user = search_client(client, true); 
+        TUser user = search_client(client, true);
+        if(book.getLend()!=null) {
+            LOG.info("book "+book.getNumber()+" had first to be returned, ret=" + 
+            return_book(bookTitle, bookNumber, book.getLend().getUser().getLogin()) );
+        }
         user.borrow_book(book); //manifest agile
+        getBorrows().add(book.getLend());
+        LOG.warning("borrows after borrowing: "+getBorrows());
         return "OK";
     }
 
     public boolean return_book(String[] bookTitle, String[] bookNumber, String client) {
-        LOG.info("returning book="+Arrays.asList(bookTitle)+ " number=" + Arrays.asList(bookNumber));
+        LOG.info("returning book from ="+Arrays.asList(bookTitle)+ " number=" + Arrays.asList(bookNumber));
         TTitle_book title = search_title_book(new TFactory().create_title_book(bookTitle));
         TBook book = title.search_book(new TFactory().create_book(bookNumber));
+        LOG.info("lend before returning="+book.getLend());
 //        TUser user = search_client(client, false);
         TUser user = book.getLend().getUser();
-        if(user!=null) return false;
-        book.getLend().getUser().return_book(book);
+        if(user==null) return false;
+//        getBorrows().remove(book.getLend());
+        user.return_book(book);
+        book.getLend().setUser(null);
+        getToDelete().add(book.getLend());
         book.setLend(null);
         book.setPeriod(new Date());
-        LOG.info("book after returning="+book);
+        LOG.info("book after returning="+book.getLend());
         return true;
     }
 
@@ -395,5 +417,17 @@ public class TFacade implements Serializable {
             LOG.info("created client "+client + " " + user);
         }
         return user;
+    }
+
+    private TBook search_book(String[] bookNumber) {
+        TBook _book = new TFactory().create_book(bookNumber);
+        for (TTitle_book title : getmTitle_books()) {
+            for (TBook book : title.getBooks()) {
+                if(book.equals(_book)) {
+                    return book;
+                }
+            }
+        }
+        return null;
     }
 }

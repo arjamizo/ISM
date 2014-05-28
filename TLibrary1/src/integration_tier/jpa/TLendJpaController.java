@@ -163,31 +163,24 @@ public class TLendJpaController implements Serializable {
     }
 
     public void addLends(List<TLend> borrows) {
-        LOG.info("EXECUTING: addLends");
-        EntityManager em = getEntityManager();
-        try {
-            if(this.em==null) em.getTransaction().begin();
-            for (TLend lend : borrows) {
-                    LOG.info("adding "+lend);
-                    em.persist(lend);
-            }
-            if(this.em==null) em.getTransaction().commit();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if(this.em==null) em.close();
+        for (TLend tLend : borrows) {
+            addLend(tLend);
         }
     }
     private static final Logger LOG = Logger.getLogger(TLendJpaController.class.getName());
 
     public boolean addLend(TLend lend) {
         EntityManager em = getEntityManager();
+        LOG.info("EXECUTING: addLends; em="+(this.em!=null?"JTA":"nonJTA") + " lend="+lend);
         try {
             if(this.em==null) em.getTransaction().begin();
-            em.persist(lend);
+            if(lend.getId()==null) {
+                LOG.info("adding "+lend);
+                em.persist(lend);
+            }
             if(this.em==null) em.getTransaction().commit();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
         } finally {
             if(this.em==null) em.close();
             return false;

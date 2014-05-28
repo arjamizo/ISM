@@ -9,6 +9,7 @@ package integration_tier.jpa;
 import integration_tier.jpa.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -165,7 +166,9 @@ public class TUserJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             if(this.em==null) em.getTransaction().begin();
-            em.persist(user);
+            LOG.info("persisting_ "+user);
+            if(user.getId()==null) 
+                em.persist(user);
             if(this.em==null) em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -174,6 +177,7 @@ public class TUserJpaController implements Serializable {
             return false;
         }
     }
+    private static final Logger LOG = Logger.getLogger(TUserJpaController.class.getName());
 
     public TUser[] getTUsers_() {
        return findTUserEntities().toArray(new TUser[0]);

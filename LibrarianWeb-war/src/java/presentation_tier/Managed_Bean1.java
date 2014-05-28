@@ -191,6 +191,7 @@ public class Managed_Bean1 {
 
     public DataModel create_DataModel() {
         try {
+            facade.update_data();
             final ListDataModel titles = new ListDataModel(facade.titles());
             LOG.info("facadetitles="+facade.titles()+" titles="+titles.getRowData());
 //            return new ListDataModel(new ArrayList<>());

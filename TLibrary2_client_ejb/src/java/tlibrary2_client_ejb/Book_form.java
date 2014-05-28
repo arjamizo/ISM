@@ -24,7 +24,6 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
-import sub_business_tier.entities.TTitle_book;
 
 public class Book_form extends JPanel implements ActionListener {
 

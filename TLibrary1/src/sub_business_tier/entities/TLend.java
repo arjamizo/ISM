@@ -43,7 +43,7 @@ public class TLend implements Serializable {
     @ManyToOne//(cascade = CascadeType.PERSIST)
     private TUser user;
     
-    @OneToOne//(cascade = CascadeType.PERSIST)
+    @OneToOne//(cascade = CascadeType.REFRESH)
     private TBook book;
 
     public TUser getUser() {
@@ -66,7 +66,7 @@ public class TLend implements Serializable {
 
     @Override
     public String toString() {
-        return "TLend{" + "id=" + id + ", user=" + user + ", number=" + book + '}';
+        return "TLend{" + "id=" + id + ", user=" + (user==null?user:user.getLogin()) + ", number=" + (book==null?book:book.getNumber()) + '}';
     }
     
 }
