@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -43,6 +44,11 @@ public class Borrowing_form extends javax.swing.JPanel {
         this.client = client;
         initComponents();
         table.setModel(model);
+        try {
+            getFacade().update_data();
+        } catch (Exception ex) {
+            Logger.getLogger(Borrowing_form.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         jComboBox1.setEditable(true);
             // change the editor's document == override IMPLEMENTATION
