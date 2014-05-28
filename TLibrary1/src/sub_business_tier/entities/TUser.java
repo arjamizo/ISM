@@ -7,6 +7,7 @@
 package sub_business_tier.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.CascadeType;
@@ -109,15 +110,18 @@ public class TUser implements Serializable {
         return lend;
     }
 
-    public boolean return_book(TBook book) {
-        TLend lend = find_lend_of_book(book);
+    public TLend return_book(TBook book) {
+        TLend lend = book.getLend();//find_lend_of_book(book);
         if(lend!=null) {
-            lend.setUser(null);
-            getLends().remove(lend);
+//            book.getLend().setUser(null);
+            book.setLend(null);
+            book.setPeriod(new Date());
+          //  lend.setUser(null);
+          getLends().remove(lend);
         } else {
             throw new RuntimeException("no such a lend for book "+book);
         }
-        return true;
+        return lend;
     }
 
     private TLend find_lend_of_book(TBook book) {

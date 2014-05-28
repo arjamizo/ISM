@@ -304,15 +304,21 @@ public class TFacade implements Serializable {
 
     public boolean return_book(String[] bookTitle, String[] bookNumber, String client) {
         TTitle_book title = search_title_book(new TFactory().create_title_book(bookTitle));
+        if(title==null) return false; //better over exceptions we might try to perform this process parrarely
         TBook book = title.search_book(new TFactory().create_book(bookNumber));
+        if(book==null) return false;
         TUser user = book.getLend().getUser();
         if(user==null) return false;
-        user.return_book(book);
-        book.getLend().setUser(null);
-        getToDelete().add(book.getLend());
-        book.setLend(null);
-        book.setPeriod(new Date());
-        return true;
+       TLend lend=user.return_book(book);
+       if (lend!=null)
+       {
+           borrows.remove(lend);
+           getToDelete().add(lend);
+           return true;
+       }
+    //    getToDelete().add(book.getLend());()
+     //   user.return_book(book);
+        return false;
     }
 
     public List<String> getClients(){

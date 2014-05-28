@@ -166,7 +166,8 @@ public class TLendJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            if(lend.getId()==null) {
+            if(lend.getId()==null) { //this solution bases on assumption that we store all entities in memory. 
+                                        //in case of webservices we are modyfing only one entitiy at once
                 LOG.info("adding "+lend);
                 em.persist(lend);
             }
