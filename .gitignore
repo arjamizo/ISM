@@ -12,5 +12,3 @@ nb-configuration.xml
 ### by arzo ###
 build.xml
 nbproject/
-MANIFEST.MF
-application-client.xml
