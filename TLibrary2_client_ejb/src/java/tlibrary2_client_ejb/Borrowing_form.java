@@ -52,7 +52,7 @@ public class Borrowing_form extends javax.swing.JPanel {
                 
                 private JComboBoxDemo comboBox;
                 public void actionPerformed(ActionEvent arg0) {
-                    System.out.println("selected="+comboBox.getSelectedText());
+                    LOG.info("selected="+comboBox.getSelectedText());
                     String client;
                     try {
                         client=comboBox.getSelectedText();
@@ -99,7 +99,7 @@ public class Borrowing_form extends javax.swing.JPanel {
                     row=table.getSelectionModel().getLeadSelectionIndex();
                     if(row<0) row=rowidb;
                     assert model==table.getModel();
-                    System.out.println("row:"+row);
+                    LOG.finest("row:"+row);
                     selectedISBN=model.getISBN(row);
                     selectedNumber=model.getNumber(row);
                     actor=model.getActor(row);

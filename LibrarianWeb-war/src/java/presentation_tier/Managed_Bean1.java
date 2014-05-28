@@ -111,7 +111,6 @@ public class Managed_Bean1 {
         List<SelectItem> list = new ArrayList<SelectItem>();
         for (ArrayList<String> arrayList : facade.titles()) {
             list.add(new SelectItem(arrayList.get(2)+","+arrayList.get(4), "ISBN: "+arrayList.get(2)+" "+arrayList));
-            LOG.info("parsing "+arrayList+" titles"+list.listIterator().next().getValue());
         }
         return list;
     }
@@ -143,12 +142,10 @@ public class Managed_Bean1 {
     public String add_title() throws Exception {
         String t1[] = {actor.length()>0?"3":"1", author, title, ISBN, publisher, actor};
         String title = facade.addTitleBook(t1);
-        LOG.info("title: "+title);
         facade.add_titles();
         return "/faces/presentation_tier_view/Show_data";
     }
     public String add_book() throws Throwable {
-        LOG.info("Selected ISBN="+selectedISBN);
         assert selectedISBN!=null;
         String[] split = selectedISBN.split(",");
         String ISBN = split[0];
@@ -160,7 +157,6 @@ public class Managed_Bean1 {
         } catch (Throwable e) {
             throw new FacesException(e.getMessage());
         }
-        LOG.warning("list of books.size()="+facade.getBooksWithBorrower().length);
         return "/faces/presentation_tier_view/Add_data";
     }
     
@@ -193,10 +189,7 @@ public class Managed_Bean1 {
         try {
             facade.update_data();
             final ListDataModel titles = new ListDataModel(facade.titles());
-            LOG.info("facadetitles="+facade.titles()+" titles="+titles.getRowData());
-//            return new ListDataModel(new ArrayList<>());
             return titles;
-//            return new ListDataModel(new ArrayList<>());
         } catch (IllegalArgumentException e) {
             return new ListDataModel();
         } catch (Exception e) {
@@ -206,9 +199,7 @@ public class Managed_Bean1 {
     
     public DataModel getItems() {
         if (items == null) {
-            System.out.println("Model");
             items = create_DataModel();
-            LOG.info("items="+items);
         }
         return items;
     }
@@ -219,7 +210,6 @@ public class Managed_Bean1 {
     }
     public DataModel getBooks() {
         if (books == null) {
-            System.out.println("Model");
             books = new ListDataModel(facade.books());
         }
         return books;

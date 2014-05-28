@@ -68,8 +68,7 @@ public class TUser implements Serializable {
         lend.setUser(this);
         getLends().add(lend);
         book.setLend(lend);
-        LOG.info("lend after borrowing="+book.getLend());
-        book.setPeriod(TFactory.mdays("7"));
+        book.setPeriod(TFactory.mdays("7")); //by default book is borrowed for 7 days
         return true;
     }
     private static final Logger LOG = Logger.getLogger(TUser.class.getName());
@@ -114,7 +113,6 @@ public class TUser implements Serializable {
         TLend lend = find_lend_of_book(book);
         if(lend!=null) {
             lend.setUser(null);
-            LOG.info("set lend to "+lend);
             getLends().remove(lend);
         } else {
             throw new RuntimeException("no such a lend for book "+book);

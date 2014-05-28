@@ -171,7 +171,6 @@ public class TLendJpaController implements Serializable {
 
     public boolean addLend(TLend lend) {
         EntityManager em = getEntityManager();
-        LOG.info("EXECUTING: addLends; em="+(this.em!=null?"JTA":"nonJTA") + " lend="+lend);
         try {
             if(this.em==null) em.getTransaction().begin();
             if(lend.getId()==null) {

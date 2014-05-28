@@ -44,26 +44,14 @@ public class TBase {
         titleJpaController = new TTitle_bookController();
         tLendJpaController = new TLendJpaController();
         tUserJpaController = new TUserJpaController();
-        try {
-//            update_data();
-        } catch (javax.persistence.PersistenceException e) {
-            LOG.warning("Probably EntityManager was not loaded properly.");
-        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-        }
     }
     private static final Logger LOG = Logger.getLogger(TBase.class.getName());
 
     public void update_data() throws Exception {
         update_titles();
         update_books();
-
-//        try {
-            update_users();
-            update_borrows();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        update_users();
+        update_borrows();
         LOG.info(String.format("fetched %d titles, %d books, %d borrows and %d users",
                 titles.length
                 , books.length
@@ -78,7 +66,6 @@ public class TBase {
 
     public void update_books() throws Exception {
         books = (TBook[]) bookJpaController.getTBooks_();
-        LOG.info("new size of books="+books.length);
     }
 
     private void update_users() {
@@ -87,7 +74,6 @@ public class TBase {
 
     private void update_borrows() {
         borrows = tLendJpaController.getTLends_();
-        LOG.severe("NEW books="+Arrays.asList(borrows));
     }
 
     public void add_titles() throws Exception {
@@ -117,15 +103,11 @@ public class TBase {
             help3.add(t.getPublisher());
             help3.add(t.getActor());
             help2.add(help3);
-//            LOG.info("help3="+help3);
         }
-//        LOG.info("help2="+help2);
         return help2;
     }
     
     public void add_users() throws Exception {
-        LOG.info("adding users: "+facade.getClients());
-        LOG.info("adding users: "+facade.getUsers());
         try {
             tUserJpaController.addUsers(facade.getUsers());
         } catch (Exception e) {
@@ -172,7 +154,6 @@ public class TBase {
     }
     public List<ArrayList<String>> books() {
         final List<ArrayList<String>> books = booksByTitle(null);
-        LOG.info("books="+books);
         return books;
     }
 
@@ -222,7 +203,6 @@ public class TBase {
 
     private void remove_lends() {
         for (TLend lend : facade.getToDelete()) {
-            LOG.info("DELETING "+lend);
             if(lend!=null) 
                 delete_borrow(lend);
         }

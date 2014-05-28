@@ -76,7 +76,6 @@ public class Facade implements FacadeRemote {
 
     public void update_data() throws Exception {
         getBase().update_data();
-        LOG.info("UPDATEDATA(): titles: "+getFacade().getmTitle_books().size()+" books="+getBase().books());
     }
 
     public void add_titles() throws Exception {
